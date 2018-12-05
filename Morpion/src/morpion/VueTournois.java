@@ -26,11 +26,6 @@ import javax.swing.JTextField;
  */
 public class VueTournois extends Observable {
     private final JFrame window ;
-    private final JTextField champNom;
-    private final JTextField champPrenom;
-    private final JTextField champAge;
-    private final JRadioButton radioHomme;
-    private final JRadioButton radioFemme;
     private final JButton btnValider ;
     private final JButton btnAnnuler ;
 //    private String nom;
@@ -48,45 +43,34 @@ public class VueTournois extends Observable {
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
-        window.setSize(300, 200);
+        window.setSize(800, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
         
-        JPanel contentPanel = new JPanel (new GridLayout(5, 2));
+        JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
+        mainPanel.add(panelHaut, BorderLayout.NORTH);
+        
+        panelHaut.add(new JLabel(""));
+        panelHaut.add(new JLabel("Bienvenue dans le fabuleux"));
+        panelHaut.add(new JLabel(""));
+        panelHaut.add(new JLabel(""));
+        panelHaut.add(new JLabel("jeu de morpion !"));
+        panelHaut.add(new JLabel(""));
+        
+        JPanel contentPanel = new JPanel (new GridLayout(1, 3));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-        
-        contentPanel.add(new JLabel("Nom :"));
-        champNom = new JTextField();
-        contentPanel.add(champNom);
-        
-        contentPanel.add(new JLabel("Prénom :"));
-        champPrenom = new JTextField();
-        contentPanel.add(champPrenom);
-        
-        contentPanel.add(new JLabel("Age : "));
-        champAge = new JTextField();
-        contentPanel.add(champAge);
-        
-        contentPanel.add(new JLabel("Genre :"));
-        ButtonGroup radioGroupGenre = new ButtonGroup();
-
-        radioHomme = new JRadioButton("Homme");
-        contentPanel.add(radioHomme);
-        radioGroupGenre.add(radioHomme) ;
-        
         contentPanel.add(new JLabel(""));
-
-        radioFemme = new JRadioButton("Femme");
-        contentPanel.add(radioFemme);
-        radioGroupGenre.add(radioFemme) ;
+        contentPanel.add(new JLabel("Vous avez ?"));
+        contentPanel.add(new JLabel(""));
+        
         
         JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
-        btnValider = new JButton("Valider");
+        btnValider = new JButton("-12 ans");
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +83,7 @@ public class VueTournois extends Observable {
 
         bottomPanel.add(new JLabel(""));
 
-        btnAnnuler = new JButton("Annuler");
+        btnAnnuler = new JButton("+ 12 ans");
         btnAnnuler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
