@@ -6,6 +6,7 @@
 package morpion;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -24,6 +25,7 @@ public class VueClassement extends Observable{
     private JPanel mainPanel;
     private final JButton classementgeneral;
     private final JComboBox listeJoueur;
+    private JPanel contentPanel;
     
     public VueClassement(){
         this.window = new JFrame();
@@ -40,7 +42,19 @@ public class VueClassement extends Observable{
             clearChanged();
         });
         
-        mainPanel.add(listeJoueur = new JComboBox());
+        contentPanel = new JPanel (new GridLayout(1,2));
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+        contentPanel.
+        contentPanel.add(listeJoueur = new JComboBox());
+        
+    }
+    
+    public void afficher() {
+        this.window.setVisible(true);
+    }
+
+    void close() {
+        this.window.dispose();
     }
     
 }
