@@ -36,8 +36,10 @@ public class Controleur implements Observer {
         @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Actions) {
+            if (((Actions) arg) == Actions.ANNULE) {
             System.out.println("L'utilisateur a abandonné");
             ((VueTournois) o).close();
+            }
         }
     }
     

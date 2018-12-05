@@ -9,5 +9,6 @@ package morpion;
  */
 public enum Actions {
     VALIDE,
-    ANNULE
+    ANNULE,
+    CLASSEMENT_GENERAL;
 }
