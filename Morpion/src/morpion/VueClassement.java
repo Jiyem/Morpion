@@ -5,10 +5,10 @@
  */
 package morpion;
 
+import morpion.utilitaires.Actions;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -44,7 +44,7 @@ public class VueClassement extends Observable{
         
         contentPanel = new JPanel (new GridLayout(1,2));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-        contentPanel.
+        //contentPanel.
         contentPanel.add(listeJoueur = new JComboBox());
         
     }

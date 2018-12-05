@@ -5,10 +5,12 @@
  */
 package morpion;
 
-import java.util.ArrayList;
+import morpion.utilitaires.Actions;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
+import morpion.VueClassement;
+import morpion.VueTournois;
+import static morpion.utilitaires.GestionVue.Préparation;
 
 /**
  *
@@ -23,7 +25,7 @@ public class Controleur implements Observer {
            //si A -> h.hide()
            // si V -> p.setNom()...
     
-    VueTournois v1 = new VueTournois();
+    VueTournois v1 = new VueTournois(Préparation);
     VueClassement v2 = new VueClassement();
     
     Controleur(){
