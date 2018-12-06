@@ -8,7 +8,9 @@
  *
  * @author anandanj
  */
-package morpion;
+package Controleur;
+
+import Controleur.Controleur;
 
 public class main {
 

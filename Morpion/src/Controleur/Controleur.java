@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package morpion;
+package Controleur;
 
-import morpion.utilitaires.Actions;
+import utilitaire.Actions;
 import java.util.Observable;
 import java.util.Observer;
-import morpion.VueClassement;
-import morpion.VueTournois;
-import static morpion.utilitaires.GestionVue.Préparation;
+import Vue.VueClassement;
+import Vue.VueTournois;
+import static utilitaire.GestionVue.Moins12;
+import static utilitaire.GestionVue.Plus12;
+import static utilitaire.GestionVue.Préparation;
 
 /**
  *
@@ -46,8 +48,18 @@ public class Controleur implements Observer {
             }
             if (((Actions) arg) == Actions.CLASSEMENT_GENERAL) {
                 //Faut afficher la vue classement avec tous les joueurs
+            }}
+        if(arg == "-12"){
+                v1.close();
+                v1 = new VueTournois(Moins12);
+                v1.addObserver(this);
+                v1.afficher();
+            }
+        if(arg == "+12"){
+                v1.close();
+                v1 = new VueTournois(Plus12);
+                v1.addObserver(this);
+                v1.afficher();
             }
         }
     }
-    
-}

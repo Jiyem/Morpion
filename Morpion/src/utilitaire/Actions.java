@@ -1,7 +1,7 @@
 /*
  * Enumération des actions possibles
  */
-package morpion.utilitaires;
+package utilitaire;
 
 /**
  *

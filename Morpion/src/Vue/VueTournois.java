@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package morpion;
+package Vue;
 
-import morpion.utilitaires.Actions;
+import utilitaire.Actions;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -19,9 +19,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
-import morpion.utilitaires.GestionVue;
-import static morpion.utilitaires.GestionVue.Préparation;
+import utilitaire.GestionVue;
+import static utilitaire.GestionVue.Moins12;
+import static utilitaire.GestionVue.Préparation;
 
 /**
  *
@@ -29,13 +31,16 @@ import static morpion.utilitaires.GestionVue.Préparation;
  */
 public class VueTournois extends Observable {
     private final JFrame window ;
-    private final JButton btnValider ;
-    private final JButton btnAnnuler ;
+//    private final JButton btnMoins12 ;
+//    private final JButton btnPlus12 ;
 //    private String nom;
 //    private String prenom;
 //    private Genres genre;
 //    private Integer age;
     private GestionVue Mois12;
+//    private final JButton btnQuitter;
+//    private final JButton btnRegles;
+//    private final JButton btnSuivant;    
 
     @SuppressWarnings("Convert2Lambda")
     public VueTournois(GestionVue v1) {
@@ -70,32 +75,32 @@ public class VueTournois extends Observable {
         JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
-        btnValider = new JButton("-12 ans");
-        btnValider.addActionListener(new ActionListener() {
+        JButton btnMoins12 = new JButton("-12 ans");
+        btnMoins12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers();
+                notifyObservers("-12");
                 clearChanged();
             }
         });
-        bottomPanel.add(btnValider);
+        bottomPanel.add(btnMoins12);
 
         bottomPanel.add(new JLabel(""));
 
-        btnAnnuler = new JButton("+ 12 ans");
-        btnAnnuler.addActionListener(new ActionListener() {
+        JButton btnPlus12 = new JButton("+ 12 ans");
+        btnPlus12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers(Actions.ANNULE);
+                notifyObservers("+12");
                 clearChanged();
             }
         });
-        bottomPanel.add(btnAnnuler);
+        bottomPanel.add(btnPlus12);
         }
         // Interface de moins de 12 ans !
-        else if(v1 == Mois12){
+        else if(v1 == Moins12){
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
@@ -106,28 +111,29 @@ public class VueTournois extends Observable {
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
         
-        JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
+        JPanel panelHaut = new JPanel();
         mainPanel.add(panelHaut, BorderLayout.NORTH);
         
-        panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel("Bienvenue dans le fabuleux"));
-        panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel("jeu de morpion !"));
-        panelHaut.add(new JLabel(""));
+        panelHaut.add(new JLabel("Nombre de joueurs : "));
+
         
-        JPanel contentPanel = new JPanel (new GridLayout(1, 3));
+        JPanel contentPanel = new JPanel ();
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-        contentPanel.add(new JLabel(""));
-        contentPanel.add(new JLabel("Vous avez ?"));
-        contentPanel.add(new JLabel(""));
+//        contentPanel.add(new JLabel("ici la barre (à ajouter)"));
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 20, 2);
+        contentPanel.add(slider);
+        slider.setMinorTickSpacing(1);
+        slider.setMajorTickSpacing(2);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setLabelTable(slider.createStandardLabels(2));
         
         
         JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
-        btnValider = new JButton("-12 ans");
-        btnValider.addActionListener(new ActionListener() {
+        JButton btnStop = new JButton("Stop");
+        btnStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
@@ -135,12 +141,12 @@ public class VueTournois extends Observable {
                 clearChanged();
             }
         });
-        bottomPanel.add(btnValider);
+        bottomPanel.add(btnStop);
 
         bottomPanel.add(new JLabel(""));
 
-        btnAnnuler = new JButton("+ 12 ans");
-        btnAnnuler.addActionListener(new ActionListener() {
+        JButton btnFleche = new JButton("-->");
+        btnFleche.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
@@ -148,7 +154,7 @@ public class VueTournois extends Observable {
                 clearChanged();
             }
         });
-        bottomPanel.add(btnAnnuler);   
+        bottomPanel.add(btnFleche);   
         }
         
         //Interface pour plus de 12 ans !
@@ -163,28 +169,19 @@ public class VueTournois extends Observable {
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
         
-        JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
+        JPanel panelHaut = new JPanel() ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
         
-        panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel("Bienvenue dans le fabuleux"));
-        panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel("jeu de morpion !"));
-        panelHaut.add(new JLabel(""));
+        panelHaut.add(new JLabel("Nombre de joueurs"));
+        JTextField nbJoueurs = new JTextField();
+        panelHaut.add(nbJoueurs);
         
-        JPanel contentPanel = new JPanel (new GridLayout(1, 3));
-        mainPanel.add(contentPanel, BorderLayout.CENTER);
-        contentPanel.add(new JLabel(""));
-        contentPanel.add(new JLabel("Vous avez ?"));
-        contentPanel.add(new JLabel(""));
-        
-        
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+             
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
-        btnValider = new JButton("-12 ans");
-        btnValider.addActionListener(new ActionListener() {
+        JButton btnQuitter = new JButton("Quitter");
+        btnQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
@@ -192,12 +189,11 @@ public class VueTournois extends Observable {
                 clearChanged();
             }
         });
-        bottomPanel.add(btnValider);
+        bottomPanel.add(btnQuitter);
 
-        bottomPanel.add(new JLabel(""));
 
-        btnAnnuler = new JButton("+ 12 ans");
-        btnAnnuler.addActionListener(new ActionListener() {
+        JButton btnRegles = new JButton("Règles");
+        btnRegles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
@@ -205,8 +201,20 @@ public class VueTournois extends Observable {
                 clearChanged();
             }
         });
-        bottomPanel.add(btnAnnuler);
-            
+        bottomPanel.add(btnRegles);
+        
+        bottomPanel.add(new JLabel(""));
+        
+        JButton btnSuivant = new JButton("Suivant");
+        btnSuivant.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setChanged();
+                notifyObservers(Actions.ANNULE);
+                clearChanged();
+            }
+        });
+        bottomPanel.add(btnSuivant);
         }
     }
     
@@ -214,7 +222,7 @@ public class VueTournois extends Observable {
         this.window.setVisible(true);
     }
 
-    void close() {
+    public void close() {
         this.window.dispose();
     }
     
