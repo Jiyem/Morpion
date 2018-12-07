@@ -11,5 +11,6 @@ public enum Actions {
     TEST,
     VALIDE,
     ANNULE,
+    SUIVENT,
     CLASSEMENT_GENERAL;
 }

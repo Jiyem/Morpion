@@ -9,10 +9,13 @@ import utilitaire.Actions;
 import java.util.Observable;
 import java.util.Observer;
 import Vue.VueClassement;
+import Vue.VueInscription;
 import Vue.VueTournois;
+import static utilitaire.GestionVue.InitJoueurs;
 import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.Préparation;
+import utilitaire.MessageTournois;
 
 /**
  *
@@ -28,15 +31,17 @@ public class Controleur implements Observer {
            // si V -> p.setNom()...
     
     VueTournois v1 = new VueTournois(Préparation);
-    VueClassement v2 = new VueClassement();
+    VueInscription v2 = new VueInscription(0);
+    VueClassement v3 = new VueClassement();
     
     Controleur(){
-        System.out.println("test");
         v1.addObserver(this);
-//        v1.show(p1);
         v1.afficher();
-        v2.addObserver(this);
-        v2.afficher();
+//        v2.addObserver(this);
+//        v2.afficher();
+        v3.addObserver(this);
+        v3.afficher();
+        
     }
     
         @Override
@@ -61,5 +66,18 @@ public class Controleur implements Observer {
                 v1.addObserver(this);
                 v1.afficher();
             }
+        // Contrôle pour la vue +12 ans de VueTournois :
+        
+        if(arg instanceof MessageTournois){
+//            if (((Actions) arg) == Actions.SUIVENT) {
+                v1.close();
+                int nbJoueurs = ((MessageTournois) arg).getNbJoueurs();
+                v2 = new VueInscription(nbJoueurs);
+                v2.afficher();
+                v2.addObserver(this);
+                v2.show(nbJoueurs);
+//            }
+//        }
         }
     }
+}

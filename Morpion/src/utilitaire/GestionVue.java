@@ -12,6 +12,7 @@ package utilitaire;
 public enum GestionVue {
     Préparation,
     Moins12,
+    InitJoueurs,
     Plus12;
     
 }

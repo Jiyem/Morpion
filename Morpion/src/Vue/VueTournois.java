@@ -23,24 +23,14 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import utilitaire.GestionVue;
 import static utilitaire.GestionVue.Moins12;
+import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.Préparation;
+import utilitaire.MessageTournois;
 
-/**
- *
- * @author Eric
- */
 public class VueTournois extends Observable {
     private final JFrame window ;
-//    private final JButton btnMoins12 ;
-//    private final JButton btnPlus12 ;
-//    private String nom;
-//    private String prenom;
-//    private Genres genre;
-//    private Integer age;
     private GestionVue Mois12;
-//    private final JButton btnQuitter;
-//    private final JButton btnRegles;
-//    private final JButton btnSuivant;    
+    private JTextField champNom;
 
     @SuppressWarnings("Convert2Lambda")
     public VueTournois(GestionVue v1) {
@@ -169,7 +159,7 @@ public class VueTournois extends Observable {
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
         
-        JPanel panelHaut = new JPanel() ;
+        JPanel panelHaut = new JPanel(new GridLayout(1,2)) ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
         
         panelHaut.add(new JLabel("Nombre de joueurs"));
@@ -210,12 +200,13 @@ public class VueTournois extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers(Actions.ANNULE);
+                notifyObservers(new MessageTournois(nbJoueurs.getText(),Actions.SUIVENT));
                 clearChanged();
             }
         });
         bottomPanel.add(btnSuivant);
         }
+        
     }
     
     public void afficher() {
@@ -226,8 +217,8 @@ public class VueTournois extends Observable {
         this.window.dispose();
     }
     
-    public void show(){
-//        champNom.setText();
+    public void show(int nbJoueur){
+        champNom.setText("Joueur n°"+nbJoueur);
 //        champPrenom.setText();
 //        champAge.setText();
 //        radioHomme.setSelected();
