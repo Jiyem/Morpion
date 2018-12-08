@@ -27,9 +27,10 @@ public class VueClassement extends Observable{
     private final JFrame window;
     private JPanel mainPanel;
     private final JButton classementgeneral;
+    private final JButton btnretour;
     private final JComboBox listeJoueur;
     private JPanel contentPanel;
-    
+    private JPanel bottomPanel;
     public VueClassement(){
         this.window = new JFrame();
         window.setSize(350, 200);
@@ -46,20 +47,27 @@ public class VueClassement extends Observable{
         contentPanel = new JPanel (new GridLayout(3,3));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         contentPanel.add(new JLabel(""));contentPanel.add(new JLabel(""));contentPanel.add(new JLabel(""));
-        
-        
-        contentPanel.add(classementgeneral = new JButton("Classement general du tournoi"));
+        contentPanel.add(classementgeneral = new JButton("Classement general"));
         classementgeneral.addActionListener((ActionEvent e) -> {
             setChanged();
             notifyObservers(Actions.CLASSEMENT_GENERAL);
             clearChanged();
         });
-        
         contentPanel.add(new JLabel(""));
         contentPanel.add(listeJoueur = new JComboBox());
         
         contentPanel.add(new JLabel(""));contentPanel.add(new JLabel(""));contentPanel.add(new JLabel(""));
         
+        bottomPanel = new JPanel(new GridLayout(1, 4));
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        bottomPanel.add(btnretour= new JButton("Retour"));
+        btnretour.addActionListener((ActionEvent e) -> {
+            setChanged();
+            notifyObservers(Actions.RETOUR);
+            clearChanged();
+        });
+        bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));
+    
     }
     
     public void afficher() {
