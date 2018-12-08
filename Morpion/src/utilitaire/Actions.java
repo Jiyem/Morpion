@@ -12,5 +12,6 @@ public enum Actions {
     VALIDE,
     ANNULE,
     SUIVENT,
-    CLASSEMENT_GENERAL;
+    CLASSEMENT_GENERAL,
+    RETOUR;
 }
