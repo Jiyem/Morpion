@@ -176,7 +176,7 @@ public class VueInscription extends Observable {
         for(int i = 0;i < 9;i++){
             panelMid.add(new JLabel(""));
         }
-        panelMid.add(new JLabel("Pseudo du joueur"));
+        panelMid.add(new JLabel("Pseudo du joueur "));
         JTextField pseudoJoueur = new JTextField();
         panelMid.add(pseudoJoueur);
         for(int i = 0;i < 9;i++){
