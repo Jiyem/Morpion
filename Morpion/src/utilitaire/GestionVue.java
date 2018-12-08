@@ -10,11 +10,13 @@ package utilitaire;
  * @author anandanj
  */
 public enum GestionVue {
-    Préparation,
     Moins12,
+    Plus12,
+    Préparation,
+    Préparation2,
     InitJoueurs,
     PremierInscrit,
     DernierInscrit,
-    Plus12;
+    Menu;
     
 }

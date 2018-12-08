@@ -12,7 +12,12 @@ package utilitaire;
 public class MessageTournois {
     private Actions action;
     private String nbJoueurs;
+    private GestionVue vue;
     public MessageTournois(String nbJoueurs, Actions action){
+        this.nbJoueurs = nbJoueurs;
+        this.action = action;
+    }
+    public MessageTournois(String nbJoueurs, Actions action , GestionVue vue){
         this.nbJoueurs = nbJoueurs;
         this.action = action;
     }
@@ -32,5 +37,12 @@ public class MessageTournois {
     
     public Actions getAction(){
         return this.action;
+    }
+
+    /**
+     * @return the vue
+     */
+    public GestionVue getVue() {
+        return vue;
     }
 }

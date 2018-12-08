@@ -22,9 +22,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import utilitaire.GestionVue;
+import static utilitaire.GestionVue.Menu;
 import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.Préparation;
+import static utilitaire.GestionVue.Préparation2;
 import utilitaire.MessageTournois;
 
 public class VueTournois extends Observable {
@@ -33,9 +35,9 @@ public class VueTournois extends Observable {
     private JTextField champNom;
 
     @SuppressWarnings("Convert2Lambda")
-    public VueTournois(GestionVue v1) {
-        if(v1 == Préparation){
-        window = new JFrame();
+    public VueTournois(GestionVue vEtape,GestionVue vAge) {
+        if(vEtape==Préparation){
+        window = new JFrame(); 
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(800, 300);
@@ -90,7 +92,7 @@ public class VueTournois extends Observable {
         bottomPanel.add(btnPlus12);
         }
         // Interface de moins de 12 ans !
-        else if(v1 == Moins12){
+        else if(vAge == Moins12 && vEtape == Préparation2){
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
@@ -148,7 +150,7 @@ public class VueTournois extends Observable {
         }
         
         //Interface pour plus de 12 ans !
-        else{
+        else if(vAge == Plus12 && vEtape == Préparation2){
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
@@ -173,7 +175,7 @@ public class VueTournois extends Observable {
         JButton btnQuitter = new JButton("Quitter");
         btnQuitter.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e){
                 setChanged();
                 notifyObservers(Actions.ANNULE);
                 clearChanged();
@@ -206,9 +208,62 @@ public class VueTournois extends Observable {
         });
         bottomPanel.add(btnSuivant);
         }
+        else if(vAge == Plus12 && vEtape == Menu){
+            window = new JFrame(); 
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+            window.setTitle("MENU : Plus de 12 ans");
+            
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel) ;
         
+            JPanel panelCentre = new JPanel(new GridLayout(3,3)) ;
+            JPanel panelBas = new JPanel(new GridLayout(1,4)) ;
+            mainPanel.add(panelCentre, BorderLayout.CENTER);
+            mainPanel.add(panelBas, BorderLayout.CENTER);
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+            JButton jouer = new JButton("jouer");
+            panelCentre.add(jouer);
+            jouer.addActionListener((ActionEvent e) -> {
+            setChanged();
+            notifyObservers("");
+            clearChanged();
+                });
+            panelCentre.add(new JLabel(""));
+            JButton classement = new JButton("classement");
+            panelCentre.add(classement);
+            classement.addActionListener((ActionEvent e) -> {
+            setChanged();
+            notifyObservers("");
+            clearChanged();
+                });
+            panelCentre.add(new JLabel(""));panelCentre.add(new JLabel(""));panelCentre.add(new JLabel(""));
+            
+            
+        }
+        else {
+            window = new JFrame(); 
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel) ;
+
+            JPanel panelHaut = new JPanel(new GridLayout(1,1)) ;
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+
+            panelHaut.add(new JLabel("CA BUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUG"));
+        }
     }
-    
+ 
     public void afficher() {
         this.window.setVisible(true);
     }
@@ -223,6 +278,10 @@ public class VueTournois extends Observable {
 //        champAge.setText();
 //        radioHomme.setSelected();
 //        radioFemme.setSelected();
+    }
+
+    private void elesif(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

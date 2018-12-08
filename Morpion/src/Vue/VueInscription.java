@@ -144,11 +144,11 @@ public class VueInscription extends Observable {
             @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JTERMINER));
+                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JTERMINER,GestionVue.Menu));
                     clearChanged();
              }
         });
-        bottomPanel.add(btnSuivant);    
+        bottomPanel.add(btnSuivant);
         }
     }
     
