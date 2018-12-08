@@ -15,12 +15,15 @@ import Vue.VueInscription;
 import Vue.VueTournois;
 import java.util.ArrayList;
 import java.util.HashMap;
+import utilitaire.GestionVue;
 import static utilitaire.GestionVue.DernierInscrit;
 import static utilitaire.GestionVue.InitJoueurs;
+import static utilitaire.GestionVue.Menu;
 import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
+import static utilitaire.GestionVue.Préparation2;
 import utilitaire.MessageTournois;
 
 
@@ -33,21 +36,20 @@ public class Controleur implements Observer {
            //si A -> h.hide()
            // si V -> p.setNom()...
     
-    private VueTournois v1 = new VueTournois(Préparation);
+    private VueTournois v1;
     private VueInscription v2 = new VueInscription();
-    private VueClassement v3 = new VueClassement();
+    private VueClassement v3;
     private ArrayList<Joueur> lJoueurs = new ArrayList<>();
     private int compteurJoueurs = 1;
     private int maxJoueurs ;
     private HashMap<Integer,Match> matchs = new HashMap<>();
+    private GestionVue age;
     
     Controleur(){
+      v1 = new VueTournois(Préparation,null);
         v1.addObserver(this);
         v1.afficher();
-//        v2.addObserver(this);
-//        v2.afficher();
-        v3.addObserver(this);
-        v3.afficher();
+
         
     }
     
@@ -64,13 +66,15 @@ public class Controleur implements Observer {
 
         if(arg == "-12"){
                 v1.close();
-                v1 = new VueTournois(Moins12);
+                age = Moins12;
+                v1 = new VueTournois(Préparation2,age);
                 v1.addObserver(this);
                 v1.afficher();
             }
         if(arg == "+12"){
                 v1.close();
-                v1 = new VueTournois(Plus12);
+                age = Plus12;
+                v1 = new VueTournois(Préparation2,age);
                 v1.addObserver(this);
                 v1.afficher();
             }
@@ -122,10 +126,13 @@ public class Controleur implements Observer {
                 Joueur j = new Joueur(message.getNomJoueur());
                 lJoueurs.add(j);;
                 v2.close();
-                System.out.println("Inscription des joueurs terminer");
+                System.out.println("Inscription des joueurs terminée");
                 for(int i = 0;i<lJoueurs.size();i++){
                     System.out.println(lJoueurs.get(i).getNom());
                 }
+                v1 = new VueTournois(Menu,age);
+                v1.addObserver(this);
+                v1.afficher();
                 
                 //Génération des matchs
                 

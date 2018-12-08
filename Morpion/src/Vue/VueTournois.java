@@ -239,7 +239,7 @@ public class VueTournois extends Observable {
             panelCentre.add(classement);
             classement.addActionListener((ActionEvent e) -> {
             setChanged();
-            notifyObservers(" ");
+            notifyObservers("");
             clearChanged();
                 });
             panelCentre.add(new JLabel(""));panelCentre.add(new JLabel(""));panelCentre.add(new JLabel(""));
