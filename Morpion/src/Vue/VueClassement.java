@@ -54,6 +54,7 @@ public class VueClassement extends Observable{
             notifyObservers(Actions.CLASSEMENT_GENERAL);
             clearChanged();
         });
+        
         contentPanel.add(new JLabel(""));
         contentPanel.add(listeJoueur = new JComboBox());
         
