@@ -66,6 +66,7 @@ public class Controleur implements Observer {
                 v1.addObserver(this);
                 v1.afficher();
             }
+        
         // Contrôle pour la vue +12 ans de VueTournois :
         
         if(arg instanceof MessageTournois){

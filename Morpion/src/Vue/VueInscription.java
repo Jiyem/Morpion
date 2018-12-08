@@ -54,16 +54,29 @@ public class VueInscription extends Observable {
         numJoueur = new JLabel();
         panelHaut.add(numJoueur);
         
-        JPanel panelMid = new JPanel(new GridLayout(2,2));
+        JPanel panelMid = new JPanel(new GridLayout(6,4));
         mainPanel.add(panelMid, BorderLayout.CENTER);
-        int i = 0;
-//        while(i<nbJoueurs){
-            panelMid.add(new JLabel("Pseudo du joueur n°"+(i+1)));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel("Pseudo du joueur n°"));
             JTextField pseudoJoueur = new JTextField();
             panelMid.add(pseudoJoueur);
             panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));            
-//        }
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));  
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));
+            panelMid.add(new JLabel(""));  
         
              
         JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
