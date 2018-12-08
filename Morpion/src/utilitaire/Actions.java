@@ -11,6 +11,10 @@ public enum Actions {
     TEST,
     VALIDE,
     ANNULE,
-    SUIVENT,
+    SUIVANT,
+    JSUIVANT,
+    JPRECEDENT,
+    RETOUR,
+    JTERMINER,
     CLASSEMENT_GENERAL;
 }

@@ -200,7 +200,7 @@ public class VueTournois extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers(new MessageTournois(nbJoueurs.getText(),Actions.SUIVENT));
+                notifyObservers(new MessageTournois(nbJoueurs.getText(),Actions.SUIVANT));
                 clearChanged();
             }
         });

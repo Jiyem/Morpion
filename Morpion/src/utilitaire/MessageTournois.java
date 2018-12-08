@@ -14,6 +14,11 @@ public class MessageTournois {
     private String nbJoueurs;
     public MessageTournois(String nbJoueurs, Actions action){
         this.nbJoueurs = nbJoueurs;
+        this.action = action;
+    }
+    
+    public String getNomJoueur(){
+        return nbJoueurs;
     }
     
     public int getNbJoueurs(){
@@ -22,6 +27,6 @@ public class MessageTournois {
     }
     
     public Actions getAction(){
-        return action;
+        return this.action;
     }
 }

@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import utilitaire.GestionVue;
 import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
+import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
 import utilitaire.MessageTournois;
 
@@ -36,7 +37,123 @@ public class VueInscription extends Observable {
     private final JFrame window ;
     private JLabel numJoueur;
     
-    public VueInscription(int nbJoueurs){
+    //Vue pour le premier joueur
+    public VueInscription(GestionVue message){
+        if(message == PremierInscrit){
+            //Interface pour l'initialisation des joueurs
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+        
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel) ;
+        
+            JPanel panelHaut = new JPanel() ;
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+        
+            numJoueur = new JLabel();
+            panelHaut.add(numJoueur);
+        
+            JPanel panelMid = new JPanel(new GridLayout(6,4));
+            mainPanel.add(panelMid, BorderLayout.CENTER);
+            for(int i = 0;i < 9;i++){
+                panelMid.add(new JLabel(""));
+            }
+            panelMid.add(new JLabel("Pseudo du joueur"));
+            JTextField pseudoJoueur = new JTextField();
+            panelMid.add(pseudoJoueur);
+            for(int i = 0;i < 9;i++){
+                panelMid.add(new JLabel(""));
+            } 
+        
+             
+            JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        
+            JButton btnQuitter = new JButton("Quitter");
+            btnQuitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers();
+                    clearChanged();
+                }
+            });
+            bottomPanel.add(btnQuitter);
+        
+            JButton btnSuivant = new JButton("Suivant");
+            btnSuivant.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JSUIVANT));
+                    clearChanged();
+                }
+            });
+            bottomPanel.add(btnSuivant);            
+            }
+        else{
+            //Interface pour l'initialisation des joueurs
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+        
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel) ;
+        
+            JPanel panelHaut = new JPanel() ;
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+        
+            numJoueur = new JLabel();
+            panelHaut.add(numJoueur);
+        
+            JPanel panelMid = new JPanel(new GridLayout(6,4));
+            mainPanel.add(panelMid, BorderLayout.CENTER);
+            for(int i = 0;i < 9;i++){
+                panelMid.add(new JLabel(""));
+            }
+            panelMid.add(new JLabel("Pseudo du joueur"));
+            JTextField pseudoJoueur = new JTextField();
+            panelMid.add(pseudoJoueur);
+            for(int i = 0;i < 9;i++){
+                panelMid.add(new JLabel(""));
+            } 
+    
+            JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        
+            JButton btnQuitter = new JButton("Précédent");
+            btnQuitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JPRECEDENT));
+                    clearChanged();
+                }
+            });
+            bottomPanel.add(btnQuitter);
+        
+            JButton btnSuivant = new JButton("Terminer");
+            btnSuivant.addActionListener(new ActionListener() {
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JTERMINER));
+                    clearChanged();
+             }
+        });
+        bottomPanel.add(btnSuivant);    
+        }
+    }
+    
+    //Vue pour les joueurs suivants
+    public VueInscription(){
         //Interface pour l'initialisation des joueurs
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -56,38 +173,25 @@ public class VueInscription extends Observable {
         
         JPanel panelMid = new JPanel(new GridLayout(6,4));
         mainPanel.add(panelMid, BorderLayout.CENTER);
+        for(int i = 0;i < 9;i++){
             panelMid.add(new JLabel(""));
+        }
+        panelMid.add(new JLabel("Pseudo du joueur"));
+        JTextField pseudoJoueur = new JTextField();
+        panelMid.add(pseudoJoueur);
+        for(int i = 0;i < 9;i++){
             panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel("Pseudo du joueur n°"));
-            JTextField pseudoJoueur = new JTextField();
-            panelMid.add(pseudoJoueur);
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));  
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));
-            panelMid.add(new JLabel(""));  
-        
-             
+        } 
+    
         JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
-        JButton btnQuitter = new JButton("Quitter");
+        JButton btnQuitter = new JButton("Précédent");
         btnQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers();
+                notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JPRECEDENT));
                 clearChanged();
             }
         });
@@ -98,7 +202,7 @@ public class VueInscription extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers();
+                notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JSUIVANT));
                 clearChanged();
             }
         });

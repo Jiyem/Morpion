@@ -11,9 +11,12 @@ import java.util.Observer;
 import Vue.VueClassement;
 import Vue.VueInscription;
 import Vue.VueTournois;
+import java.util.ArrayList;
+import static utilitaire.GestionVue.DernierInscrit;
 import static utilitaire.GestionVue.InitJoueurs;
 import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
+import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
 import utilitaire.MessageTournois;
 
@@ -30,9 +33,12 @@ public class Controleur implements Observer {
            //si A -> h.hide()
            // si V -> p.setNom()...
     
-    VueTournois v1 = new VueTournois(Préparation);
-    VueInscription v2 = new VueInscription(0);
-    VueClassement v3 = new VueClassement();
+    private VueTournois v1 = new VueTournois(Préparation);
+    private VueInscription v2 = new VueInscription();
+    private VueClassement v3 = new VueClassement();
+    private ArrayList<String> lNomJoueurs = new ArrayList<>();
+    private int compteurJoueurs = 1;
+    private int maxJoueurs ;
     
     Controleur(){
         v1.addObserver(this);
@@ -70,15 +76,55 @@ public class Controleur implements Observer {
         // Contrôle pour la vue +12 ans de VueTournois :
         
         if(arg instanceof MessageTournois){
-//            if (((Actions) arg) == Actions.SUIVENT) {
+            MessageTournois message = (MessageTournois) arg ;
+            //Premier joueur à s'inscrire
+            if (message.getAction()== Actions.SUIVANT) {
+                maxJoueurs = message.getNbJoueurs();
                 v1.close();
-                int nbJoueurs = ((MessageTournois) arg).getNbJoueurs();
-                v2 = new VueInscription(nbJoueurs);
+                v2 = new VueInscription(PremierInscrit);
                 v2.afficher();
+                v2.show(compteurJoueurs);
                 v2.addObserver(this);
-                v2.show(nbJoueurs);
-//            }
-//        }
+            }
+            //Les Joueurs qui s'inscrivent.
+            if (message.getAction() == Actions.JSUIVANT && compteurJoueurs < maxJoueurs ){
+                compteurJoueurs = compteurJoueurs +1;
+                lNomJoueurs.add(message.getNomJoueur());
+                v2.close();
+                v2 = new VueInscription();
+                v2.afficher();
+                v2.show(compteurJoueurs);
+                v2.addObserver(this);               
+            }
+            //Retour au joueur précédent.
+            if (message.getAction() == Actions.JPRECEDENT){
+                compteurJoueurs = compteurJoueurs - 1;
+                v2.close();
+                v2 = new VueInscription();
+                v2.afficher();
+                v2.show(compteurJoueurs);
+                v2.addObserver(this);
+            }
+            // Dernier joueur à s'inscrire.
+            if (message.getAction() == Actions.JSUIVANT && compteurJoueurs == maxJoueurs ){
+                compteurJoueurs = maxJoueurs;
+                lNomJoueurs.add(message.getNomJoueur());
+                v2.close();
+                v2 = new VueInscription(DernierInscrit);
+                v2.afficher();
+                v2.show(compteurJoueurs);
+                v2.addObserver(this);
+            }
+            // Terminer l'inscription.
+            if(message.getAction() == Actions.JTERMINER){
+                lNomJoueurs.add(message.getNomJoueur());
+                v2.close();
+                System.out.println("Inscription des joueurs terminer");
+                for(int i = 0;i<lNomJoueurs.size();i++){
+                    System.out.println(lNomJoueurs.get(i));
+                }
+                
+            }
         }
     }
 }

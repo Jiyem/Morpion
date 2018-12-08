@@ -13,6 +13,8 @@ public enum GestionVue {
     Préparation,
     Moins12,
     InitJoueurs,
+    PremierInscrit,
+    DernierInscrit,
     Plus12;
     
 }
