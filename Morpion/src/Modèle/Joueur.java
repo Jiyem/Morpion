@@ -13,11 +13,9 @@ import javax.swing.JFrame;
  */
 public class Joueur {
     private final String nom;
-    private EtatCase signe;
     
-    public Joueur(){
-        this.nom = null;
-        this.signe = null;
+    public Joueur(String nom){
+        this.nom = nom;
     }
 
     /**
@@ -25,19 +23,5 @@ public class Joueur {
      */
     public String getNom() {
         return nom;
-    }
-
-    /**
-     * @return the signe
-     */
-    public EtatCase getSigne() {
-        return signe;
-    }
-
-    /**
-     * @param signe the signe to set
-     */
-    public void setSigne(EtatCase signe) {
-        this.signe = signe;
     }
 }

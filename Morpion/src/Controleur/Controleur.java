@@ -5,6 +5,8 @@
  */
 package Controleur;
 
+import Modèle.Joueur;
+import Modèle.Match;
 import utilitaire.Actions;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,6 +14,7 @@ import Vue.VueClassement;
 import Vue.VueInscription;
 import Vue.VueTournois;
 import java.util.ArrayList;
+import java.util.HashMap;
 import static utilitaire.GestionVue.DernierInscrit;
 import static utilitaire.GestionVue.InitJoueurs;
 import static utilitaire.GestionVue.Moins12;
@@ -20,10 +23,7 @@ import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
 import utilitaire.MessageTournois;
 
-/**
- *
- * @author Eric
- */
+
 public class Controleur implements Observer {
 
    //ihm = new ihm()
@@ -36,9 +36,10 @@ public class Controleur implements Observer {
     private VueTournois v1 = new VueTournois(Préparation);
     private VueInscription v2 = new VueInscription();
     private VueClassement v3 = new VueClassement();
-    private ArrayList<String> lNomJoueurs = new ArrayList<>();
+    private ArrayList<Joueur> lJoueurs = new ArrayList<>();
     private int compteurJoueurs = 1;
     private int maxJoueurs ;
+    private HashMap<Integer,Match> matchs = new HashMap<>();
     
     Controleur(){
         v1.addObserver(this);
@@ -60,6 +61,7 @@ public class Controleur implements Observer {
             if (((Actions) arg) == Actions.CLASSEMENT_GENERAL) {
                 //Faut afficher la vue classement avec tous les joueurs
             }}
+
         if(arg == "-12"){
                 v1.close();
                 v1 = new VueTournois(Moins12);
@@ -89,7 +91,8 @@ public class Controleur implements Observer {
             //Les Joueurs qui s'inscrivent.
             if (message.getAction() == Actions.JSUIVANT && compteurJoueurs < maxJoueurs ){
                 compteurJoueurs = compteurJoueurs +1;
-                lNomJoueurs.add(message.getNomJoueur());
+                Joueur j = new Joueur(message.getNomJoueur());
+                lJoueurs.add(j);
                 v2.close();
                 v2 = new VueInscription();
                 v2.afficher();
@@ -97,7 +100,7 @@ public class Controleur implements Observer {
                 v2.addObserver(this);               
             }
             //Retour au joueur précédent.
-            if (message.getAction() == Actions.JPRECEDENT){
+            if (message.getAction() == Actions.JPRECEDENT ){
                 compteurJoueurs = compteurJoueurs - 1;
                 v2.close();
                 v2 = new VueInscription();
@@ -108,7 +111,6 @@ public class Controleur implements Observer {
             // Dernier joueur à s'inscrire.
             if (message.getAction() == Actions.JSUIVANT && compteurJoueurs == maxJoueurs ){
                 compteurJoueurs = maxJoueurs;
-                lNomJoueurs.add(message.getNomJoueur());
                 v2.close();
                 v2 = new VueInscription(DernierInscrit);
                 v2.afficher();
@@ -117,14 +119,71 @@ public class Controleur implements Observer {
             }
             // Terminer l'inscription.
             if(message.getAction() == Actions.JTERMINER){
-                lNomJoueurs.add(message.getNomJoueur());
+                Joueur j = new Joueur(message.getNomJoueur());
+                lJoueurs.add(j);;
                 v2.close();
                 System.out.println("Inscription des joueurs terminer");
-                for(int i = 0;i<lNomJoueurs.size();i++){
-                    System.out.println(lNomJoueurs.get(i));
+                for(int i = 0;i<lJoueurs.size();i++){
+                    System.out.println(lJoueurs.get(i).getNom());
                 }
                 
+                //Génération des matchs
+                
+                // A,B,C,D,E,F,G,H
+                //A vs B / A vs C  / A vs D / A vs E / A vs F / A vs G / A vs H -> Flag = m -1 / itFlag = 0;
+                // B vs C / B vs D / B vs E / B vs F / B vs G / B vs H -> Flag = m -2 / itFlag = 1;
+                // C vs D / C vs E / c vs F / c vs G / c vs H -> Flag = m-3 / itFag = 2;
+                // D vs E / D vs F / d vs G / d vs H -> Flag = m-4 / itFlag = 3;
+                // E vs F / E vs g / e vs H -> Flag = m - 5 / itFlag = 4;
+                // F vs G / f vs H -> Flag = m - 6 / itFlag = 5;
+                // G vs H -> Flag = m - 7 / itFlag = 6;
+                // Formule pour 8 joueurs : 7 + 6 + 5 + 4 + 3 + 2 + 1
+                // fin de boucle quand itFlag = nbJoueurs -2;
+                
+                int nbMatch = 0;
+                Integer cpt = maxJoueurs -1;
+                while(cpt > 0){
+                    nbMatch = nbMatch + cpt;
+                    cpt = cpt -1;
+                }
+                 System.out.println(nbMatch);
+                 
+                cpt = 1; // 2 // 3 // 4
+                int flag = maxJoueurs -1; // ex de 4 joueurs, flag = 3 // 2 // 1 // 0 //2
+                int itFlag = 0; //nombre de reset du flag //1 
+                
+                int joueurAct = 0; // 1
+                int joueurDef = 1; // 2 // 3 // 2
+                        System.out.println(itFlag);
+                while(cpt < nbMatch +1){
+                    Match m = new Match(lJoueurs.get(joueurAct),lJoueurs.get(joueurDef));
+                    matchs.put(cpt,m);
+                    cpt = cpt +1;
+                    flag = flag -1;
+                    if(flag > 0){
+                        joueurDef = joueurDef +1;                        
+                    }
+                    if(flag == 0){
+                        itFlag = itFlag +1;
+                        System.out.println(itFlag);
+                        System.out.println(maxJoueurs);
+                        if(itFlag <= maxJoueurs -2){
+                        flag = maxJoueurs -1 -itFlag;
+                        joueurAct = joueurAct +1;
+                        joueurDef = joueurAct +1;
+                        }
+                    }
+                 
+                
             }
+                    System.out.println("Fin d'initialisation du tournois");
+                    for(HashMap.Entry<Integer, Match> entry : matchs.entrySet()) {
+                    Integer key = entry.getKey();
+                    Match value = entry.getValue();
+                    System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
+                    
+                }
         }
+    }
     }
 }
