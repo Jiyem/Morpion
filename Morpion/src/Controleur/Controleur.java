@@ -55,7 +55,7 @@ public class Controleur implements Observer {
         if (arg instanceof Actions) {
             if (((Actions) arg) == Actions.ANNULE) {
             System.out.println("L'utilisateur a abandonné");
-            ((VueTournois) o).close();
+            v1.close();v2.close();
             }
             if (((Actions) arg) == Actions.CLASSEMENT_GENERAL) {
                 //Faut afficher la vue classement avec tous les joueurs

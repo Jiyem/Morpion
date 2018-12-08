@@ -78,7 +78,7 @@ public class VueInscription extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers();
+                    notifyObservers(Actions.ANNULE);
                     clearChanged();
                 }
             });

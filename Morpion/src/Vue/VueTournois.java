@@ -127,7 +127,7 @@ public class VueTournois extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers();
+                notifyObservers(Actions.ANNULE);
                 clearChanged();
             }
         });
@@ -140,7 +140,7 @@ public class VueTournois extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers(Actions.ANNULE);
+                notifyObservers(new MessageTournois(slider.getValue(),Actions.SUIVANT));
                 clearChanged();
             }
         });
@@ -175,7 +175,7 @@ public class VueTournois extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers();
+                notifyObservers(Actions.ANNULE);
                 clearChanged();
             }
         });
