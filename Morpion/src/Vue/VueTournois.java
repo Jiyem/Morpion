@@ -29,14 +29,15 @@ import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.Préparation;
 import static utilitaire.GestionVue.Préparation2;
+import utilitaire.MessageMenu;
 import utilitaire.MessageTournois;
 
 public class VueTournois extends Observable {
     private final JFrame window ;
     private GestionVue Mois12;
     private JTextField champNom;
-    private JTextField CombatDesJoueurs;
-            
+    private JLabel CombatDesJoueurs;
+    
     @SuppressWarnings("Convert2Lambda")
     public VueTournois(GestionVue vEtape,GestionVue vAge) {
         if(vEtape==Préparation){
@@ -211,55 +212,7 @@ public class VueTournois extends Observable {
         });
         bottomPanel.add(btnSuivant);
         }
-        else if(vAge == Plus12 && vEtape == Menu){
-            window = new JFrame(); 
-            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-            // Définit la taille de la fenêtre en pixels
-            window.setSize(800, 300);
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-            window.setTitle("MENU : Plus de 12 ans");
-            
-            JPanel mainPanel = new JPanel(new BorderLayout());
-            window.add(mainPanel);
-        
-            JPanel panelCentre = new JPanel(new GridLayout(3,3)) ;
-            JPanel panelBas = new JPanel(new GridLayout(1,4)) ;
-            mainPanel.add(panelCentre, BorderLayout.CENTER);
-            mainPanel.add(panelBas, BorderLayout.SOUTH);
-            panelCentre.add(new JLabel(""));
-            panelCentre.add(new JLabel(""));
-            panelCentre.add(new JLabel(""));
-            JButton jouer = new JButton("Jouer le match");
-            panelCentre.add(jouer);
-            jouer.addActionListener((ActionEvent e) -> {
-            setChanged();
-            notifyObservers("");
-            clearChanged();
-                });
-            panelCentre.add(new JLabel(""));
-            panelCentre.add(new JLabel(""));
-            panelCentre.add(new JLabel(""));
-           
-            JButton quitter = new JButton("Quitter");
-            panelBas.add(quitter);
-            jouer.addActionListener((ActionEvent e) -> {
-            setChanged();
-            notifyObservers("");
-            clearChanged();
-                });
-            panelBas.add(new JLabel(""));panelBas.add(new JLabel("")); 
-            JButton classement = new JButton("Classement");
-            panelBas.add(classement);
-            classement.addActionListener((ActionEvent e) -> {
-            setChanged();
-            notifyObservers("");
-            clearChanged();
-                });
-            
-            
-            
-        }
+       
         else {
             window = new JFrame(); 
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -296,37 +249,38 @@ public class VueTournois extends Observable {
             mainPanel.add(panelCentre, BorderLayout.CENTER);
             mainPanel.add(panelBas, BorderLayout.SOUTH);
             panelCentre.add(new JLabel(""));
+            CombatDesJoueurs = new JLabel("Le match opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom() + "pour le match numero :" + matchCourant );
+           
+            panelCentre.add(CombatDesJoueurs);
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
             JButton jouer = new JButton("Jouer le match");
             panelCentre.add(jouer);
             jouer.addActionListener((ActionEvent e) -> {
             setChanged();
-            notifyObservers("");
+            notifyObservers(new MessageMenu(vAge,GestionVue.JouerLeMatch));
             clearChanged();
                 });
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
-           
+            panelCentre.add(new JLabel(""));
+            
             JButton quitter = new JButton("Quitter");
             panelBas.add(quitter);
             jouer.addActionListener((ActionEvent e) -> {
             setChanged();
-            notifyObservers("");
+            notifyObservers(new MessageMenu(vAge,GestionVue.Quitter));
             clearChanged();
                 });
             panelBas.add(new JLabel(""));panelBas.add(new JLabel("")); 
             JButton classement = new JButton("Classement");
             panelBas.add(classement);
             classement.addActionListener((ActionEvent e) -> {
-            setChanged();
-            notifyObservers("");
-            clearChanged();
-                });
-            
-            
-            
+                    setChanged();
+                    notifyObservers(new MessageMenu(vAge,GestionVue.Classement));
+                    clearChanged();
+                });      
         }
         else {
             window = new JFrame(); 

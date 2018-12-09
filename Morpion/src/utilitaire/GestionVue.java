@@ -17,6 +17,9 @@ public enum GestionVue {
     InitJoueurs,
     PremierInscrit,
     DernierInscrit,
-    Menu;
+    Menu,
+    Classement,
+    Quitter,
+    JouerLeMatch;
     
 }

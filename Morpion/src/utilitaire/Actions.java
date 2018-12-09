@@ -16,5 +16,6 @@ public enum Actions {
     JPRECEDENT,
     RETOUR,
     JTERMINER,
+    QUITTER,
     CLASSEMENT_GENERAL;
 }

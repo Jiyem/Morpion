@@ -13,6 +13,7 @@ public class MessageTournois {
     private Actions action;
     private String nbJoueurs;
     private GestionVue vue;
+    
     public MessageTournois(String nbJoueurs, Actions action){
         this.nbJoueurs = nbJoueurs;
         this.action = action;
@@ -21,6 +22,7 @@ public class MessageTournois {
         this.nbJoueurs = nbJoueurs;
         this.action = action;
     }
+    
     public MessageTournois(int nbJoueurs, Actions action){
         this.nbJoueurs = Integer.toString(nbJoueurs);
         this.action = action;

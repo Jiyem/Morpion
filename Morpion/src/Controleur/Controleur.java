@@ -16,15 +16,19 @@ import Vue.VueTournois;
 import java.util.ArrayList;
 import java.util.HashMap;
 import utilitaire.GestionVue;
+import static utilitaire.GestionVue.Classement;
 import static utilitaire.GestionVue.DernierInscrit;
 import static utilitaire.GestionVue.InitJoueurs;
+import static utilitaire.GestionVue.JouerLeMatch;
 import static utilitaire.GestionVue.Menu;
 import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
 import static utilitaire.GestionVue.Préparation2;
+import static utilitaire.GestionVue.Quitter;
 import utilitaire.MessageGrille;
+import utilitaire.MessageMenu;
 import utilitaire.MessageTournois;
 
 
@@ -132,11 +136,6 @@ public class Controleur implements Observer {
                 for(int i = 0;i<lJoueurs.size();i++){
                     System.out.println(lJoueurs.get(i).getNom());
                 }
-                matchCourant = 1;
-                v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                v1.addObserver(this);
-                v1.afficher();
-                
                 //Génération des matchs
                 
                 // A,B,C,D,E,F,G,H
@@ -193,7 +192,28 @@ public class Controleur implements Observer {
                         System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
                     
                     }
+                matchCourant = 1;
+                v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                v1.addObserver(this);
+                v1.afficher();
                 }
+            
+            //Gestion du menu
+            if(arg instanceof MessageMenu){
+                MessageMenu messageMenu = (MessageMenu) arg ;
+                v1.close();
+                if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Classement){
+                    v3 = new VueClassement(Plus12);
+                }
+                if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Quitter){
+                   //On a déjà fermé la Vue à l'appui d'un bouton donc on ne fait rien
+                }
+                if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
+                   v1.close();
+                   //Bah la faudra lancer le match ave cle numero correspondant
+                        
+                }
+            }
             }
             //Gestion de la grille
             if(arg instanceof MessageGrille){
