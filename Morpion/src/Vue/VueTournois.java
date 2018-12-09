@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modèle.Match;
 import utilitaire.Actions;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -12,6 +13,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Observable;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -33,7 +35,8 @@ public class VueTournois extends Observable {
     private final JFrame window ;
     private GestionVue Mois12;
     private JTextField champNom;
-
+    private JTextField CombatDesJoueurs;
+            
     @SuppressWarnings("Convert2Lambda")
     public VueTournois(GestionVue vEtape,GestionVue vAge) {
         if(vEtape==Préparation){
@@ -218,16 +221,16 @@ public class VueTournois extends Observable {
             window.setTitle("MENU : Plus de 12 ans");
             
             JPanel mainPanel = new JPanel(new BorderLayout());
-            window.add(mainPanel) ;
+            window.add(mainPanel);
         
             JPanel panelCentre = new JPanel(new GridLayout(3,3)) ;
             JPanel panelBas = new JPanel(new GridLayout(1,4)) ;
             mainPanel.add(panelCentre, BorderLayout.CENTER);
-            mainPanel.add(panelBas, BorderLayout.CENTER);
+            mainPanel.add(panelBas, BorderLayout.SOUTH);
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
-            JButton jouer = new JButton("jouer");
+            JButton jouer = new JButton("Jouer le match");
             panelCentre.add(jouer);
             jouer.addActionListener((ActionEvent e) -> {
             setChanged();
@@ -235,14 +238,25 @@ public class VueTournois extends Observable {
             clearChanged();
                 });
             panelCentre.add(new JLabel(""));
-            JButton classement = new JButton("classement");
-            panelCentre.add(classement);
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+           
+            JButton quitter = new JButton("Quitter");
+            panelBas.add(quitter);
+            jouer.addActionListener((ActionEvent e) -> {
+            setChanged();
+            notifyObservers("");
+            clearChanged();
+                });
+            panelBas.add(new JLabel(""));panelBas.add(new JLabel("")); 
+            JButton classement = new JButton("Classement");
+            panelBas.add(classement);
             classement.addActionListener((ActionEvent e) -> {
             setChanged();
             notifyObservers("");
             clearChanged();
                 });
-            panelCentre.add(new JLabel(""));panelCentre.add(new JLabel(""));panelCentre.add(new JLabel(""));
+            
             
             
         }
@@ -263,7 +277,74 @@ public class VueTournois extends Observable {
             panelHaut.add(new JLabel("CA BUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUG"));
         }
     }
- 
+    
+    public VueTournois(GestionVue vEtape,GestionVue vAge,HashMap<Integer,Match> matchs,int matchCourant) {
+        if(vAge == Plus12 && vEtape == Menu){
+            window = new JFrame(); 
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+            window.setTitle("MENU : Plus de 12 ans");
+            
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel);
+        
+            JPanel panelCentre = new JPanel(new GridLayout(3,3)) ;
+            JPanel panelBas = new JPanel(new GridLayout(1,4)) ;
+            mainPanel.add(panelCentre, BorderLayout.CENTER);
+            mainPanel.add(panelBas, BorderLayout.SOUTH);
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+            JButton jouer = new JButton("Jouer le match");
+            panelCentre.add(jouer);
+            jouer.addActionListener((ActionEvent e) -> {
+            setChanged();
+            notifyObservers("");
+            clearChanged();
+                });
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+           
+            JButton quitter = new JButton("Quitter");
+            panelBas.add(quitter);
+            jouer.addActionListener((ActionEvent e) -> {
+            setChanged();
+            notifyObservers("");
+            clearChanged();
+                });
+            panelBas.add(new JLabel(""));panelBas.add(new JLabel("")); 
+            JButton classement = new JButton("Classement");
+            panelBas.add(classement);
+            classement.addActionListener((ActionEvent e) -> {
+            setChanged();
+            notifyObservers("");
+            clearChanged();
+                });
+            
+            
+            
+        }
+        else {
+            window = new JFrame(); 
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel) ;
+
+            JPanel panelHaut = new JPanel(new GridLayout(1,1)) ;
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+
+            panelHaut.add(new JLabel("CA BUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUG"));
+        }
+    }
     public void afficher() {
         this.window.setVisible(true);
     }
@@ -280,8 +361,5 @@ public class VueTournois extends Observable {
 //        radioFemme.setSelected();
     }
 
-    private void elesif(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }
