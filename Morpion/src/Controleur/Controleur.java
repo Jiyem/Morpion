@@ -43,13 +43,14 @@ public class Controleur implements Observer {
     private int compteurJoueurs = 1;
     private int maxJoueurs ;
     private HashMap<Integer,Match> matchs = new HashMap<>();
+    private int  matchCourant;
     private GestionVue age;
     
     Controleur(){
-      v1 = new VueTournois(Préparation,null);
+        v1 = new VueTournois(Préparation,null);
         v1.addObserver(this);
         v1.afficher();
-
+   
         
     }
     
@@ -130,7 +131,8 @@ public class Controleur implements Observer {
                 for(int i = 0;i<lJoueurs.size();i++){
                     System.out.println(lJoueurs.get(i).getNom());
                 }
-                v1 = new VueTournois(Menu,age);
+                matchCourant = 1;
+                v1 = new VueTournois(Menu,age,matchs,matchCourant);
                 v1.addObserver(this);
                 v1.afficher();
                 
