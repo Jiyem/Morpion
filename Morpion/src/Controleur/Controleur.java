@@ -198,6 +198,7 @@ public class Controleur implements Observer {
                 v1.afficher();
                 }
             
+            }
             //Gestion du menu
             if(arg instanceof MessageMenu){
                 MessageMenu messageMenu = (MessageMenu) arg ;
@@ -213,7 +214,6 @@ public class Controleur implements Observer {
                    //Bah la faudra lancer le match ave cle numero correspondant
                         
                 }
-            }
             }
             //Gestion de la grille
             if(arg instanceof MessageGrille){
