@@ -24,6 +24,7 @@ import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
 import static utilitaire.GestionVue.Préparation2;
+import utilitaire.MessageGrille;
 import utilitaire.MessageTournois;
 
 
@@ -184,15 +185,19 @@ public class Controleur implements Observer {
                     }
                  
                 
-            }
+                }
                     System.out.println("Fin d'initialisation du tournois");
                     for(HashMap.Entry<Integer, Match> entry : matchs.entrySet()) {
-                    Integer key = entry.getKey();
-                    Match value = entry.getValue();
-                    System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
+                        Integer key = entry.getKey();
+                        Match value = entry.getValue();
+                        System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
                     
+                    }
                 }
-        }
-    }
+            }
+            //Gestion de la grille
+            if(arg instanceof MessageGrille){
+                
+            }
     }
 }
