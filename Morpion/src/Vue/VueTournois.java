@@ -249,7 +249,7 @@ public class VueTournois extends Observable {
             mainPanel.add(panelCentre, BorderLayout.CENTER);
             mainPanel.add(panelBas, BorderLayout.SOUTH);
             panelCentre.add(new JLabel(""));
-            CombatDesJoueurs = new JLabel("Le match opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom() + "pour le match numero :" + matchCourant );
+            CombatDesJoueurs = new JLabel("Le match opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom());
            
             panelCentre.add(CombatDesJoueurs);
             panelCentre.add(new JLabel(""));
@@ -257,10 +257,10 @@ public class VueTournois extends Observable {
             JButton jouer = new JButton("Jouer le match");
             panelCentre.add(jouer);
             jouer.addActionListener((ActionEvent e) -> {
-            setChanged();
-            notifyObservers(new MessageMenu(vAge,GestionVue.JouerLeMatch));
-            clearChanged();
-                });
+                setChanged();
+                notifyObservers(new MessageMenu(vAge,GestionVue.JouerLeMatch));
+                clearChanged();
+                    });
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
@@ -269,10 +269,10 @@ public class VueTournois extends Observable {
             JButton quitter = new JButton("Quitter");
             panelBas.add(quitter);
             jouer.addActionListener((ActionEvent e) -> {
-            setChanged();
-            notifyObservers(new MessageMenu(vAge,GestionVue.Quitter));
-            clearChanged();
-                });
+                setChanged();
+                notifyObservers(new MessageMenu(vAge,GestionVue.Quitter));
+                clearChanged();
+                    });
             panelBas.add(new JLabel(""));panelBas.add(new JLabel("")); 
             JButton classement = new JButton("Classement");
             panelBas.add(classement);
