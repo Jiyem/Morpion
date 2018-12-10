@@ -17,6 +17,7 @@ public class Match {
     private Joueur joueur2;
     private EtatCase signe1 = X;
     private EtatCase signe2 = O;
+    private Joueur vainqueur;
     
     public Match(Joueur j1, Joueur j2){
         this.joueur1 = j1;
@@ -77,6 +78,20 @@ public class Match {
      */
     public void setSigne2(EtatCase signe2) {
         this.signe2 = signe2;
+    }
+
+    /**
+     * @return the vainqueur
+     */
+    public Joueur getVainqueur() {
+        return vainqueur;
+    }
+
+    /**
+     * @param vainqueur the vainqueur to set
+     */
+    public void setVainqueur(Joueur vainqueur) {
+        this.vainqueur = vainqueur;
     }
     
     

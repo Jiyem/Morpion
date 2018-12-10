@@ -325,6 +325,7 @@ public class VueTournois extends Observable {
         this.erreur.setText("Le nombre de joueurs doit être compris entre 2 et 20.");
         this.erreur.setForeground(Color.red);
     }
+    
 
     
 }

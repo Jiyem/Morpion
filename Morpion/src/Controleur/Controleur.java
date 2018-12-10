@@ -29,6 +29,7 @@ import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
 import static utilitaire.GestionVue.Préparation2;
 import static utilitaire.GestionVue.Quitter;
+import utilitaire.MessageClassement;
 import utilitaire.MessageGrille;
 import utilitaire.MessageMenu;
 import utilitaire.MessageTournois;
@@ -220,7 +221,9 @@ public class Controleur implements Observer {
                 MessageMenu messageMenu = (MessageMenu) arg ;
                 v1.close();
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Classement){
-                    v3 = new VueClassement(Plus12);
+                   v3 = new VueClassement(Plus12,lJoueurs,matchs);
+                   v3.addObserver(this);
+                   v3.afficher();
                 }
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Quitter){
                    //On a déjà fermé la Vue à l'appui d'un bouton donc on ne fait rien
@@ -259,6 +262,15 @@ public class Controleur implements Observer {
                   joueurCourant = matchs.get(matchCourant).getJoueur1(); 
                 }
                 v4.setJoueurCourant(joueurCourant);
+            }
+            
+            //Gestion du classement
+            if(arg instanceof MessageClassement){
+             MessageClassement messageClassement = (MessageClassement) arg ;
+                v3.close();
+                v1 = new VueTournois(messageClassement.getQueFaire(),messageClassement.getAge(),matchs,matchCourant);
+                v1.addObserver(this);
+                v1.afficher();
             }
     }
 }

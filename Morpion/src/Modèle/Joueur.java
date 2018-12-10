@@ -13,6 +13,7 @@ import javax.swing.JFrame;
  */
 public class Joueur {
     private final String nom;
+    private int nbpoints;
     
     public Joueur(String nom){
         this.nom = nom;
@@ -23,5 +24,19 @@ public class Joueur {
      */
     public String getNom() {
         return nom;
+    }
+
+    /**
+     * @return the nbpoints
+     */
+    public int getNbpoints() {
+        return nbpoints;
+    }
+
+    /**
+     * @param nbpoints the nbpoints to set
+     */
+    public void setNbpoints(int nbpoints) {
+        this.nbpoints = nbpoints;
     }
 }
