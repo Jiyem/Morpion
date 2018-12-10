@@ -92,11 +92,16 @@ public class Controleur implements Observer {
             //Premier joueur à s'inscrire
             if (message.getAction()== Actions.SUIVANT) {
                 maxJoueurs = message.getNbJoueurs();
-                v1.close();
-                v2 = new VueInscription(PremierInscrit);
-                v2.afficher();
-                v2.show(compteurJoueurs);
-                v2.addObserver(this);
+                if(maxJoueurs > 1 && maxJoueurs <21){
+                    v1.close();
+                    v2 = new VueInscription(PremierInscrit);
+                    v2.afficher();
+                    v2.show(compteurJoueurs);
+                    v2.addObserver(this);                   
+                }else{
+                    v1.erreurNbJoueurs();
+                }
+
             }
             //Les Joueurs qui s'inscrivent.
             if (message.getAction() == Actions.JSUIVANT && compteurJoueurs < maxJoueurs ){
@@ -111,7 +116,12 @@ public class Controleur implements Observer {
             }
             //Retour au joueur précédent.
             if (message.getAction() == Actions.JPRECEDENT ){
-                compteurJoueurs = compteurJoueurs - 1;
+                if(compteurJoueurs > 1){
+                    compteurJoueurs = compteurJoueurs - 1;                    
+                }else if(compteurJoueurs == 1){
+                    compteurJoueurs = 1;
+                }
+                lJoueurs.remove(lJoueurs.size()-1);
                 v2.close();
                 v2 = new VueInscription();
                 v2.afficher();
@@ -155,7 +165,7 @@ public class Controleur implements Observer {
                     nbMatch = nbMatch + cpt;
                     cpt = cpt -1;
                 }
-                 System.out.println(nbMatch);
+                 System.out.println("Nombre de matchs: "+nbMatch);
                  
                 cpt = 1; // 2 // 3 // 4
                 int flag = maxJoueurs -1; // ex de 4 joueurs, flag = 3 // 2 // 1 // 0 //2
@@ -163,7 +173,6 @@ public class Controleur implements Observer {
                 
                 int joueurAct = 0; // 1
                 int joueurDef = 1; // 2 // 3 // 2
-                        System.out.println(itFlag);
                 while(cpt < nbMatch +1){
                     Match m = new Match(lJoueurs.get(joueurAct),lJoueurs.get(joueurDef));
                     matchs.put(cpt,m);
@@ -174,8 +183,6 @@ public class Controleur implements Observer {
                     }
                     if(flag == 0){
                         itFlag = itFlag +1;
-                        System.out.println(itFlag);
-                        System.out.println(maxJoueurs);
                         if(itFlag <= maxJoueurs -2){
                         flag = maxJoueurs -1 -itFlag;
                         joueurAct = joueurAct +1;

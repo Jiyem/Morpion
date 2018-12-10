@@ -8,6 +8,7 @@ package Vue;
 import Modèle.Match;
 import utilitaire.Actions;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -37,6 +38,8 @@ public class VueTournois extends Observable {
     private GestionVue Mois12;
     private JTextField champNom;
     private JLabel CombatDesJoueurs;
+    private JLabel erreur = new JLabel("");
+    
     
     @SuppressWarnings("Convert2Lambda")
     public VueTournois(GestionVue vEtape,GestionVue vAge) {
@@ -172,6 +175,9 @@ public class VueTournois extends Observable {
         JTextField nbJoueurs = new JTextField();
         panelHaut.add(nbJoueurs);
         
+        JPanel panelMid = new JPanel();
+        mainPanel.add(panelMid, BorderLayout.CENTER);
+        panelMid.add(erreur);        
              
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -313,6 +319,11 @@ public class VueTournois extends Observable {
 //        champAge.setText();
 //        radioHomme.setSelected();
 //        radioFemme.setSelected();
+    }
+    
+    public void erreurNbJoueurs(){
+        this.erreur.setText("Le nombre de joueurs doit être compris entre 2 et 20.");
+        this.erreur.setForeground(Color.red);
     }
 
     
