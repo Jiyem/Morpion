@@ -5,12 +5,14 @@
  */
 package Controleur;
 
+import Modèle.EtatCase;
 import Modèle.Joueur;
 import Modèle.Match;
 import utilitaire.Actions;
 import java.util.Observable;
 import java.util.Observer;
 import Vue.VueClassement;
+import Vue.VueGrille;
 import Vue.VueInscription;
 import Vue.VueTournois;
 import java.util.ArrayList;
@@ -44,11 +46,13 @@ public class Controleur implements Observer {
     private VueTournois v1;
     private VueInscription v2 = new VueInscription();
     private VueClassement v3;
+    private VueGrille v4;
     private ArrayList<Joueur> lJoueurs = new ArrayList<>();
     private int compteurJoueurs = 1;
     private int maxJoueurs ;
     private HashMap<Integer,Match> matchs = new HashMap<>();
     private int  matchCourant;
+    private Joueur joueurCourant;
     private GestionVue age;
     
     Controleur(){
@@ -199,7 +203,12 @@ public class Controleur implements Observer {
                         System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
                     
                     }
+                //Match courant c'est la match courant.
                 matchCourant = 1;
+                //Le joueur courant est le joueur qui doit jouer son tour de jeu.
+                joueurCourant = matchs.get(matchCourant).getJoueur1();
+                //Matchs c'est la liste des matchs (hashmap) avec en clé le n° du match et en valeur le match.
+                //age = plus12 ou moins12
                 v1 = new VueTournois(Menu,age,matchs,matchCourant);
                 v1.addObserver(this);
                 v1.afficher();
@@ -218,13 +227,38 @@ public class Controleur implements Observer {
                 }
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
                    v1.close();
-                   //Bah la faudra lancer le match ave cle numero correspondant
-                        
+                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2());
+                   v4.addObserver(this);
+                   v4.afficher();
+                   //Bah la faudra lancer le match ave cle numero correspondant              
                 }
             }
             //Gestion de la grille
             if(arg instanceof MessageGrille){
-                
+                MessageGrille messageGrille = (MessageGrille) arg;
+                //si la case est vide
+                if(messageGrille.getEtat()== EtatCase.NON_COCHEE){
+                    System.out.println("Case non cochée");
+                    //si le joueur actuel est le joueur 1 (donc qu'il à le signe X
+                    if(matchs.get(matchCourant).getJoueur1() == joueurCourant){
+                        System.out.println("Cocher avec X");
+                        v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.X));
+                    } else{
+                        System.out.println("Cocher avec O");
+                        v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.O)); 
+                    }
+                }
+                //si la case est cochée
+                else{
+                    System.out.println("La case est déjà sélectionné");
+                }
+                //Changement de joueur courant
+                if(joueurCourant == matchs.get(matchCourant).getJoueur1()){
+                    joueurCourant = matchs.get(matchCourant).getJoueur2();
+                }else{
+                  joueurCourant = matchs.get(matchCourant).getJoueur1(); 
+                }
+                v4.setJoueurCourant(joueurCourant);
             }
     }
 }
