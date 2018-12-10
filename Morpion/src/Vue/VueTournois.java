@@ -278,7 +278,7 @@ public class VueTournois extends Observable {
                 setChanged();
                 notifyObservers(new MessageMenu(vAge,GestionVue.Quitter));
                 clearChanged();
-                    });
+                });
             panelBas.add(new JLabel(""));panelBas.add(new JLabel("")); 
             JButton classement = new JButton("Classement");
             panelBas.add(classement);

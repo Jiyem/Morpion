@@ -231,7 +231,7 @@ public class VueGrille extends Observable {
                 notifyObservers();
                 clearChanged();
             }
-            
+
         });
         panelSud.add(btnVoirClassement);
 
