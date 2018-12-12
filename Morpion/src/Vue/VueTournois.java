@@ -10,13 +10,19 @@ import utilitaire.Actions;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import utilitaire.GestionVue;
 import static utilitaire.GestionVue.Menu;
 import static utilitaire.GestionVue.Moins12;
@@ -43,38 +50,43 @@ public class VueTournois extends Observable {
     
     @SuppressWarnings("Convert2Lambda")
     public VueTournois(GestionVue vEtape,GestionVue vAge) {
-        if(vEtape==Préparation){
+        if(vEtape==Préparation){        
+
         window = new JFrame(); 
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
-        window.setSize(800, 300);
+        window.setSize(400, 200);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         
+        
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.lightGray);
         window.add(mainPanel) ;
         
         JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
+        panelHaut.setBackground(Color.lightGray);
         
         panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel("Bienvenue dans le fabuleux"));
+        JLabel titre = new JLabel("Tournois de morpion",SwingConstants.CENTER);
+        titre.setFont(new Font("Arial",Font.BOLD,20));
+        titre.setForeground(Color.red);
+        panelHaut.add(titre);
         panelHaut.add(new JLabel(""));
         panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel("jeu de morpion !"));
+        JLabel sousTitre = new JLabel("2 à 20 joueurs",SwingConstants.CENTER);
+        sousTitre.setFont(new Font("Arial",Font.BOLD,10));
+        panelHaut.add(sousTitre);
         panelHaut.add(new JLabel(""));
         
-        JPanel contentPanel = new JPanel (new GridLayout(1, 3));
+        JPanel contentPanel = new JPanel (new GridLayout(4, 3));
+        contentPanel.setBackground(Color.lightGray);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
+
         contentPanel.add(new JLabel(""));
-        contentPanel.add(new JLabel("Vous avez ?"));
-        contentPanel.add(new JLabel(""));
-        
-        
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-        
-        JButton btnMoins12 = new JButton("-12 ans");
+        JButton btnMoins12 = new JButton("Mode enfant");
+        btnMoins12.setBackground(Color.lightGray);
         btnMoins12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,11 +95,11 @@ public class VueTournois extends Observable {
                 clearChanged();
             }
         });
-        bottomPanel.add(btnMoins12);
-
-        bottomPanel.add(new JLabel(""));
-
-        JButton btnPlus12 = new JButton("+ 12 ans");
+        contentPanel.add(btnMoins12);
+        contentPanel.add(new JLabel(""));
+        contentPanel.add(new JLabel(""));
+        JButton btnPlus12 = new JButton("Mode adulte");
+        btnPlus12.setBackground(Color.lightGray);
         btnPlus12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,8 +108,47 @@ public class VueTournois extends Observable {
                 clearChanged();
             }
         });
-        bottomPanel.add(btnPlus12);
+        contentPanel.add(btnPlus12);
+        contentPanel.add(new JLabel(""));
+        contentPanel.add(new JLabel(""));
+        JButton btnRègles = new JButton("Règles");
+        btnRègles.setBackground(Color.lightGray);
+        btnRègles.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setChanged();
+                notifyObservers();
+                clearChanged();
+            }
+        });
+        contentPanel.add(btnRègles);
+        contentPanel.add(new JLabel(""));
+        contentPanel.add(new JLabel(""));
+        
+        JButton btnQuitter = new JButton("Quitter le jeu");
+        btnQuitter.setBackground(Color.lightGray);
+        btnQuitter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setChanged();
+                notifyObservers();
+                clearChanged();
+            }
+        });
+        contentPanel.add(btnQuitter);
+        contentPanel.add(new JLabel(""));
+        
+//        JPanel botPanel = new JPanel (new GridLayout(1,1));
+//        contentPanel.setBackground(Color.lightGray);
+//        mainPanel.add(botPanel, BorderLayout.CENTER);
+//        botPanel.add(new JLabel(""));
+        
+               
         }
+        
+        
+        
+
         // Interface de moins de 12 ans !
         else if(vAge == Moins12 && vEtape == Préparation2){
         window = new JFrame();
@@ -140,6 +191,17 @@ public class VueTournois extends Observable {
                 clearChanged();
             }
         });
+        //Ajout de l'image stop
+        try {
+            System.out.println(System.getProperty("user.dir") + "/src/images/morpionvide.jpg");
+            //Image img = ImageIO.read(new File("/users/info/etu-s2/anandanj/Morpion/Morpion/src/images/morpionvide.jpg"));
+            btnStop.setIcon(new ImageIcon("/users/info/etu-s2/anandanj/Morpion/Morpion/src/images/ok.jpeg"));
+       } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        btnStop.setSize(10, 10);
+        
+        
         bottomPanel.add(btnStop);
 
         bottomPanel.add(new JLabel(""));
