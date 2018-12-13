@@ -68,7 +68,7 @@ public class Controleur implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof Actions) {
             if (((Actions) arg) == Actions.ANNULE) {
-            System.out.println("L'utilisateur a abandonné");
+            System.out.println("L'utilffisateur a abandonné");
             v1.close();v2.close();
             }
             if (((Actions) arg) == Actions.CLASSEMENT_GENERAL) {
