@@ -33,10 +33,7 @@ public class Joueur {
         return nbpoints;
     }
 
-    /**
-     * @param nbpoints the nbpoints to set
-     */
-    public void setNbpoints(int nbpoints) {
-        this.nbpoints = nbpoints;
+    public void addPoints(int nbpoints) {
+        this.nbpoints = this.nbpoints + nbpoints;
     }
 }

@@ -6,6 +6,7 @@
 package Controleur;
 
 import Modèle.EtatCase;
+import Modèle.EtatMatch;
 import Modèle.Joueur;
 import Modèle.Match;
 import utilitaire.Actions;
@@ -68,7 +69,7 @@ public class Controleur implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof Actions) {
             if (((Actions) arg) == Actions.ANNULE) {
-            System.out.println("L'utilffisateur a abandonné");
+            System.out.println("L'utilisateur a abandonné");
             v1.close();v2.close();
             }
             if (((Actions) arg) == Actions.CLASSEMENT_GENERAL) {
@@ -244,11 +245,34 @@ public class Controleur implements Observer {
                     System.out.println("Case non cochée");
                     //si le joueur actuel est le joueur 1 (donc qu'il à le signe X
                     if(matchs.get(matchCourant).getJoueur1() == joueurCourant){
-                        System.out.println("Cocher avec X");
+                        System.out.println("Cochez avec X");
                         v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.X));
-                    } else{
-                        System.out.println("Cocher avec O");
-                        v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.O)); 
+                        if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){ //S'il y a une victoire
+                            System.out.print("VOUS AVEZ GAGNE");
+                            matchs.get(matchCourant).getJoueur1().addPoints(3);
+//                            v4.close();
+                        }
+                        else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){ //S'il il y a une egalité
+                            System.out.print("Egalité");
+                            matchs.get(matchCourant).getJoueur1().addPoints(1);
+                            matchs.get(matchCourant).getJoueur2().addPoints(1);
+//                            v4.close();
+                        }
+                    }    
+                    else{
+                        System.out.println("Cochez avec O");
+                        v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.O));
+                        if (v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){ //S'il y a une victoire
+                            System.out.print("VOUS AVEZ GAGNE");
+                            matchs.get(matchCourant).getJoueur2().addPoints(3);
+//                            v4.close();
+                        }
+                        else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){ //S'il il y a une egalité
+                            System.out.print("Egalité");
+                            matchs.get(matchCourant).getJoueur1().addPoints(1);
+                            matchs.get(matchCourant).getJoueur2().addPoints(1);
+//                            v4.close();
+                        }
                     }
                 }
                 //si la case est cochée
@@ -263,6 +287,7 @@ public class Controleur implements Observer {
                 }
                 v4.setJoueurCourant(joueurCourant);
             }
+            
             
             //Gestion du classement
             if(arg instanceof MessageClassement){

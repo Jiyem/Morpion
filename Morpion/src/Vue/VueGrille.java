@@ -7,6 +7,10 @@ package Vue;
 
 import Modèle.EtatCase;
 import static Modèle.EtatCase.X;
+import Modèle.EtatMatch;
+import static Modèle.EtatMatch.Egalite;
+import static Modèle.EtatMatch.Pas_Termine;
+import static Modèle.EtatMatch.Victoire;
 import Modèle.Joueur;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -231,7 +235,7 @@ public class VueGrille extends Observable {
                 notifyObservers();
                 clearChanged();
             }
-
+            
         });
         panelSud.add(btnVoirClassement);
 
@@ -280,5 +284,51 @@ public class VueGrille extends Observable {
             grille.put(9, message.getEtat());
         }
     }
-
+    public EtatMatch verifVictoire(EtatCase etatCase){
+            EtatMatch etat = null;
+            if(grille.get(1) == etatCase && grille.get(2) == etatCase &&  grille.get(3) == etatCase){
+                   etat = Victoire; //Verification pour la première ligne
+                   System.out.print("Victoire 1er ligne");
+            }
+            else if(grille.get(4) == etatCase && grille.get(5) == etatCase && grille.get(6) == etatCase){
+                etat = Victoire;  //Verification pour la deuxième ligne
+                System.out.print("Victoire 2er ligne");
+            }
+            else if(grille.get(7) == etatCase && grille.get(8) == etatCase && grille.get(9) == etatCase){
+                etat = Victoire;  //Verification pour la troisième ligne
+                System.out.print("Victoire 3er ligne");
+            }
+            else if(grille.get(1) == etatCase && grille.get(4) ==etatCase  && grille.get(7) == etatCase){
+                etat = Victoire;  //Verification pour la première colonne
+                 System.out.print("Victoire 1er colonne");
+            }
+            else if(grille.get(2) == etatCase && grille.get(5)== etatCase && grille.get(8) == etatCase){
+                etat = Victoire;  //Verification pour la deuxième colonne
+                System.out.print("Victoire 2er colonne");
+            }
+            else if(grille.get(3) ==etatCase &&  grille.get(6) == etatCase && grille.get(9) == etatCase){
+                etat = Victoire;  //Verification pour la troisième colonne
+                System.out.print("Victoire 3er colonne");
+            }
+            else if(grille.get(1) == etatCase &&grille.get(5) == etatCase && grille.get(9) == etatCase){
+                etat = Victoire;  //Verification pour la diagonale droite
+                System.out.print("Diagonale droite");
+            }
+            else if(grille.get(3) ==etatCase && grille.get(5)==etatCase &&  grille.get(7)==etatCase){
+                etat = Victoire;  //Verification pour la diagonale gauche
+                System.out.print("Diagonale droite");
+            }
+            else {
+                if(grille.containsValue(EtatCase.NON_COCHEE)){
+                    etat = Pas_Termine;
+                }
+                else{
+                    etat = Egalite;
+                }
+            }
+            return etat;
+        }
+        
+        
+    
 }
