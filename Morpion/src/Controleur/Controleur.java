@@ -220,21 +220,22 @@ public class Controleur implements Observer {
             //Gestion du menu
             if(arg instanceof MessageMenu){
                 MessageMenu messageMenu = (MessageMenu) arg ;
-                v1.close();
+                
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Classement){
+                   v1.close();
                    v3 = new VueClassement(Plus12,lJoueurs,matchs);
                    v3.addObserver(this);
                    v3.afficher();
                 }
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Quitter){
-                   //On a déjà fermé la Vue à l'appui d'un bouton donc on ne fait rien
+                    v1.close();
                 }
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
                    v1.close();
                    v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2());
                    v4.addObserver(this);
                    v4.afficher();
-                   //Bah la faudra lancer le match ave cle numero correspondant              
+                   v1.close();             
                 }
             }
             //Gestion de la grille

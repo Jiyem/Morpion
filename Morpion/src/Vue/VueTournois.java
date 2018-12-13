@@ -336,7 +336,7 @@ public class VueTournois extends Observable {
             
             JButton quitter = new JButton("Quitter");
             panelBas.add(quitter);
-            jouer.addActionListener((ActionEvent e) -> {
+            quitter.addActionListener((ActionEvent e) -> {
                 setChanged();
                 notifyObservers(new MessageMenu(vAge,GestionVue.Quitter));
                 clearChanged();

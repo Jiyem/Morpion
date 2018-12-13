@@ -287,7 +287,7 @@ public class VueGrille extends Observable {
     public EtatMatch verifVictoire(EtatCase etatCase){
             EtatMatch etat = null;
             if(grille.get(1) == etatCase && grille.get(2) == etatCase &&  grille.get(3) == etatCase){
-                   etat = Victoire; //Verification pour la première ligne
+                etat = Victoire; //Verification pour la première ligne
                    System.out.print("Victoire 1er ligne");
             }
             else if(grille.get(4) == etatCase && grille.get(5) == etatCase && grille.get(6) == etatCase){
