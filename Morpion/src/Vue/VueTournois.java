@@ -317,7 +317,7 @@ public class VueTournois extends Observable {
             JPanel panelBas = new JPanel(new GridLayout(1,4)) ;
             mainPanel.add(panelCentre, BorderLayout.CENTER);
             mainPanel.add(panelBas, BorderLayout.SOUTH);
-            panelCentre.add(new JLabel(""));
+            
            
             panelCentre.add(new JLabel(""));
             CombatDesJoueurs = new JLabel("Le match prochain opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom());
