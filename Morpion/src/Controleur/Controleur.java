@@ -7,6 +7,7 @@ package Controleur;
 
 import Modèle.EtatCase;
 import Modèle.EtatMatch;
+import Modèle.EtatTournoi;
 import Modèle.Joueur;
 import Modèle.Match;
 import utilitaire.Actions;
@@ -56,6 +57,8 @@ public class Controleur implements Observer {
     private int  matchCourant;
     private Joueur joueurCourant;
     private GestionVue age;
+    private int nbMatch;
+    private EtatTournoi etatTournoi= EtatTournoi.Pas_Termine;
     
     Controleur(){
         v1 = new VueTournois(Préparation,null);
@@ -165,7 +168,7 @@ public class Controleur implements Observer {
                 // Formule pour 8 joueurs : 7 + 6 + 5 + 4 + 3 + 2 + 1
                 // fin de boucle quand itFlag = nbJoueurs -2;
                 
-                int nbMatch = 0;
+//                nbMatch = 0;
                 Integer cpt = maxJoueurs -1;
                 while(cpt > 0){
                     nbMatch = nbMatch + cpt;
@@ -223,7 +226,7 @@ public class Controleur implements Observer {
                 
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Classement){
                    v1.close();
-                   v3 = new VueClassement(Plus12,lJoueurs,matchs);
+                   v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
                    v3.addObserver(this);
                    v3.afficher();
                 }
@@ -255,10 +258,17 @@ public class Controleur implements Observer {
                             matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur1());
                             matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
                             matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
-                            matchCourant = matchCourant +1;
-                            v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                            v1.addObserver(this);
-                            v1.afficher();
+                            if(matchCourant == nbMatch){
+                                etatTournoi = EtatTournoi.Termine;
+                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
+                                v3.afficher();
+                            }
+                            else {
+                                matchCourant = matchCourant+1;
+                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                                v1.addObserver(this);
+                                v1.afficher();
+                            }
                         }
                         else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){ //S'il il y a une egalité
                             System.out.print("Egalité");
@@ -268,10 +278,17 @@ public class Controleur implements Observer {
                             matchs.get(matchCourant).setGagnant(null);
                             matchs.get(matchCourant).setPerdant(null);
                             matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
-                            matchCourant = matchCourant+1;
-                            v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                            v1.addObserver(this);
-                            v1.afficher();
+                            if(matchCourant == nbMatch){
+                                etatTournoi = EtatTournoi.Termine;
+                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
+                                v3.afficher();
+                            }
+                            else {
+                                matchCourant = matchCourant+1;
+                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                                v1.addObserver(this);
+                                v1.afficher();
+                            }
                         }
                     }    
                     else{
@@ -284,16 +301,38 @@ public class Controleur implements Observer {
                             matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur2());
                             matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
                             matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
-                            matchCourant = matchCourant +1;
-                            v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                            v1.addObserver(this);
-                            v1.afficher();
+                            if(matchCourant == nbMatch){
+                                etatTournoi = EtatTournoi.Termine;
+                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
+                                v3.afficher();
+                            }
+                            else {
+                                matchCourant = matchCourant+1;
+                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                                v1.addObserver(this);
+                                v1.afficher();
+                            }
                         }
                         else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){ //S'il il y a une egalité
                             System.out.print("Egalité");
                             matchs.get(matchCourant).getJoueur1().addPoints(1);
                             matchs.get(matchCourant).getJoueur2().addPoints(1);
-//                            v4.close();
+                            v4.close();
+                            matchs.get(matchCourant).setGagnant(null);
+                            matchs.get(matchCourant).setPerdant(null);
+                            matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
+                            if(matchCourant == nbMatch){
+                                etatTournoi = EtatTournoi.Termine;
+                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
+                                v3.afficher();
+                            }
+                            else {
+                                matchCourant = matchCourant+1;
+                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                                v1.addObserver(this);
+                                v1.afficher();
+                            }
+                                
                         }
                     }
                 }
@@ -319,5 +358,6 @@ public class Controleur implements Observer {
                 v1.addObserver(this);
                 v1.afficher();
             }
+            
     }
 }

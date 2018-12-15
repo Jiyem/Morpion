@@ -6,10 +6,12 @@
 package Vue;
 
 import Modèle.EtatCase;
+import Modèle.EtatTournoi;
 import Modèle.Joueur;
 import Modèle.Match;
 import utilitaire.Actions;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -45,8 +47,8 @@ public class VueClassement extends Observable{
     private  int[] nbPoints;
     
     @SuppressWarnings("empty-statement")
-    public VueClassement(GestionVue v1,ArrayList<Joueur> listejoueur,HashMap<Integer,Match> matchs){
-        if(v1 == Plus12){
+    public VueClassement(GestionVue v1,ArrayList<Joueur> listejoueur,HashMap<Integer,Match> matchs,EtatTournoi e1){
+        if(v1 == Plus12 && e1 == EtatTournoi.Pas_Termine){
         this.window = new JFrame();
         window.setSize(350, 200);
         //le titre = nom du joueur 
@@ -61,28 +63,41 @@ public class VueClassement extends Observable{
         
         contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-//        nbPoints = new int[listejoueur.size()];
-//        for(int i= 0;i < listejoueur.size();i++){
-//            nbPoints[i] = listejoueur.get(i).getNbpoints();
-//        }
-//        String[] columnNames = {"Nom joueur","Nombre de points",};
-//
-//        Object[][] test = new Object[listejoueur.size()][3];
-//        int i=0;
-//        for (Joueur object: listejoueur){
-//            test[i][0] = object.getNbpoints();
-//            test[i][1] = object.getNom();
-//            i++;
-//        }
-//        tableau = new JTable(test,columnNames);
-//        contentPanel.add(tableau);
         contentPanel.add(new JLabel("Nom du joueur"));
         contentPanel.add(new JLabel("Numero de place"));
         contentPanel.add(new JLabel("Nombre de points"));
-        for(int i = 0;i < listejoueur.size();i++){
-            contentPanel.add(new JLabel("Place n°" + i));
-            contentPanel.add(new JLabel(listejoueur.get(i).getNom()));
-            contentPanel.add(new JLabel(listejoueur.get(i).getNbpoints()+""));
+       for(int i = 0;i < listejoueur.size();i++){
+            JLabel place =  new JLabel("Place n°" + (i+1));
+            JLabel nom = new JLabel(listejoueur.get(i).getNom());
+            JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"");
+            contentPanel.add(nom);
+            contentPanel.add(place);
+            contentPanel.add(nbpoints);
+            if(i == 0){
+                place.setOpaque(true);
+                place.setBackground(Color.decode("#FFD700"));
+                nom.setOpaque(true);
+                nom.setBackground(Color.decode("#FFD700"));
+                nbpoints.setOpaque(true);
+                nbpoints.setBackground(Color.decode("#FFD700"));
+            }
+            else if(i == 1){
+                place.setOpaque(true);
+                place.setBackground(Color.decode("#c0c0c0"));
+                nom.setOpaque(true);
+                nom.setBackground(Color.decode("#c0c0c0"));
+                nbpoints.setOpaque(true);
+                nbpoints.setBackground(Color.decode("#c0c0c0"));
+            }
+            else if(i == 2){
+                place.setOpaque(true);
+                place.setBackground(Color.decode("#cd7f32"));
+                nom.setOpaque(true);
+                nom.setBackground(Color.decode("#cd7f32"));
+                nbpoints.setOpaque(true);
+                nbpoints.setBackground(Color.decode("#cd7f32"));
+            }
+            
         }
         bottomPanel = new JPanel(new GridLayout(1, 4));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -94,6 +109,57 @@ public class VueClassement extends Observable{
         });
         bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));
         
+        }
+        else if(v1 == Plus12 && e1 == EtatTournoi.Termine){
+            this.window = new JFrame();
+        window.setSize(350, 200);
+        //le titre = nom du joueur 
+        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        // Définit la taille de la fenêtre en pixels
+        window.setSize(800, 300);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+        window.setTitle("Fin de tournoi");
+        mainPanel = new JPanel(new BorderLayout());
+        this.window.add(mainPanel);
+        
+        contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+        contentPanel.add(new JLabel("Nom du joueur"));
+        contentPanel.add(new JLabel("Numero de place"));
+        contentPanel.add(new JLabel("Nombre de points"));
+       for(int i = 0;i < listejoueur.size();i++){
+            JLabel place =  new JLabel("Place n°" + (i+1));
+            JLabel nom = new JLabel(listejoueur.get(i).getNom());
+            JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"");
+            contentPanel.add(nom);
+            contentPanel.add(place);
+            contentPanel.add(nbpoints);
+            if(i == 0){
+                place.setOpaque(true);
+                place.setBackground(Color.decode("#FFD700"));
+                nom.setOpaque(true);
+                nom.setBackground(Color.decode("#FFD700"));
+                nbpoints.setOpaque(true);
+                nbpoints.setBackground(Color.decode("#FFD700"));
+            }
+            else if(i == 1){
+                place.setOpaque(true);
+                place.setBackground(Color.decode("#c0c0c0"));
+                nom.setOpaque(true);
+                nom.setBackground(Color.decode("#c0c0c0"));
+                nbpoints.setOpaque(true);
+                nbpoints.setBackground(Color.decode("#c0c0c0"));
+            }
+            else if(i == 2){
+                place.setOpaque(true);
+                place.setBackground(Color.decode("#cd7f32"));
+                nom.setOpaque(true);
+                nom.setBackground(Color.decode("#cd7f32"));
+                nbpoints.setOpaque(true);
+                nbpoints.setBackground(Color.decode("#cd7f32"));
+            }  
+        }
         }
         else{
             this.window = new JFrame();
