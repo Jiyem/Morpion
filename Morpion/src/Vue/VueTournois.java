@@ -66,7 +66,7 @@ public class VueTournois extends Observable {
         
         JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
-        panelHaut.setBackground(Color.lightGray);
+        panelHaut.setBackground(Color.decode("#D0CDC2"));
         
         panelHaut.add(new JLabel(""));
         JLabel titre = new JLabel("Tournois de morpion",SwingConstants.CENTER);
@@ -81,12 +81,12 @@ public class VueTournois extends Observable {
         panelHaut.add(new JLabel(""));
         
         JPanel contentPanel = new JPanel (new GridLayout(4, 3));
-        contentPanel.setBackground(Color.lightGray);
+        contentPanel.setBackground(Color.decode("#D0CDC2"));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         contentPanel.add(new JLabel(""));
         JButton btnMoins12 = new JButton("Mode enfant");
-        btnMoins12.setBackground(Color.lightGray);
+        btnMoins12.setBackground(Color.decode("#2FB94F"));
         btnMoins12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +99,7 @@ public class VueTournois extends Observable {
         contentPanel.add(new JLabel(""));
         contentPanel.add(new JLabel(""));
         JButton btnPlus12 = new JButton("Mode adulte");
-        btnPlus12.setBackground(Color.lightGray);
+        btnPlus12.setBackground(Color.decode("#2FB9A6"));
         btnPlus12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,7 +112,7 @@ public class VueTournois extends Observable {
         contentPanel.add(new JLabel(""));
         contentPanel.add(new JLabel(""));
         JButton btnRègles = new JButton("Règles");
-        btnRègles.setBackground(Color.lightGray);
+        btnRègles.setBackground(Color.decode("#CAD02B"));
         btnRègles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,7 +126,7 @@ public class VueTournois extends Observable {
         contentPanel.add(new JLabel(""));
         
         JButton btnQuitter = new JButton("Quitter le jeu");
-        btnQuitter.setBackground(Color.lightGray);
+        btnQuitter.setBackground(Color.decode("#D73535"));
         btnQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
