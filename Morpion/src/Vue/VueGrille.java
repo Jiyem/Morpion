@@ -16,12 +16,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -258,9 +264,50 @@ public class VueGrille extends Observable {
         if (message.getNumGrille() == 1) {
             bouton1.setText(message.NouvEtatCase());
             grille.put(1, message.getEtat());
+        BufferedImage master;
+        try {
+            master = ImageIO.read(new File(System.getProperty("user.dir") + "/src/images/next.png"));
+/*          // A utiliser si l'image doit être dimensionnée comme un bouton de taille prédéfinie
+            Dimension size = button.getSize();
+            Insets insets = button.getInsets();
+            size.width -= insets.left + insets.right;
+            size.height -= insets.top + insets.bottom;
+            if (size.width > size.height) {
+                size.width = -1;
+            } else {
+                size.height = -1;
+            } */
+
+            // On impose une taille de 18px * 18px à l'image
+            Image scaled = master.getScaledInstance(28, 28, java.awt.Image.SCALE_SMOOTH);
+            bouton1.setIcon(new ImageIcon(scaled));
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
         } else if (message.getNumGrille() == 2) {
             bouton2.setText(message.NouvEtatCase());
             grille.put(2, message.getEtat());
+            BufferedImage master;
+            try {
+                master = ImageIO.read(new File(System.getProperty("user.dir") + "/src/images/croix.png"));
+    /*          // A utiliser si l'image doit être dimensionnée comme un bouton de taille prédéfinie
+                Dimension size = button.getSize();
+                Insets insets = button.getInsets();
+                size.width -= insets.left + insets.right;
+                size.height -= insets.top + insets.bottom;
+                if (size.width > size.height) {
+                    size.width = -1;
+                } else {
+                    size.height = -1;
+                } */
+
+                // On impose une taille de 18px * 18px à l'image
+                bouton1.setIcon(new ImageIcon(master));
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }            
+            
+            
         } else if (message.getNumGrille() == 3) {
             bouton3.setText(message.NouvEtatCase());
             grille.put(3, message.getEtat());
