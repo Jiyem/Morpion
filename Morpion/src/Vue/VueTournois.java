@@ -17,6 +17,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -67,22 +68,24 @@ public class VueTournois extends Observable {
         
         JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
-        panelHaut.setBackground(Color.decode("#D0CDC2"));
+        panelHaut.setBackground(Color.decode("#FCFAE1")); //le beige
         
         panelHaut.add(new JLabel(""));
-        JLabel titre = new JLabel("Tournois de morpion",SwingConstants.CENTER);
+        JLabel titre = new JLabel("Tournois de morpion",SwingConstants.CENTER);        
+        
         titre.setFont(new Font("Arial",Font.BOLD,20));
-        titre.setForeground(Color.red);
+        titre.setForeground(Color.decode("#731D6B"));
         panelHaut.add(titre);
         panelHaut.add(new JLabel(""));
         panelHaut.add(new JLabel(""));
         JLabel sousTitre = new JLabel("2 à 20 joueurs",SwingConstants.CENTER);
         sousTitre.setFont(new Font("Arial",Font.BOLD,10));
+        sousTitre.setForeground(Color.decode("#ED9CE5"));
         panelHaut.add(sousTitre);
         panelHaut.add(new JLabel(""));
         
         JPanel contentPanel = new JPanel (new GridLayout(4, 3));
-        contentPanel.setBackground(Color.decode("#D0CDC2"));
+        contentPanel.setBackground(Color.decode("#FCFAE1"));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         contentPanel.add(new JLabel(""));
@@ -100,7 +103,7 @@ public class VueTournois extends Observable {
         contentPanel.add(new JLabel(""));
         contentPanel.add(new JLabel(""));
         JButton btnPlus12 = new JButton("Mode adulte");
-        btnPlus12.setBackground(Color.decode("#2FB9A6"));
+        btnPlus12.setBackground(Color.decode("#046380")); //Bleu adulte
         btnPlus12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,10 +142,10 @@ public class VueTournois extends Observable {
         contentPanel.add(btnQuitter);
         contentPanel.add(new JLabel(""));
         
-//        JPanel botPanel = new JPanel (new GridLayout(1,1));
-//        contentPanel.setBackground(Color.lightGray);
-//        mainPanel.add(botPanel, BorderLayout.CENTER);
-//        botPanel.add(new JLabel(""));
+        JPanel botPanel = new JPanel (new GridLayout(1,1));
+        mainPanel.add(botPanel, BorderLayout.SOUTH);
+        botPanel.add(new JLabel("                           "));
+        botPanel.setBackground(Color.decode("#FCFAE1"));
         
                
         }
@@ -231,18 +234,35 @@ public class VueTournois extends Observable {
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
         
-        JPanel panelHaut = new JPanel(new GridLayout(1,2)) ;
+        JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
-        
-        panelHaut.add(new JLabel("Nombre de joueurs"));
+        panelHaut.add(new JLabel(""));
+        JLabel nombreJoueurs = new JLabel("Nombre de joueurs :",SwingConstants.CENTER);
+        panelHaut.setBackground(Color.decode("#046380"));
+        nombreJoueurs.setFont(new Font("Arial",Font.BOLD,20));
+        nombreJoueurs.setForeground(Color.decode("#FEFEFE"));
+        panelHaut.add(nombreJoueurs);
+        panelHaut.add(new JLabel(""));
+        panelHaut.add(new JLabel(""));
+        panelHaut.add(erreur);
+        panelHaut.add(new JLabel(""));
         JTextField nbJoueurs = new JTextField();
-        panelHaut.add(nbJoueurs);
         
-        JPanel panelMid = new JPanel();
+        JPanel panelMid = new JPanel(new GridLayout(5,4));
+        panelMid.setBackground(Color.decode("#046380"));
         mainPanel.add(panelMid, BorderLayout.CENTER);
-        panelMid.add(erreur);        
+        
+        for(int i = 0;i<25;i++){
+           if(i == 12){
+                panelMid.add(nbJoueurs);
+           }else{
+                panelMid.add(new JLabel(""));                
+           }           
+        }
+        
              
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
+        bottomPanel.setBackground(Color.decode("#046380"));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
         JButton btnQuitter = new JButton("Quitter");
@@ -255,6 +275,7 @@ public class VueTournois extends Observable {
             }
         });
         bottomPanel.add(btnQuitter);
+        btnQuitter.setBackground(Color.decode("#D73535"));
 
 
         JButton btnRegles = new JButton("Règles");
@@ -267,7 +288,7 @@ public class VueTournois extends Observable {
             }
         });
         bottomPanel.add(btnRegles);
-        
+        btnRegles.setBackground(Color.decode("#CAD02B"));        
         bottomPanel.add(new JLabel(""));
         
         JButton btnSuivant = new JButton("Suivant");
@@ -280,6 +301,7 @@ public class VueTournois extends Observable {
             }
         });
         bottomPanel.add(btnSuivant);
+        btnSuivant.setBackground(Color.decode("#2FB94F"));
         }
        
         else {

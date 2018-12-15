@@ -7,6 +7,7 @@ package Vue;
 
 import utilitaire.Actions;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.PopupMenu;
@@ -55,22 +56,28 @@ public class VueInscription extends Observable {
             mainPanel.add(panelHaut, BorderLayout.NORTH);
         
             numJoueur = new JLabel();
+            numJoueur.setBackground(Color.getColor("#FEFEFE"));
             panelHaut.add(numJoueur);
+            panelHaut.setBackground(Color.decode("#046380"));
         
             JPanel panelMid = new JPanel(new GridLayout(6,4));
             mainPanel.add(panelMid, BorderLayout.CENTER);
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             }
-            panelMid.add(new JLabel("Pseudo du joueur"));
+            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur");
+            pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
+            panelMid.add(pseudoJoueurL);
             JTextField pseudoJoueur = new JTextField();
             panelMid.add(pseudoJoueur);
+            panelMid.setBackground(Color.decode("#046380"));
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             } 
         
              
             JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+            bottomPanel.setBackground(Color.decode("#046380"));
             mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
             JButton btnQuitter = new JButton("Quitter");
@@ -83,6 +90,7 @@ public class VueInscription extends Observable {
                 }
             });
             bottomPanel.add(btnQuitter);
+            btnQuitter.setBackground(Color.decode("#D73535"));
         
             JButton btnSuivant = new JButton("Suivant");
             btnSuivant.addActionListener(new ActionListener() {
@@ -93,7 +101,8 @@ public class VueInscription extends Observable {
                     clearChanged();
                 }
             });
-            bottomPanel.add(btnSuivant);            
+            bottomPanel.add(btnSuivant);
+            btnSuivant.setBackground(Color.decode("#2FB94F"));
             }
         else{
             //Interface pour l'initialisation des joueurs
@@ -109,6 +118,7 @@ public class VueInscription extends Observable {
         
             JPanel panelHaut = new JPanel() ;
             mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#046380"));
         
             numJoueur = new JLabel();
             panelHaut.add(numJoueur);
@@ -118,15 +128,19 @@ public class VueInscription extends Observable {
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             }
-            panelMid.add(new JLabel("Pseudo du joueur"));
+            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur");
+            pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
+            panelMid.add(pseudoJoueurL);
             JTextField pseudoJoueur = new JTextField();
             panelMid.add(pseudoJoueur);
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             } 
+            panelMid.setBackground(Color.decode("#046380"));
     
             JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
             mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+            bottomPanel.setBackground(Color.decode("#046380"));
         
             JButton btnQuitter = new JButton("Précédent");
             btnQuitter.addActionListener(new ActionListener() {
@@ -138,6 +152,7 @@ public class VueInscription extends Observable {
                 }
             });
             bottomPanel.add(btnQuitter);
+            btnQuitter.setBackground(Color.decode("#D73535"));
         
             JButton btnSuivant = new JButton("Terminer");
             btnSuivant.addActionListener(new ActionListener() {
@@ -149,6 +164,7 @@ public class VueInscription extends Observable {
              }
         });
         bottomPanel.add(btnSuivant);
+        btnSuivant.setBackground(Color.decode("#2FB94F"));
         }
     }
     
@@ -167,8 +183,10 @@ public class VueInscription extends Observable {
         
         JPanel panelHaut = new JPanel() ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
+        panelHaut.setBackground(Color.decode("#046380"));
         
         numJoueur = new JLabel();
+        numJoueur.setBackground(Color.getColor("#FEFEFE"));
         panelHaut.add(numJoueur);
         
         JPanel panelMid = new JPanel(new GridLayout(6,4));
@@ -176,15 +194,19 @@ public class VueInscription extends Observable {
         for(int i = 0;i < 9;i++){
             panelMid.add(new JLabel(""));
         }
-        panelMid.add(new JLabel("Pseudo du joueur "));
+        JLabel pseudoJoueurL = new JLabel("Pseudo du joueur");
+        pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
+        panelMid.add(pseudoJoueurL);
         JTextField pseudoJoueur = new JTextField();
         panelMid.add(pseudoJoueur);
         for(int i = 0;i < 9;i++){
             panelMid.add(new JLabel(""));
         } 
+        panelMid.setBackground(Color.decode("#046380"));
     
         JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        bottomPanel.setBackground(Color.decode("#046380"));
         
         JButton btnQuitter = new JButton("Précédent");
         btnQuitter.addActionListener(new ActionListener() {
@@ -196,6 +218,7 @@ public class VueInscription extends Observable {
             }
         });
         bottomPanel.add(btnQuitter);
+        btnQuitter.setBackground(Color.decode("#D73535"));
         
         JButton btnSuivant = new JButton("Suivant");
         btnSuivant.addActionListener(new ActionListener() {
@@ -206,7 +229,8 @@ public class VueInscription extends Observable {
                 clearChanged();
             }
         });
-        bottomPanel.add(btnSuivant);            
+        bottomPanel.add(btnSuivant);
+        btnSuivant.setBackground(Color.decode("#2FB94F"));
         }
     
     public void afficher() {
@@ -219,6 +243,7 @@ public class VueInscription extends Observable {
     
     public void show(int nbJoueur){
         numJoueur.setText("Joueur n°"+nbJoueur);
+        numJoueur.setForeground(Color.getColor("#FEFEFE"));
 //        champPrenom.setText();
 //        champAge.setText();
 //        radioHomme.setSelected();
