@@ -17,7 +17,9 @@ public class Match {
     private Joueur joueur2;
     private EtatCase signe1 = X;
     private EtatCase signe2 = O;
-    private Joueur vainqueur;
+     private EtatMatch finmatch;
+    private Joueur gagnant;
+    private Joueur perdant;
     
     public Match(Joueur j1, Joueur j2){
         this.joueur1 = j1;
@@ -81,17 +83,45 @@ public class Match {
     }
 
     /**
-     * @return the vainqueur
+     * @return the finmatch
      */
-    public Joueur getVainqueur() {
-        return vainqueur;
+    public EtatMatch getFinmatch() {
+        return finmatch;
     }
 
     /**
-     * @param vainqueur the vainqueur to set
+     * @param finmatch the finmatch to set
      */
-    public void setVainqueur(Joueur vainqueur) {
-        this.vainqueur = vainqueur;
+    public void setFinmatch(EtatMatch finmatch) {
+        this.finmatch = finmatch;
+    }
+
+    /**
+     * @return the gagnant
+     */
+    public Joueur getGagnant() {
+        return gagnant;
+    }
+
+    /**
+     * @param gagnant the gagnant to set
+     */
+    public void setGagnant(Joueur gagnant) {
+        this.gagnant = gagnant;
+    }
+
+    /**
+     * @return the perdant
+     */
+    public Joueur getPerdant() {
+        return perdant;
+    }
+
+    /**
+     * @param perdant the perdant to set
+     */
+    public void setPerdant(Joueur perdant) {
+        this.perdant = perdant;
     }
     
     

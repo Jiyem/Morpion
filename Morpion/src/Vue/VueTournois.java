@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import Modèle.EtatMatch;
 import Modèle.Match;
 import utilitaire.Actions;
 import java.awt.BorderLayout;
@@ -317,10 +318,12 @@ public class VueTournois extends Observable {
             mainPanel.add(panelCentre, BorderLayout.CENTER);
             mainPanel.add(panelBas, BorderLayout.SOUTH);
             panelCentre.add(new JLabel(""));
-            CombatDesJoueurs = new JLabel("Le match opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom());
            
+            panelCentre.add(new JLabel(""));
+            CombatDesJoueurs = new JLabel("Le match prochain opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom());
             panelCentre.add(CombatDesJoueurs);
             panelCentre.add(new JLabel(""));
+            
             panelCentre.add(new JLabel(""));
             JButton jouer = new JButton("Jouer le match");
             panelCentre.add(jouer);
@@ -331,7 +334,15 @@ public class VueTournois extends Observable {
                     });
             panelCentre.add(new JLabel(""));
             panelCentre.add(new JLabel(""));
-            panelCentre.add(new JLabel(""));
+            if(matchCourant > 1){
+               if(matchs.get(matchCourant-1).getFinmatch() == EtatMatch.Victoire){
+                   panelCentre.add(new JLabel("Ancien match : Victoire de " + matchs.get(matchCourant-1).getGagnant().getNom() + " sur " + matchs.get(matchCourant-1).getPerdant().getNom()));
+               }
+               else{
+                   panelCentre.add(new JLabel("Ancien match : Egalité entre " + matchs.get(matchCourant-1).getJoueur1().getNom()+ " et" + matchs.get(matchCourant-1).getJoueur2().getNom()));
+               }
+            }
+            else {panelCentre.add(new JLabel(""));}
             panelCentre.add(new JLabel(""));
             
             JButton quitter = new JButton("Quitter");

@@ -251,13 +251,27 @@ public class Controleur implements Observer {
                         if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){ //S'il y a une victoire
                             System.out.print("VOUS AVEZ GAGNE");
                             matchs.get(matchCourant).getJoueur1().addPoints(3);
-//                            v4.close();
+                            v4.close();
+                            matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur1());
+                            matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
+                            matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
+                            matchCourant = matchCourant +1;
+                            v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                            v1.addObserver(this);
+                            v1.afficher();
                         }
                         else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){ //S'il il y a une egalité
                             System.out.print("Egalité");
                             matchs.get(matchCourant).getJoueur1().addPoints(1);
                             matchs.get(matchCourant).getJoueur2().addPoints(1);
-//                            v4.close();
+                            v4.close();
+                            matchs.get(matchCourant).setGagnant(null);
+                            matchs.get(matchCourant).setPerdant(null);
+                            matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
+                            matchCourant = matchCourant+1;
+                            v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                            v1.addObserver(this);
+                            v1.afficher();
                         }
                     }    
                     else{
@@ -266,7 +280,14 @@ public class Controleur implements Observer {
                         if (v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){ //S'il y a une victoire
                             System.out.print("VOUS AVEZ GAGNE");
                             matchs.get(matchCourant).getJoueur2().addPoints(3);
-//                            v4.close();
+                            v4.close();
+                            matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur2());
+                            matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
+                            matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
+                            matchCourant = matchCourant +1;
+                            v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                            v1.addObserver(this);
+                            v1.afficher();
                         }
                         else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){ //S'il il y a une egalité
                             System.out.print("Egalité");
