@@ -15,6 +15,7 @@ import Modèle.Joueur;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -87,54 +88,63 @@ public class VueGrille extends Observable {
         //Création des boutons du morpion !
         bouton1 = new JButton("");
         bouton1.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton1.setFont(new Font("Arial",Font.PLAIN,50));
         bouton1.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton1);
         grille.put(1, EtatCase.NON_COCHEE);
 
         bouton2 = new JButton("");
         bouton2.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton2.setFont(new Font("Arial",Font.PLAIN,50));
         bouton2.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton2);
         grille.put(2, EtatCase.NON_COCHEE);
 
         bouton3 = new JButton("");
         bouton3.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton3.setFont(new Font("Arial",Font.PLAIN,50));
         bouton3.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton3);
         grille.put(3, EtatCase.NON_COCHEE);
 
         bouton4 = new JButton("");
         bouton4.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton4.setFont(new Font("Arial",Font.PLAIN,50));
         bouton4.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton4);
         grille.put(4, EtatCase.NON_COCHEE);
 
         bouton5 = new JButton("");
         bouton5.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton5.setFont(new Font("Arial",Font.PLAIN,50));
         bouton5.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton5);
         grille.put(5, EtatCase.NON_COCHEE);
 
         bouton6 = new JButton("");
         bouton6.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton6.setFont(new Font("Arial",Font.PLAIN,50));
         bouton6.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton6);
         grille.put(6, EtatCase.NON_COCHEE);
 
         bouton7 = new JButton("");
         bouton7.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton7.setFont(new Font("Arial",Font.PLAIN,50));
         bouton7.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton7);
         grille.put(7, EtatCase.NON_COCHEE);
 
         bouton8 = new JButton("");
         bouton8.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton8.setFont(new Font("Arial",Font.PLAIN,50));
         bouton8.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton8);
         grille.put(8, EtatCase.NON_COCHEE);
 
         bouton9 = new JButton("");
         bouton9.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton9.setFont(new Font("Arial",Font.PLAIN,50));
         bouton9.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton9);
         grille.put(9, EtatCase.NON_COCHEE);
