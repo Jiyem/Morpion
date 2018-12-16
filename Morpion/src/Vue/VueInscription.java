@@ -41,14 +41,14 @@ public class VueInscription extends Observable {
     //Vue pour le premier joueur
     public VueInscription(GestionVue message){
         if(message == PremierInscrit){
-            //Interface pour l'initialisation des joueurs
+            //Interface pour l'initialisation du PREMIER joueur
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-        
+            window.setTitle("Tournoi morpion : Inscription des joueurs");
             JPanel mainPanel = new JPanel(new BorderLayout());
             window.add(mainPanel) ;
         
@@ -58,26 +58,26 @@ public class VueInscription extends Observable {
             numJoueur = new JLabel();
             numJoueur.setBackground(Color.getColor("#FEFEFE"));
             panelHaut.add(numJoueur);
-            panelHaut.setBackground(Color.decode("#046380"));
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
         
             JPanel panelMid = new JPanel(new GridLayout(6,4));
             mainPanel.add(panelMid, BorderLayout.CENTER);
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             }
-            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur");
-            pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
+            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur : ");
+//            pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
             panelMid.add(pseudoJoueurL);
             JTextField pseudoJoueur = new JTextField();
             panelMid.add(pseudoJoueur);
-            panelMid.setBackground(Color.decode("#046380"));
+            panelMid.setBackground(Color.decode("#FBEEE4"));
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             } 
         
              
-            JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
-            bottomPanel.setBackground(Color.decode("#046380"));
+            JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
+            bottomPanel.setBackground(Color.decode("#FBEEE4"));
             mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
             JButton btnQuitter = new JButton("Quitter");
@@ -91,7 +91,11 @@ public class VueInscription extends Observable {
             });
             bottomPanel.add(btnQuitter);
             btnQuitter.setBackground(Color.decode("#D73535"));
-        
+            btnQuitter.setForeground(Color.decode("#FFFFFF"));
+
+            
+            bottomPanel.add(new JLabel(""));
+            bottomPanel.add(new JLabel(""));
             JButton btnSuivant = new JButton("Suivant");
             btnSuivant.addActionListener(new ActionListener() {
                 @Override
@@ -102,23 +106,25 @@ public class VueInscription extends Observable {
                 }
             });
             bottomPanel.add(btnSuivant);
-            btnSuivant.setBackground(Color.decode("#2FB94F"));
+            btnSuivant.setBackground(Color.decode("#008000"));
+            btnSuivant.setForeground(Color.decode("#FFFFFF"));
             }
         else{
-            //Interface pour l'initialisation des joueurs
+            //Interface pour l'initialisation du DERNIER joueur
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-        
+            window.setTitle("Tournoi morpion : Inscription des joueurs");
             JPanel mainPanel = new JPanel(new BorderLayout());
             window.add(mainPanel) ;
+            
         
             JPanel panelHaut = new JPanel() ;
             mainPanel.add(panelHaut, BorderLayout.NORTH);
-            panelHaut.setBackground(Color.decode("#046380"));
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
         
             numJoueur = new JLabel();
             panelHaut.add(numJoueur);
@@ -128,7 +134,7 @@ public class VueInscription extends Observable {
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             }
-            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur");
+            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur : ");
             pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
             panelMid.add(pseudoJoueurL);
             JTextField pseudoJoueur = new JTextField();
@@ -136,11 +142,11 @@ public class VueInscription extends Observable {
             for(int i = 0;i < 9;i++){
                 panelMid.add(new JLabel(""));
             } 
-            panelMid.setBackground(Color.decode("#046380"));
+            panelMid.setBackground(Color.decode("#FBEEE4"));
     
-            JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+            JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
             mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-            bottomPanel.setBackground(Color.decode("#046380"));
+            bottomPanel.setBackground(Color.decode("#FBEEE4"));
         
             JButton btnQuitter = new JButton("Précédent");
             btnQuitter.addActionListener(new ActionListener() {
@@ -153,7 +159,9 @@ public class VueInscription extends Observable {
             });
             bottomPanel.add(btnQuitter);
             btnQuitter.setBackground(Color.decode("#D73535"));
-        
+            btnQuitter.setForeground(Color.decode("#FFFFFF"));
+            bottomPanel.add(new JLabel(""));
+            bottomPanel.add(new JLabel(""));
             JButton btnSuivant = new JButton("Terminer");
             btnSuivant.addActionListener(new ActionListener() {
             @Override
@@ -164,26 +172,28 @@ public class VueInscription extends Observable {
              }
         });
         bottomPanel.add(btnSuivant);
-        btnSuivant.setBackground(Color.decode("#2FB94F"));
+        btnSuivant.setBackground(Color.decode("#008000"));
+        btnSuivant.setForeground(Color.decode("#FFFFFF"));
         }
     }
     
     //Vue pour les joueurs suivants
     public VueInscription(){
-        //Interface pour l'initialisation des joueurs
+        //Interface pour l'initialisation des joueurs allant de 2 à n-1
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(800, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+        window.setTitle("Tournoi morpion : Inscription des joueurs");
         
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
         
         JPanel panelHaut = new JPanel() ;
         mainPanel.add(panelHaut, BorderLayout.NORTH);
-        panelHaut.setBackground(Color.decode("#046380"));
+        panelHaut.setBackground(Color.decode("#FBEEE4"));
         
         numJoueur = new JLabel();
         numJoueur.setBackground(Color.getColor("#FEFEFE"));
@@ -202,11 +212,11 @@ public class VueInscription extends Observable {
         for(int i = 0;i < 9;i++){
             panelMid.add(new JLabel(""));
         } 
-        panelMid.setBackground(Color.decode("#046380"));
+        panelMid.setBackground(Color.decode("#FBEEE4"));
     
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-        bottomPanel.setBackground(Color.decode("#046380"));
+        bottomPanel.setBackground(Color.decode("#FBEEE4"));
         
         JButton btnQuitter = new JButton("Précédent");
         btnQuitter.addActionListener(new ActionListener() {
@@ -219,7 +229,9 @@ public class VueInscription extends Observable {
         });
         bottomPanel.add(btnQuitter);
         btnQuitter.setBackground(Color.decode("#D73535"));
-        
+        btnQuitter.setForeground(Color.decode("#FFFFFF"));
+        bottomPanel.add(new JLabel(""));
+        bottomPanel.add(new JLabel(""));
         JButton btnSuivant = new JButton("Suivant");
         btnSuivant.addActionListener(new ActionListener() {
             @Override
@@ -230,7 +242,8 @@ public class VueInscription extends Observable {
             }
         });
         bottomPanel.add(btnSuivant);
-        btnSuivant.setBackground(Color.decode("#2FB94F"));
+        btnSuivant.setBackground(Color.decode("#008000"));
+        btnSuivant.setForeground(Color.decode("#FFFFFF"));
         }
     
     public void afficher() {

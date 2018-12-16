@@ -56,70 +56,86 @@ public class VueGrille extends Observable {
     private JButton bouton9;
 
     public VueGrille(int numMatch, Joueur joueur1, Joueur joueur2) {
-        joueurCourant = new JLabel("C'est au tour de " + joueur1.getNom());
+        
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(800, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
-
+        window.setTitle("Tournoi de morpion : match numero " + numMatch + " : " + joueur1.getNom() + " contre " + joueur2.getNom());
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
 
-        JPanel panelHaut = new JPanel(new GridLayout(2, 1));
+        JPanel panelHaut = new JPanel(new GridLayout(2, 3));
         mainPanel.add(panelHaut, BorderLayout.NORTH);
-
-        panelHaut.add(new JLabel("Match n°" + numMatch + " " + joueur1.getNom() + " contre " + joueur2.getNom()));
-
+        panelHaut.setBackground(Color.decode("#FBEEE4"));
+        panelHaut.add(new JLabel(joueur1.getNom(),SwingConstants.CENTER));
+        joueurCourant = new JLabel("C'est au tour de " + joueur1.getNom(),SwingConstants.CENTER);
         panelHaut.add(joueurCourant);
+        panelHaut.add(new JLabel(joueur2.getNom(),SwingConstants.CENTER));
+        panelHaut.add(new JLabel("Signe: X",SwingConstants.CENTER));
+        panelHaut.add(new JLabel(""));
+        panelHaut.add(new JLabel("Signe: O",SwingConstants.CENTER));
+        
+
 
         JPanel panelMid = new JPanel(new GridLayout(3, 3));
+        panelMid.setBackground(Color.decode("#FBEEE4"));
         mainPanel.add(panelMid, BorderLayout.CENTER);
 
         //Création des boutons du morpion !
         bouton1 = new JButton("");
-        bouton1.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton1.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton1.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton1);
         grille.put(1, EtatCase.NON_COCHEE);
 
         bouton2 = new JButton("");
-        bouton2.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton2.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton2.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton2);
         grille.put(2, EtatCase.NON_COCHEE);
 
         bouton3 = new JButton("");
-        bouton3.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton3.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton3.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton3);
         grille.put(3, EtatCase.NON_COCHEE);
 
         bouton4 = new JButton("");
-        bouton4.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton4.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton4.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton4);
         grille.put(4, EtatCase.NON_COCHEE);
 
         bouton5 = new JButton("");
-        bouton5.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton5.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton5.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton5);
         grille.put(5, EtatCase.NON_COCHEE);
 
         bouton6 = new JButton("");
-        bouton6.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton6.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton6.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton6);
         grille.put(6, EtatCase.NON_COCHEE);
 
         bouton7 = new JButton("");
-        bouton7.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton7.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton7.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton7);
         grille.put(7, EtatCase.NON_COCHEE);
 
         bouton8 = new JButton("");
-        bouton8.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton8.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton8.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton8);
         grille.put(8, EtatCase.NON_COCHEE);
 
         bouton9 = new JButton("");
-        bouton9.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        bouton9.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+        bouton9.setBackground(Color.decode("#FFFFFF"));
         panelMid.add(bouton9);
         grille.put(9, EtatCase.NON_COCHEE);
 
@@ -207,19 +223,12 @@ public class VueGrille extends Observable {
         });
 
         //Fin des events de clic sur bouton
-        JPanel panelGauche = new JPanel();
-        mainPanel.add(panelGauche, BorderLayout.WEST);
-        panelGauche.add(new JLabel(joueur1.getNom()));
-        panelGauche.add(new JLabel("Signe: X"));
 
-        JPanel panelDroite = new JPanel();
-        mainPanel.add(panelDroite, BorderLayout.EAST);
-        panelDroite.add(new JLabel(joueur2.getNom()));
-        panelDroite.add(new JLabel("Signe: O"));
 
-        JPanel panelSud = new JPanel(new GridLayout(1, 3));
+        JPanel panelSud = new JPanel(new GridLayout(1, 4));
         mainPanel.add(panelSud, BorderLayout.SOUTH);
-
+        panelSud.setBackground(Color.decode("#FBEEE4"));
+        
         JButton btnQuitter = new JButton("Quitter");
         btnQuitter.addActionListener(new ActionListener() {
             @Override
@@ -229,21 +238,14 @@ public class VueGrille extends Observable {
                 clearChanged();
             }
         });
+        btnQuitter.setBackground(Color.decode("#D73535"));
+        btnQuitter.setForeground(Color.decode("#FFFFFF"));
+        
         panelSud.add(btnQuitter);
-
         panelSud.add(new JLabel(""));
-
-        JButton btnVoirClassement = new JButton("Classement");
-        btnVoirClassement.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers();
-                clearChanged();
-            }
-            
-        });
-        panelSud.add(btnVoirClassement);
+        panelSud.add(new JLabel(""));
+        panelSud.add(new JLabel(""));
+       
 
     }
 

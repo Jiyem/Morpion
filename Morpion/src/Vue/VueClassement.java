@@ -17,8 +17,20 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Observable;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -62,6 +74,7 @@ public class VueClassement extends Observable{
         this.window.add(mainPanel);
         
         contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
+        contentPanel.setBackground(Color.decode("#FBEEE4"));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         contentPanel.add(new JLabel("Nom du joueur"));
         contentPanel.add(new JLabel("Numero de place"));
@@ -100,6 +113,7 @@ public class VueClassement extends Observable{
             
         }
         bottomPanel = new JPanel(new GridLayout(1, 4));
+        bottomPanel.setBackground(Color.decode("#FBEEE4"));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         bottomPanel.add(btnretour= new JButton("Retour"));
         btnretour.addActionListener((ActionEvent e) -> {
@@ -107,11 +121,13 @@ public class VueClassement extends Observable{
             notifyObservers(new MessageClassement(v1,GestionVue.Menu));
             clearChanged();
         });
+        btnretour.setBackground(Color.decode("#D73535"));
+        btnretour.setForeground(Color.decode("#FFFFFF"));
         bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));
         
         }
         else if(v1 == Plus12 && e1 == EtatTournoi.Termine){
-            this.window = new JFrame();
+        this.window = new JFrame();
         window.setSize(350, 200);
         //le titre = nom du joueur 
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -124,12 +140,13 @@ public class VueClassement extends Observable{
         this.window.add(mainPanel);
         
         contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
+        contentPanel.setBackground(Color.decode("#FBEEE4"));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
         contentPanel.add(new JLabel("Nom du joueur"));
         contentPanel.add(new JLabel("Numero de place"));
-        contentPanel.add(new JLabel("Nombre de points"));
-       for(int i = 0;i < listejoueur.size();i++){
-            JLabel place =  new JLabel("Place n°" + (i+1));
+        contentPanel.add(new JLabel("Nombre de points"));       
+        for(int i = 0;i < listejoueur.size();i++){  
+            JLabel place =  new JLabel("Place n°"+(i+1));
             JLabel nom = new JLabel(listejoueur.get(i).getNom());
             JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"");
             contentPanel.add(nom);
