@@ -226,9 +226,7 @@ public class Controleur implements Observer {
                 
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Classement){
                    v1.close();
-                   v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
-                   v3.addObserver(this);
-                   v3.afficher();
+                   this.ClassementEnCours();
                 }
                 if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Quitter){
                     v1.close();
@@ -259,9 +257,7 @@ public class Controleur implements Observer {
                             matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
                             matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
                             if(matchCourant == nbMatch){
-                                etatTournoi = EtatTournoi.Termine;
-                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
-                                v3.afficher();
+                                this.ClassementFinal();
                             }
                             else {
                                 matchCourant = matchCourant+1;
@@ -279,9 +275,7 @@ public class Controleur implements Observer {
                             matchs.get(matchCourant).setPerdant(null);
                             matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
                             if(matchCourant == nbMatch){
-                                etatTournoi = EtatTournoi.Termine;
-                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
-                                v3.afficher();
+                                this.ClassementFinal();
                             }
                             else {
                                 matchCourant = matchCourant+1;
@@ -302,9 +296,7 @@ public class Controleur implements Observer {
                             matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
                             matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
                             if(matchCourant == nbMatch){
-                                etatTournoi = EtatTournoi.Termine;
-                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
-                                v3.afficher();
+                                this.ClassementFinal();
                             }
                             else {
                                 matchCourant = matchCourant+1;
@@ -322,9 +314,7 @@ public class Controleur implements Observer {
                             matchs.get(matchCourant).setPerdant(null);
                             matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
                             if(matchCourant == nbMatch){
-                                etatTournoi = EtatTournoi.Termine;
-                                v3 = new VueClassement(Plus12,lJoueurs,matchs,etatTournoi);
-                                v3.afficher();
+                                this.ClassementFinal();
                             }
                             else {
                                 matchCourant = matchCourant+1;
@@ -360,4 +350,77 @@ public class Controleur implements Observer {
             }
             
     }
+    
+    private void ClassementFinal(){
+        etatTournoi = EtatTournoi.Termine;
+        //Classement du nombre de joueurs
+        int maxPoints = 0;
+        int indiceMaxPoints = 0;
+        ArrayList<Joueur> lJoueursClassé = new ArrayList<>();
+        System.out.println("Ceci est un testtt");
+        System.out.println(maxJoueurs);
+        int x = 0;
+        for(int i = 0;i<maxJoueurs;i++){
+            System.out.println("je print i "+i);
+            while(x<lJoueurs.size()){
+                System.out.println("x : "+x);
+                System.out.println("lsize: "+lJoueurs.size());
+                if(lJoueurs.get(x).getNbpoints() > maxPoints){
+                    maxPoints = lJoueurs.get(x).getNbpoints();
+                    indiceMaxPoints = x;
+                }
+                x = x+1;
+            }                                 
+            //Maintenant qu'on a l'indice du joueur qui à fait le plus de points on va l'ajouter a l'arraylist classé
+            //et le retiré de l'arraylist des joueurs.
+            if(indiceMaxPoints < lJoueurs.size()){
+                lJoueursClassé.add(lJoueurs.get(indiceMaxPoints));
+                lJoueurs.remove(indiceMaxPoints);                                        
+            }
+            x=0;
+            maxPoints = 0;
+            indiceMaxPoints = 0;
+        }
+        //On créer la vue tournois avec les joueurs classé
+        v3 = new VueClassement(Plus12,lJoueursClassé,matchs,etatTournoi);
+        v3.afficher();
+    }
+    
+    private void ClassementEnCours(){
+        //Classement du nombre de joueurs
+        int maxPoints = 0;
+        int indiceMaxPoints = 0;
+        ArrayList<Joueur> lJoueursCopie = new ArrayList<>();
+        for(int i = 0;i<lJoueurs.size();i++){
+            lJoueursCopie.add(lJoueurs.get(i));
+        }
+        
+        
+        ArrayList<Joueur> lJoueursClassé = new ArrayList<>();
+        int x = 0;
+        for(int i = 0;i<maxJoueurs;i++){
+            while(x<lJoueursCopie.size()){
+                if(lJoueursCopie.get(x).getNbpoints() > maxPoints){
+                    maxPoints = lJoueursCopie.get(x).getNbpoints();
+                    indiceMaxPoints = x;
+                }
+                x = x+1;
+            }                                 
+            //Maintenant qu'on a l'indice du joueur qui à fait le plus de points on va l'ajouter a l'arraylist classé
+            //et le retiré de l'arraylist des joueurs.
+            if(indiceMaxPoints < lJoueursCopie.size()){
+                lJoueursClassé.add(lJoueursCopie.get(indiceMaxPoints));
+                lJoueursCopie.remove(indiceMaxPoints);                                        
+            }
+            x=0;
+            maxPoints = 0;
+            indiceMaxPoints = 0;
+        }
+        //On créer la vue tournois avec les joueurs classé
+        v3 = new VueClassement(Plus12,lJoueursClassé,matchs,etatTournoi);
+        v3.afficher();
+        v3.addObserver(this);
+    }
+    
+    
 }
