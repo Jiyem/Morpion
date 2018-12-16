@@ -16,6 +16,7 @@ import java.util.Observer;
 import Vue.VueClassement;
 import Vue.VueGrille;
 import Vue.VueInscription;
+import Vue.VueRegles;
 import Vue.VueTournois;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ import static utilitaire.GestionVue.Quitter;
 import utilitaire.MessageClassement;
 import utilitaire.MessageGrille;
 import utilitaire.MessageMenu;
+import utilitaire.MessageRegles;
 import utilitaire.MessageTournois;
 
 
@@ -50,6 +52,8 @@ public class Controleur implements Observer {
     private VueInscription v2 = new VueInscription();
     private VueClassement v3;
     private VueGrille v4;
+    private VueRegles v5;
+    
     private ArrayList<Joueur> lJoueurs = new ArrayList<>();
     private int compteurJoueurs = 1;
     private int maxJoueurs ;
@@ -93,6 +97,12 @@ public class Controleur implements Observer {
                 v1.addObserver(this);
                 v1.afficher();
             }
+        if(arg == "regles"){
+            v1.close();
+            v5 = new VueRegles();
+            v5.addObserver(this);
+            v5.afficher();
+        }
         
         // Contrôle pour la vue +12 ans de VueTournois :
         
@@ -322,7 +332,7 @@ public class Controleur implements Observer {
                                 v1.addObserver(this);
                                 v1.afficher();
                             }
-                                
+                               
                         }
                     }
                 }
@@ -348,6 +358,16 @@ public class Controleur implements Observer {
                 v1.addObserver(this);
                 v1.afficher();
             }
+            
+            //Gestion Regles
+            if(arg instanceof MessageRegles){
+                MessageRegles messageRegles = (MessageRegles) arg;
+                v5.close();
+                v1 = new VueTournois(GestionVue.Préparation,GestionVue.Moins12);
+                v1.addObserver(this);
+                v1.afficher();
+            }
+            
             
     }
     

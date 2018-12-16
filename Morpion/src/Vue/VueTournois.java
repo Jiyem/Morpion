@@ -129,7 +129,7 @@ public class VueTournois extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers();
+                notifyObservers("regles");
                 clearChanged();
             }
         });
