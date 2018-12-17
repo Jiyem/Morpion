@@ -37,6 +37,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import utilitaire.GestionVue;
 import static utilitaire.GestionVue.Plus12;
 import utilitaire.MessageClassement;
@@ -76,13 +77,13 @@ public class VueClassement extends Observable{
         contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
         contentPanel.setBackground(Color.decode("#FBEEE4"));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-        contentPanel.add(new JLabel("Nom du joueur"));
-        contentPanel.add(new JLabel("Numero de place"));
-        contentPanel.add(new JLabel("Nombre de points"));
+        contentPanel.add(new JLabel("Nom du joueur",SwingConstants.CENTER));
+        contentPanel.add(new JLabel("Numero de place",SwingConstants.CENTER));
+        contentPanel.add(new JLabel("Nombre de points",SwingConstants.CENTER));
        for(int i = 0;i < listejoueur.size();i++){
-            JLabel place =  new JLabel("Place n°" + (i+1));
-            JLabel nom = new JLabel(listejoueur.get(i).getNom());
-            JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"");
+            JLabel place =  new JLabel("Place n°" + (i+1),SwingConstants.CENTER);
+            JLabel nom = new JLabel(listejoueur.get(i).getNom(),SwingConstants.CENTER);
+            JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"",SwingConstants.CENTER);
             contentPanel.add(nom);
             contentPanel.add(place);
             contentPanel.add(nbpoints);
@@ -142,13 +143,13 @@ public class VueClassement extends Observable{
         contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
         contentPanel.setBackground(Color.decode("#FBEEE4"));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
-        contentPanel.add(new JLabel("Nom du joueur"));
-        contentPanel.add(new JLabel("Numero de place"));
-        contentPanel.add(new JLabel("Nombre de points"));       
+        contentPanel.add(new JLabel("Nom du joueur",SwingConstants.CENTER));
+        contentPanel.add(new JLabel("Numero de place",SwingConstants.CENTER));
+        contentPanel.add(new JLabel("Nombre de points",SwingConstants.CENTER));       
         for(int i = 0;i < listejoueur.size();i++){  
-            JLabel place =  new JLabel("Place n°"+(i+1));
-            JLabel nom = new JLabel(listejoueur.get(i).getNom());
-            JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"");
+            JLabel place =  new JLabel("Place n°"+(i+1),SwingConstants.CENTER);
+            JLabel nom = new JLabel(listejoueur.get(i).getNom(),SwingConstants.CENTER);
+            JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"",SwingConstants.CENTER);
             contentPanel.add(nom);
             contentPanel.add(place);
             contentPanel.add(nbpoints);
