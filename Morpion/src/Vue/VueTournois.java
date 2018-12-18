@@ -97,7 +97,7 @@ public class VueTournois extends Observable {
         contentPanel.add(new JLabel(""));
         
         JButton btnPlus12 = new JButton("Mode adulte");
-        btnPlus12.setBackground(Color.decode("#FFFFFF")); //Bleu adulte
+        btnPlus12.setBackground(Color.decode("#FFFFFF"));
         btnPlus12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,7 +169,7 @@ public class VueTournois extends Observable {
         window.setSize(800, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-        
+        window.setTitle("Tournoi morpion : inscription du nombre de joueurs");
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
         
@@ -177,12 +177,14 @@ public class VueTournois extends Observable {
         mainPanel.add(panelHaut, BorderLayout.NORTH);
         
         panelHaut.add(new JLabel("Nombre de joueurs : "));
-
+        panelHaut.setBackground(Color.decode("#FBEEE4"));    
         
-        JPanel contentPanel = new JPanel ();
+        JPanel contentPanel = new JPanel (new GridLayout(1, 1));
+        contentPanel.setBackground(Color.decode("#FBEEE4")); 
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 //        contentPanel.add(new JLabel("ici la barre (à ajouter)"));
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 20, 2);
+        slider.setBackground(Color.decode("#FBEEE4"));
         contentPanel.add(slider);
         slider.setMinorTickSpacing(1);
         slider.setMajorTickSpacing(2);
@@ -191,10 +193,14 @@ public class VueTournois extends Observable {
         slider.setLabelTable(slider.createStandardLabels(2));
         
         
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
+        bottomPanel.setBackground(Color.decode("#FBEEE4")); 
         JButton btnStop = new JButton("Stop");
+        btnStop.setBackground(Color.decode("#D73535"));
+        btnStop.setForeground(Color.decode("#FFFFFF"));
+        
         btnStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -219,6 +225,8 @@ public class VueTournois extends Observable {
         bottomPanel.add(new JLabel(""));
 
         JButton btnFleche = new JButton("-->");
+        btnFleche.setBackground(Color.decode("#008000"));
+        btnFleche.setForeground(Color.decode("#FFFFFF"));
         btnFleche.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -85,8 +85,8 @@ public class Controleur implements Observer {
 
         if(arg == "-12"){
                 v1.close();
-                age = Moins12;
-                v1 = new VueTournois(Préparation2,age);
+                age = Plus12; //CA C'EST DE LA CRABISTOUILLE DONC FAUDRA CHANGER
+                v1 = new VueTournois(Préparation2,Moins12);
                 v1.addObserver(this);
                 v1.afficher();
             }
