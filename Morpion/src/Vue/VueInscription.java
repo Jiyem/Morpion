@@ -14,6 +14,7 @@ import java.awt.PopupMenu;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -36,12 +37,13 @@ import utilitaire.MessageTournois;
  */
 public class VueInscription extends Observable {
     private final JFrame window ;
-    private JLabel numJoueur;
+    private JLabel erreur = new JLabel("");
     
     //Vue pour le premier joueur
-    public VueInscription(GestionVue message){
-        if(message == PremierInscrit){
-            //Interface pour l'initialisation du PREMIER joueur
+    public VueInscription(int nbJoueurs){
+            ArrayList<JTextField> flag = new ArrayList<>();
+            
+            
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
@@ -51,35 +53,17 @@ public class VueInscription extends Observable {
             window.setTitle("Tournoi morpion : Inscription des joueurs");
             JPanel mainPanel = new JPanel(new BorderLayout());
             window.add(mainPanel) ;
-        
-            JPanel panelHaut = new JPanel() ;
-            mainPanel.add(panelHaut, BorderLayout.NORTH);
-        
-            numJoueur = new JLabel();
-            numJoueur.setBackground(Color.getColor("#FEFEFE"));
-            panelHaut.add(numJoueur);
-            panelHaut.setBackground(Color.decode("#FBEEE4"));
-        
-            JPanel panelMid = new JPanel(new GridLayout(6,4));
-            mainPanel.add(panelMid, BorderLayout.CENTER);
-            for(int i = 0;i < 9;i++){
-                panelMid.add(new JLabel(""));
+            mainPanel.add(new JLabel("Inscription des joueurs :"),BorderLayout.NORTH);
+            JPanel midPanel = new JPanel(new GridLayout(nbJoueurs,2));
+            mainPanel.add(midPanel,BorderLayout.CENTER);
+            for(int i = 0;i<nbJoueurs;i++){
+                midPanel.add(new JLabel("Pseudo du joueur "+(i+1)+" :"));
+                JTextField saisie  = new JTextField();
+                flag.add(saisie);
+                midPanel.add(flag.get(i));
             }
-            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur : ");
-//            pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
-            panelMid.add(pseudoJoueurL);
-            JTextField pseudoJoueur = new JTextField();
-            panelMid.add(pseudoJoueur);
-            panelMid.setBackground(Color.decode("#FBEEE4"));
-            for(int i = 0;i < 9;i++){
-                panelMid.add(new JLabel(""));
-            } 
-        
-             
-            JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
-            bottomPanel.setBackground(Color.decode("#FBEEE4"));
-            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-        
+            JPanel botPanel = new JPanel(new GridLayout(1,3));
+            mainPanel.add(botPanel,BorderLayout.SOUTH);
             JButton btnQuitter = new JButton("Quitter");
             btnQuitter.addActionListener(new ActionListener() {
                 @Override
@@ -89,162 +73,24 @@ public class VueInscription extends Observable {
                     clearChanged();
                 }
             });
-            bottomPanel.add(btnQuitter);
-            btnQuitter.setBackground(Color.decode("#D73535"));
-            btnQuitter.setForeground(Color.decode("#FFFFFF"));
-
-            
-            bottomPanel.add(new JLabel(""));
-            bottomPanel.add(new JLabel(""));
             JButton btnSuivant = new JButton("Suivant");
             btnSuivant.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JSUIVANT));
+                    ArrayList<String> pseudos = new ArrayList<>();
+                    for(int i =0;i<flag.size();i++){
+                        pseudos.add(flag.get(i).getText());
+                    }
+                    notifyObservers(new MessageTournois(pseudos,Actions.JTERMINER));
                     clearChanged();
                 }
             });
-            bottomPanel.add(btnSuivant);
-            btnSuivant.setBackground(Color.decode("#008000"));
-            btnSuivant.setForeground(Color.decode("#FFFFFF"));
-            }
-        else{
-            //Interface pour l'initialisation du DERNIER joueur
-            window = new JFrame();
-            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-            // Définit la taille de la fenêtre en pixels
-            window.setSize(800, 300);
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-            window.setTitle("Tournoi morpion : Inscription des joueurs");
-            JPanel mainPanel = new JPanel(new BorderLayout());
-            window.add(mainPanel) ;
+            botPanel.add(btnQuitter);
+            botPanel.add(erreur);
+            botPanel.add(btnSuivant);
             
-        
-            JPanel panelHaut = new JPanel() ;
-            mainPanel.add(panelHaut, BorderLayout.NORTH);
-            panelHaut.setBackground(Color.decode("#FBEEE4"));
-        
-            numJoueur = new JLabel();
-            panelHaut.add(numJoueur);
-        
-            JPanel panelMid = new JPanel(new GridLayout(6,4));
-            mainPanel.add(panelMid, BorderLayout.CENTER);
-            for(int i = 0;i < 9;i++){
-                panelMid.add(new JLabel(""));
-            }
-            JLabel pseudoJoueurL = new JLabel("Pseudo du joueur : ");
-            pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
-            panelMid.add(pseudoJoueurL);
-            JTextField pseudoJoueur = new JTextField();
-            panelMid.add(pseudoJoueur);
-            for(int i = 0;i < 9;i++){
-                panelMid.add(new JLabel(""));
-            } 
-            panelMid.setBackground(Color.decode("#FBEEE4"));
-    
-            JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
-            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-            bottomPanel.setBackground(Color.decode("#FBEEE4"));
-        
-            JButton btnQuitter = new JButton("Précédent");
-            btnQuitter.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    setChanged();
-                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JPRECEDENT));
-                    clearChanged();
-                }
-            });
-            bottomPanel.add(btnQuitter);
-            btnQuitter.setBackground(Color.decode("#D73535"));
-            btnQuitter.setForeground(Color.decode("#FFFFFF"));
-            bottomPanel.add(new JLabel(""));
-            bottomPanel.add(new JLabel(""));
-            JButton btnSuivant = new JButton("Terminer");
-            btnSuivant.addActionListener(new ActionListener() {
-            @Override
-                public void actionPerformed(ActionEvent e) {
-                    setChanged();
-                    notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JTERMINER,GestionVue.Menu));
-                    clearChanged();
-             }
-        });
-        bottomPanel.add(btnSuivant);
-        btnSuivant.setBackground(Color.decode("#008000"));
-        btnSuivant.setForeground(Color.decode("#FFFFFF"));
-        }
     }
-    
-    //Vue pour les joueurs suivants
-    public VueInscription(){
-        //Interface pour l'initialisation des joueurs allant de 2 à n-1
-        window = new JFrame();
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        // Définit la taille de la fenêtre en pixels
-        window.setSize(800, 300);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-        window.setTitle("Tournoi morpion : Inscription des joueurs");
-        
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        window.add(mainPanel) ;
-        
-        JPanel panelHaut = new JPanel() ;
-        mainPanel.add(panelHaut, BorderLayout.NORTH);
-        panelHaut.setBackground(Color.decode("#FBEEE4"));
-        
-        numJoueur = new JLabel();
-        numJoueur.setBackground(Color.getColor("#FEFEFE"));
-        panelHaut.add(numJoueur);
-        
-        JPanel panelMid = new JPanel(new GridLayout(6,4));
-        mainPanel.add(panelMid, BorderLayout.CENTER);
-        for(int i = 0;i < 9;i++){
-            panelMid.add(new JLabel(""));
-        }
-        JLabel pseudoJoueurL = new JLabel("Pseudo du joueur");
-        pseudoJoueurL.setForeground(Color.getColor("#FEFEFE"));
-        panelMid.add(pseudoJoueurL);
-        JTextField pseudoJoueur = new JTextField();
-        panelMid.add(pseudoJoueur);
-        for(int i = 0;i < 9;i++){
-            panelMid.add(new JLabel(""));
-        } 
-        panelMid.setBackground(Color.decode("#FBEEE4"));
-    
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-        bottomPanel.setBackground(Color.decode("#FBEEE4"));
-        
-        JButton btnQuitter = new JButton("Précédent");
-        btnQuitter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JPRECEDENT));
-                clearChanged();
-            }
-        });
-        bottomPanel.add(btnQuitter);
-        btnQuitter.setBackground(Color.decode("#D73535"));
-        btnQuitter.setForeground(Color.decode("#FFFFFF"));
-        bottomPanel.add(new JLabel(""));
-        bottomPanel.add(new JLabel(""));
-        JButton btnSuivant = new JButton("Suivant");
-        btnSuivant.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageTournois(pseudoJoueur.getText(),Actions.JSUIVANT));
-                clearChanged();
-            }
-        });
-        bottomPanel.add(btnSuivant);
-        btnSuivant.setBackground(Color.decode("#008000"));
-        btnSuivant.setForeground(Color.decode("#FFFFFF"));
-        }
     
     public void afficher() {
         this.window.setVisible(true);
@@ -254,15 +100,12 @@ public class VueInscription extends Observable {
         this.window.dispose();
     }
     
-    public void show(int nbJoueur){
-        numJoueur.setText("Joueur n°"+nbJoueur);
-        numJoueur.setForeground(Color.getColor("#FEFEFE"));
-//        champPrenom.setText();
-//        champAge.setText();
-//        radioHomme.setSelected();
-//        radioFemme.setS
+    public void erreurIdentique(){
+        erreur.setText("Erreur : deux pseudo identique.");
+    }
     
-    
+    public void erreurVide(){
+        erreur.setText("Erreur : pseudo vide.");
     }
 
 }

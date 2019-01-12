@@ -5,6 +5,8 @@
  */
 package utilitaire;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author anandanj
@@ -13,6 +15,12 @@ public class MessageTournois {
     private Actions action;
     private String nbJoueurs;
     private GestionVue vue;
+    private ArrayList<String> pseudos;
+    
+    public MessageTournois(ArrayList<String> pseudos,Actions action){
+        this.pseudos = pseudos;
+        this.action = action;
+    }
     
     public MessageTournois(String nbJoueurs, Actions action){
         this.nbJoueurs = nbJoueurs;
@@ -39,6 +47,10 @@ public class MessageTournois {
     
     public Actions getAction(){
         return this.action;
+    }
+    
+    public ArrayList<String> getPseudos(){
+        return this.pseudos;
     }
 
     /**

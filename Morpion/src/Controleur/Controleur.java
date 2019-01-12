@@ -49,7 +49,7 @@ public class Controleur implements Observer {
            // si V -> p.setNom()...
     
     private VueTournois v1;
-    private VueInscription v2 = new VueInscription();
+    private VueInscription v2;
     private VueClassement v3;
     private VueGrille v4;
     private VueRegles v5;
@@ -113,123 +113,97 @@ public class Controleur implements Observer {
                 maxJoueurs = message.getNbJoueurs();
                 if(maxJoueurs > 1 && maxJoueurs <21){
                     v1.close();
-                    v2 = new VueInscription(PremierInscrit);
+                    v2 = new VueInscription(maxJoueurs);
                     v2.afficher();
-                    v2.show(compteurJoueurs);
                     v2.addObserver(this);                   
                 }else{
                     v1.erreurNbJoueurs();
                 }
 
             }
-            //Les Joueurs qui s'inscrivent.
-            if (message.getAction() == Actions.JSUIVANT && compteurJoueurs < maxJoueurs ){
-                compteurJoueurs = compteurJoueurs +1;
-                Joueur j = new Joueur(message.getNomJoueur());
-                lJoueurs.add(j);
-                v2.close();
-                v2 = new VueInscription();
-                v2.afficher();
-                v2.show(compteurJoueurs);
-                v2.addObserver(this);               
-            }
-            //Retour au joueur précédent.
-            if (message.getAction() == Actions.JPRECEDENT ){
-                if(compteurJoueurs > 1){
-                    compteurJoueurs = compteurJoueurs - 1;                    
-                }else if(compteurJoueurs == 1){
-                    compteurJoueurs = 1;
-                }
-                lJoueurs.remove(lJoueurs.size()-1);
-                v2.close();
-                v2 = new VueInscription();
-                v2.afficher();
-                v2.show(compteurJoueurs);
-                v2.addObserver(this);
-            }
-            // Dernier joueur à s'inscrire.
-            if (message.getAction() == Actions.JSUIVANT && compteurJoueurs == maxJoueurs ){
-                compteurJoueurs = maxJoueurs;
-                v2.close();
-                v2 = new VueInscription(DernierInscrit);
-                v2.afficher();
-                v2.show(compteurJoueurs);
-                v2.addObserver(this);
-            }
             // Terminer l'inscription.
             if(message.getAction() == Actions.JTERMINER){
-                Joueur j = new Joueur(message.getNomJoueur());
-                lJoueurs.add(j);;
-                v2.close();
-                System.out.println("Inscription des joueurs terminée");
-                for(int i = 0;i<lJoueurs.size();i++){
-                    System.out.println(lJoueurs.get(i).getNom());
+                lJoueurs.clear();
+                for(int i = 0;i<message.getPseudos().size();i++){
+                    Joueur j = new Joueur(message.getPseudos().get(i));
+                    lJoueurs.add(j);;
                 }
-                //Génération des matchs
+                // Vérification sur les pseudos :
                 
-                // A,B,C,D,E,F,G,H
-                //A vs B / A vs C  / A vs D / A vs E / A vs F / A vs G / A vs H -> Flag = m -1 / itFlag = 0;
-                // B vs C / B vs D / B vs E / B vs F / B vs G / B vs H -> Flag = m -2 / itFlag = 1;
-                // C vs D / C vs E / c vs F / c vs G / c vs H -> Flag = m-3 / itFag = 2;
-                // D vs E / D vs F / d vs G / d vs H -> Flag = m-4 / itFlag = 3;
-                // E vs F / E vs g / e vs H -> Flag = m - 5 / itFlag = 4;
-                // F vs G / f vs H -> Flag = m - 6 / itFlag = 5;
-                // G vs H -> Flag = m - 7 / itFlag = 6;
-                // Formule pour 8 joueurs : 7 + 6 + 5 + 4 + 3 + 2 + 1
-                // fin de boucle quand itFlag = nbJoueurs -2;
-                
-//                nbMatch = 0;
-                Integer cpt = maxJoueurs -1;
-                while(cpt > 0){
-                    nbMatch = nbMatch + cpt;
-                    cpt = cpt -1;
-                }
-                 System.out.println("Nombre de matchs: "+nbMatch);
-                 
-                cpt = 1; // 2 // 3 // 4
-                int flag = maxJoueurs -1; // ex de 4 joueurs, flag = 3 // 2 // 1 // 0 //2
-                int itFlag = 0; //nombre de reset du flag //1 
-                
-                int joueurAct = 0; // 1
-                int joueurDef = 1; // 2 // 3 // 2
-                while(cpt < nbMatch +1){
-                    Match m = new Match(lJoueurs.get(joueurAct),lJoueurs.get(joueurDef));
-                    matchs.put(cpt,m);
-                    cpt = cpt +1;
-                    flag = flag -1;
-                    if(flag > 0){
-                        joueurDef = joueurDef +1;                        
-                    }
-                    if(flag == 0){
-                        itFlag = itFlag +1;
-                        if(itFlag <= maxJoueurs -2){
-                        flag = maxJoueurs -1 -itFlag;
-                        joueurAct = joueurAct +1;
-                        joueurDef = joueurAct +1;
-                        }
-                    }
-                 
-                
-                }
-                    System.out.println("Fin d'initialisation du tournois");
-                    for(HashMap.Entry<Integer, Match> entry : matchs.entrySet()) {
-                        Integer key = entry.getKey();
-                        Match value = entry.getValue();
-                        System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
+                if(!this.vérifPseudo()){
                     
+                }else{
+                    //Génération des matchs
+                
+                    // A,B,C,D,E,F,G,H
+                    //A vs B / A vs C  / A vs D / A vs E / A vs F / A vs G / A vs H -> Flag = m -1 / itFlag = 0;
+                    // B vs C / B vs D / B vs E / B vs F / B vs G / B vs H -> Flag = m -2 / itFlag = 1;
+                    // C vs D / C vs E / c vs F / c vs G / c vs H -> Flag = m-3 / itFag = 2;
+                    // D vs E / D vs F / d vs G / d vs H -> Flag = m-4 / itFlag = 3;
+                    // E vs F / E vs g / e vs H -> Flag = m - 5 / itFlag = 4;
+                    // F vs G / f vs H -> Flag = m - 6 / itFlag = 5;
+                    // G vs H -> Flag = m - 7 / itFlag = 6;
+                    // Formule pour 8 joueurs : 7 + 6 + 5 + 4 + 3 + 2 + 1
+                    // fin de boucle quand itFlag = nbJoueurs -2;
+
+    //                nbMatch = 0;
+                    Integer cpt = maxJoueurs -1;
+                    while(cpt > 0){
+                        nbMatch = nbMatch + cpt;
+                        cpt = cpt -1;
                     }
-                //Match courant c'est la match courant.
-                matchCourant = 1;
-                //Le joueur courant est le joueur qui doit jouer son tour de jeu.
-                joueurCourant = matchs.get(matchCourant).getJoueur1();
-                //Matchs c'est la liste des matchs (hashmap) avec en clé le n° du match et en valeur le match.
-                //age = plus12 ou moins12
-                v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                v1.addObserver(this);
-                v1.afficher();
+                     System.out.println("Nombre de matchs: "+nbMatch);
+
+                    cpt = 1; // 2 // 3 // 4
+                    int flag = maxJoueurs -1; // ex de 4 joueurs, flag = 3 // 2 // 1 // 0 //2
+                    int itFlag = 0; //nombre de reset du flag //1 
+
+                    int joueurAct = 0; // 1
+                    int joueurDef = 1; // 2 // 3 // 2
+                    while(cpt < nbMatch +1){
+                        Match m = new Match(lJoueurs.get(joueurAct),lJoueurs.get(joueurDef));
+                        matchs.put(cpt,m);
+                        cpt = cpt +1;
+                        flag = flag -1;
+                        if(flag > 0){
+                            joueurDef = joueurDef +1;                        
+                        }
+                        if(flag == 0){
+                            itFlag = itFlag +1;
+                            if(itFlag <= maxJoueurs -2){
+                            flag = maxJoueurs -1 -itFlag;
+                            joueurAct = joueurAct +1;
+                            joueurDef = joueurAct +1;
+                            }
+                        }
+
+
+                    }
+                        System.out.println("Fin d'initialisation du tournois");
+                        for(HashMap.Entry<Integer, Match> entry : matchs.entrySet()) {
+                            Integer key = entry.getKey();
+                            Match value = entry.getValue();
+                            System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
+
+                        }
+                    //Match courant c'est la match courant.
+                    matchCourant = 1;
+                    //Le joueur courant est le joueur qui doit jouer son tour de jeu.
+                    joueurCourant = matchs.get(matchCourant).getJoueur1();
+                    //Matchs c'est la liste des matchs (hashmap) avec en clé le n° du match et en valeur le match.
+                    //age = plus12 ou moins12
+                    v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                    v1.addObserver(this);
+                    v1.afficher();
                 }
             
             }
+                }
+                
+                
+                
+                
+                
             //Gestion du menu
 
             if(arg instanceof MessageMenu){
@@ -244,7 +218,7 @@ public class Controleur implements Observer {
                 }
                 if(age == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
                    v1.close();
-                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
+                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2());
                    v4.addObserver(this);
                    v4.afficher();
                    v1.close();             
@@ -259,7 +233,7 @@ public class Controleur implements Observer {
                 }
                 if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == JouerLeMatch){
                    v1.close();
-                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
+                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2());
                    v4.addObserver(this);
                    v4.afficher();
                    v1.close();             
@@ -456,6 +430,37 @@ public class Controleur implements Observer {
         v3 = new VueClassement(Plus12,lJoueursClassé,matchs,etatTournoi);
         v3.afficher();
         v3.addObserver(this);
+    }
+    
+    private boolean vérifPseudo(){
+        String statut = new String();
+        for(int i = 0; i < lJoueurs.size();i++){
+            for(int y = i +1;y <lJoueurs.size(); y++){
+                if(lJoueurs.get(i).getNom().compareTo(lJoueurs.get(y).getNom())==0){
+                    statut = "Identique";
+                }
+            }
+            if(lJoueurs.get(i).getNom().isEmpty()){
+                statut = "Vide";
+            }
+        }
+        
+        if(statut.compareTo("Vide") == 0){
+            v2.erreurVide();
+            return false;
+        }else if(statut.compareTo("Identique")==0){
+            v2.erreurIdentique();
+            return false;
+        }else{
+            v2.close();
+            System.out.println("Inscription des joueurs terminée");
+            for(int i = 0;i<lJoueurs.size();i++){
+                System.out.println(lJoueurs.get(i).getNom());
+            }
+            return true;
+        }
+       
+        
     }
     
     
