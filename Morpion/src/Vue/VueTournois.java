@@ -67,7 +67,7 @@ public class VueTournois extends Observable {
         
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel) ;
-        window.setTitle("Tournoi de morpion : choix du mode de jeu");
+        window.setTitle("Tournoi de morpion : choix de l'age");
         mainPanel.setBackground(Color.decode("#D3EBF2"));
         
         JPanel panelHaut = new JPanel(new GridLayout(2,3)) ;
@@ -89,7 +89,7 @@ public class VueTournois extends Observable {
         sousTitre.setForeground(Color.decode("#7E7E7E"));
         panelHaut.add(sousTitre);
         panelHaut.add(new JLabel(""));
-        //Choix couleur de fond : FBEEE4
+         //Choix couleur de fond : FBEEE4
         JPanel contentPanel = new JPanel (new GridLayout(4, 3));
         contentPanel.setBackground(Color.decode("#FBEEE4"));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
@@ -183,7 +183,7 @@ public class VueTournois extends Observable {
         contentPanel.setBackground(Color.decode("#98fb98")); 
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 //        contentPanel.add(new JLabel("ici la barre (à ajouter)"));
-        JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 20, 2);
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 20, 2);
         slider.setBackground(Color.decode("#98fb98"));
         contentPanel.add(slider);
         slider.setMinorTickSpacing(1);
@@ -488,6 +488,102 @@ public class VueTournois extends Observable {
             panelHaut.add(new JLabel("CA BUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUG"));
         }
     }
+    
+    public VueTournois(GestionVue vEtape){     
+        window = new JFrame();
+        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        // Définit la taille de la fenêtre en pixels
+        window.setSize(700, 400);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+        
+        
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        window.add(mainPanel) ;
+        window.setTitle("Jeu du morpion : choix du mode de jeu");
+        mainPanel.setBackground(Color.decode("#D3EBF2"));
+        
+        JPanel panelHaut = new JPanel(new GridLayout(1,3)) ;
+        mainPanel.add(panelHaut, BorderLayout.NORTH);
+        
+        // window.setIconImage(new ImageIcon("/src/images/morpion.png").getImage());
+
+        panelHaut.setBackground(Color.decode("#FBEEE4")); 
+        
+        panelHaut.add(new JLabel(""));
+        JLabel titre = new JLabel("Jeu du morpion",SwingConstants.CENTER);        
+        
+        titre.setFont(new Font("Arial",Font.BOLD,20));
+        panelHaut.add(titre);
+        panelHaut.add(new JLabel(""));
+
+         //Choix couleur de fond : FBEEE4
+        JPanel contentPanel = new JPanel (new GridLayout(4, 3));
+        contentPanel.setBackground(Color.decode("#FBEEE4"));
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+
+        contentPanel.add(new JLabel(""));
+        
+        JButton tournoi = new JButton("Mode tournoi");
+        tournoi.setBackground(Color.decode("#FFFFFF"));
+        tournoi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setChanged();
+                notifyObservers(GestionVue.Tournoi);
+                clearChanged();
+            }
+        });
+        
+        contentPanel.add(tournoi);
+        contentPanel.add(new JLabel(""));
+        contentPanel.add(new JLabel(""));
+        JButton duel = new JButton("Mode Duel");
+        duel.setBackground(Color.decode("#FFFFFF"));
+        duel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setChanged();
+                notifyObservers(GestionVue.Duel);
+                clearChanged();
+            }
+        });
+        contentPanel.add(duel);
+        contentPanel.add(new JLabel(""));
+        contentPanel.add(new JLabel(""));
+        JButton solo = new JButton("Mode solo");
+        solo.setBackground(Color.decode("#FFFFFF"));
+        solo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setChanged();
+                notifyObservers(GestionVue.Solo);
+                clearChanged();
+            }
+        });
+        contentPanel.add(solo);
+        contentPanel.add(new JLabel(""));
+        contentPanel.add(new JLabel(""));
+        
+        JButton btnQuitter = new JButton("Quitter le jeu");
+        btnQuitter.setBackground(Color.decode("#FFFFFF"));
+        btnQuitter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setChanged();
+                notifyObservers();
+                clearChanged();
+            }
+        });
+        contentPanel.add(btnQuitter);
+        contentPanel.add(new JLabel(""));
+        
+        JPanel botPanel = new JPanel (new GridLayout(1,1));
+        mainPanel.add(botPanel, BorderLayout.SOUTH);
+        botPanel.add(new JLabel("                           "));
+        botPanel.setBackground(Color.decode("#FBEEE4"));
+  
+    }
     public void afficher() {
         this.window.setVisible(true);
     }
@@ -509,6 +605,9 @@ public class VueTournois extends Observable {
         this.erreur.setForeground(Color.red);
     }
     
-
+    public void erreurType(){
+        this.erreur.setText("Le nombre de joueur doit être un chiffre !");
+        this.erreur.setForeground(Color.red);
+    }
     
 }

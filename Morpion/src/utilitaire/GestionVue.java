@@ -20,6 +20,9 @@ public enum GestionVue {
     Menu,
     Classement,
     Quitter,
+    Duel,
+    Solo,
+    Tournoi,
     JouerLeMatch;
     
 }

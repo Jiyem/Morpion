@@ -36,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import utilitaire.Actions;
 import utilitaire.GestionVue;
+import utilitaire.MessageDuel;
 import utilitaire.MessageGrille;
 
 /**
@@ -57,6 +58,7 @@ public class VueGrille extends Observable {
     private JButton bouton7;
     private JButton bouton8;
     private JButton bouton9;
+    private Integer numJoueur;
 
     public VueGrille(int numMatch, Joueur joueur1, Joueur joueur2,GestionVue vAge) {
         this.vAge = vAge;
@@ -469,6 +471,217 @@ public class VueGrille extends Observable {
             panelSud.add(new JLabel(""));
         }
 
+    }
+    
+    public VueGrille(){
+            numJoueur = 1;
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+            window.setTitle("Jeu du morpion : Duel ");
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel);
+
+            JPanel panelHaut = new JPanel(new GridLayout(2, 3));
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
+            panelHaut.add(new JLabel("Joueur 1",SwingConstants.CENTER));
+            joueurCourant = new JLabel("C'est au tour de Joueur 1",SwingConstants.CENTER);
+            panelHaut.add(joueurCourant);
+            panelHaut.add(new JLabel("Joueur 2",SwingConstants.CENTER));
+            panelHaut.add(new JLabel("Signe: X",SwingConstants.CENTER));
+            panelHaut.add(new JLabel(""));
+            panelHaut.add(new JLabel("Signe: O",SwingConstants.CENTER));
+
+
+
+            JPanel panelMid = new JPanel(new GridLayout(3, 3));
+            panelMid.setBackground(Color.decode("#FBEEE4"));
+            mainPanel.add(panelMid, BorderLayout.CENTER);
+
+            //Création des boutons du morpion !
+            bouton1 = new JButton("");
+            bouton1.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton1.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton1.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton1);
+            grille.put(1, EtatCase.NON_COCHEE);
+
+            bouton2 = new JButton("");
+            bouton2.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton2.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton2.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton2);
+            grille.put(2, EtatCase.NON_COCHEE);
+
+            bouton3 = new JButton("");
+            bouton3.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton3.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton3.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton3);
+            grille.put(3, EtatCase.NON_COCHEE);
+
+            bouton4 = new JButton("");
+            bouton4.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton4.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton4.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton4);
+            grille.put(4, EtatCase.NON_COCHEE);
+
+            bouton5 = new JButton("");
+            bouton5.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton5.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton5.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton5);
+            grille.put(5, EtatCase.NON_COCHEE);
+
+            bouton6 = new JButton("");
+            bouton6.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton6.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton6.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton6);
+            grille.put(6, EtatCase.NON_COCHEE);
+
+            bouton7 = new JButton("");
+            bouton7.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton7.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton7.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton7);
+            grille.put(7, EtatCase.NON_COCHEE);
+
+            bouton8 = new JButton("");
+            bouton8.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton8.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton8.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton8);
+            grille.put(8, EtatCase.NON_COCHEE);
+
+            bouton9 = new JButton("");
+            bouton9.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton9.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton9.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton9);
+            grille.put(9, EtatCase.NON_COCHEE);
+
+            //Fin de la création des boutons
+            //Events de clic sur les boutons
+            bouton1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(1, grille.get(1),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(2, grille.get(2),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(3, grille.get(3),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton4.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(4, grille.get(4),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton5.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(5, grille.get(5),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton6.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(6, grille.get(6),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton7.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(7, grille.get(7),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton8.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(8, grille.get(8),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            bouton9.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageDuel(9, grille.get(9),numJoueur));
+                    numJoueur = numJoueur+1;
+                    clearChanged();
+                }
+            });
+
+            //Fin des events de clic sur bouton
+
+
+            JPanel panelSud = new JPanel(new GridLayout(1, 4));
+            mainPanel.add(panelSud, BorderLayout.SOUTH);
+            panelSud.setBackground(Color.decode("#FBEEE4"));
+
+            JButton btnQuitter = new JButton("Quitter");
+            btnQuitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(Actions.ANNULE);
+                    clearChanged();
+                }
+            });
+            btnQuitter.setBackground(Color.decode("#D73535"));
+            btnQuitter.setForeground(Color.decode("#FFFFFF"));
+
+            panelSud.add(btnQuitter);
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+        
     }
 
     public void afficher() {
