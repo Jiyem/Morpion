@@ -23,6 +23,8 @@ public enum GestionVue {
     Duel,
     Solo,
     Tournoi,
+    Rejouer,
+    Jeu,
     JouerLeMatch;
     
 }

@@ -473,7 +473,8 @@ public class VueGrille extends Observable {
 
     }
     
-    public VueGrille(){
+    public VueGrille(GestionVue vue,Integer jgagant){
+        if(vue == GestionVue.Duel){
             numJoueur = 1;
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -572,8 +573,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(1, grille.get(1),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(1, grille.get(1), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -582,8 +582,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(2, grille.get(2),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(2, grille.get(2), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -592,8 +591,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(3, grille.get(3),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(3, grille.get(3), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -602,8 +600,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(4, grille.get(4),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(4, grille.get(4), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -612,8 +609,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(5, grille.get(5),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(5, grille.get(5), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -622,8 +618,9 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(6, grille.get(6),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(6, grille.get(6), getNumJoueur()));
+                    if(grille.get(6) == EtatCase.NON_COCHEE){
+                    }
                     clearChanged();
                 }
             });
@@ -632,8 +629,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(7, grille.get(7),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(7, grille.get(7), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -642,8 +638,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(8, grille.get(8),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(8, grille.get(8), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -652,8 +647,7 @@ public class VueGrille extends Observable {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setChanged();
-                    notifyObservers(new MessageDuel(9, grille.get(9),numJoueur));
-                    numJoueur = numJoueur+1;
+                    notifyObservers(new MessageDuel(9, grille.get(9), getNumJoueur()));
                     clearChanged();
                 }
             });
@@ -681,6 +675,103 @@ public class VueGrille extends Observable {
             panelSud.add(new JLabel(""));
             panelSud.add(new JLabel(""));
             panelSud.add(new JLabel(""));
+        }
+        else if(jgagant > 0){
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+            window.setTitle("Jeu du morpion : Duel ");
+            window.add(mainPanel);
+
+            JPanel panelHaut = new JPanel(new GridLayout(1, 3));
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
+            panelHaut.add(new JLabel(""));
+            panelHaut.add(new JLabel("Victoire du joueur " + jgagant,SwingConstants.CENTER));
+            panelHaut.add(new JLabel(""));
+            JPanel panelCentre = new JPanel(new GridLayout(2, 3));
+            mainPanel.add(panelCentre,BorderLayout.CENTER);
+            panelCentre.add(new JLabel(""));
+            panelCentre.setBackground(Color.decode("#FBEEE4"));
+            JButton rejouer = new JButton("Rejouer");
+            panelCentre.add(rejouer);
+            rejouer.setBackground(Color.decode("#FFFFFF"));
+            rejouer.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setChanged();
+                        notifyObservers(GestionVue.Duel);
+                        clearChanged();
+                    }
+                });
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+//            
+            JButton quitter = new JButton("Retour au menu");
+            panelCentre.add(quitter);
+            quitter.setBackground(Color.decode("#FFFFFF"));
+            quitter.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setChanged();
+                        notifyObservers(GestionVue.Jeu);
+                        clearChanged();
+                    }
+                });
+            panelCentre.add(new JLabel(""));
+        }   
+        else{
+          JPanel mainPanel = new JPanel(new BorderLayout());
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+            window.setTitle("Jeu du morpion : Duel ");
+            window.add(mainPanel);
+
+            JPanel panelHaut = new JPanel(new GridLayout(1, 3));
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
+            panelHaut.add(new JLabel(""));
+            panelHaut.add(new JLabel("Egalité entre les deux joueurs ! ",SwingConstants.CENTER));
+            panelHaut.add(new JLabel(""));
+            JPanel panelCentre = new JPanel(new GridLayout(2, 3));
+            mainPanel.add(panelCentre,BorderLayout.CENTER);
+            panelCentre.add(new JLabel(""));
+            panelCentre.setBackground(Color.decode("#FBEEE4"));
+            JButton rejouer = new JButton("Rejouer");
+            rejouer.setBackground(Color.decode("#FFFFFF"));
+            panelCentre.add(rejouer);
+            rejouer.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setChanged();
+                        notifyObservers(GestionVue.Rejouer);
+                        clearChanged();
+                    }
+                });
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+//            
+            JButton quitter = new JButton("Retour au menu");
+            panelCentre.add(quitter);
+            quitter.setBackground(Color.decode("#FFFFFF"));
+            quitter.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setChanged();
+                        notifyObservers(GestionVue.Jeu);
+                        clearChanged();
+                    }
+                });
+            panelCentre.add(new JLabel(""));
+        }     
         
     }
 
@@ -857,6 +948,20 @@ public class VueGrille extends Observable {
             }
             return etat;
         }
+
+    /**
+     * @return the numJoueur
+     */
+    public Integer getNumJoueur() {
+        return numJoueur;
+    }
+
+    /**
+     * @param numJoueur the numJoueur to set
+     */
+    public void setNumJoueur(Integer numJoueur) {
+        this.numJoueur = numJoueur;
+    }
         
-       
+
 }

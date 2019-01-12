@@ -89,6 +89,7 @@ public class Controleur implements Observer {
         //Choix du mode de jeu dans le menu principal
         if(arg instanceof GestionVue){
             this.choixModeDeJeu((GestionVue) arg);
+            
         }
         // Gestion des inscriptions :
         if(arg instanceof MessageTournois){
@@ -228,21 +229,40 @@ public class Controleur implements Observer {
                 }
             }
             
-             if(arg instanceof MessageDuel){
+              if(arg instanceof MessageDuel){
                 MessageDuel messageduel = (MessageDuel) arg;
                  if(messageduel.getEtat()== EtatCase.NON_COCHEE){
                     System.out.println("Case non cochée");
-                    
                     if(messageduel.getNumJoueur()%2 == 0){
                         v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.O));
+                        v4.setNumJoueur(v4.getNumJoueur()+1);
                         if(v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){
-                            
+                            v4.close();
+                            v4 = new VueGrille(GestionVue.Rejouer,2);
+                            v4.addObserver(this);
+                            v4.afficher();
+                        }
+                         else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){
+                            v4.close();
+                            v4 = new VueGrille(GestionVue.Rejouer,0);
+                            v4.addObserver(this);
+                            v4.afficher();
                         }
                     }
                     else{
                         v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.X));
+                        v4.setNumJoueur(v4.getNumJoueur()+1);
                         if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){
-                            
+                            v4.close();
+                            v4 = new VueGrille(GestionVue.Rejouer,1);
+                            v4.addObserver(this);
+                            v4.afficher();
+                        }
+                        else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){
+                            v4.close();
+                            v4 = new VueGrille(GestionVue.Rejouer,0);
+                            v4.addObserver(this);
+                            v4.afficher();
                         }
                     }
                  }
@@ -333,11 +353,6 @@ public class Controleur implements Observer {
                                
                         }
                     }
-                }
-                //si la case est cochée
-                else{
-                    System.out.println("La case est déjà sélectionné");
-                }
                 //Changement de joueur courant
                 if(joueurCourant == matchs.get(matchCourant).getJoueur1()){
                     joueurCourant = matchs.get(matchCourant).getJoueur2();
@@ -345,6 +360,12 @@ public class Controleur implements Observer {
                   joueurCourant = matchs.get(matchCourant).getJoueur1(); 
                 }
                 v4.setJoueurCourant(joueurCourant);
+                }
+                //si la case est cochée
+                else{
+                    System.out.println("La case est déjà sélectionné");
+                }
+                
             }
             
             
@@ -500,19 +521,43 @@ public class Controleur implements Observer {
             }
             if(gv == GestionVue.Duel){
                 v1.close();
-                v4 = new VueGrille();
+                if(v4 != null){
+                    v4.close();
+                }
+                v4 = new VueGrille(gv,0);
                 v4.addObserver(this);
                 v4.afficher();
             }
             if(gv == GestionVue.Solo){
                 v1.close();
-            }        
+            }
+            if(gv == GestionVue.Rejouer){
+                v4.close();
+                v4 = new VueGrille(gv,0);
+                v4.addObserver(this);
+                v4.afficher();
+            }
+            if(gv == GestionVue.Jeu){
+                v4.close();
+                v1 = new VueTournois(Préparation);
+                v1.addObserver(this);
+                v1.afficher();
+            }
+            
     }
     
     private void faireAction(Actions action){
         if (action == Actions.ANNULE) {
             System.out.println("L'utilisateur a abandonné");
-            v1.close();v2.close();v4.close();
+            if(v1 != null){
+                v1.close();
+            }
+            if(v2 != null){
+                v2.close();
+            }
+            if(v4 != null){
+               v4.close();
+            }
         }
         if (action == Actions.CLASSEMENT_GENERAL) {
                 //Faut afficher la vue classement avec tous les joueurs
