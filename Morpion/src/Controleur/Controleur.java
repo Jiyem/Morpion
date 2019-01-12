@@ -33,6 +33,7 @@ import static utilitaire.GestionVue.Préparation;
 import static utilitaire.GestionVue.Préparation2;
 import static utilitaire.GestionVue.Quitter;
 import utilitaire.MessageClassement;
+import utilitaire.MessageDuel;
 import utilitaire.MessageGrille;
 import utilitaire.MessageMenu;
 import utilitaire.MessageRegles;
@@ -65,7 +66,7 @@ public class Controleur implements Observer {
     private EtatTournoi etatTournoi= EtatTournoi.Pas_Termine;
     
     Controleur(){
-        v1 = new VueTournois(Préparation,null);
+        v1 = new VueTournois(Préparation);
         v1.addObserver(this);
         v1.afficher();
    
@@ -85,7 +86,7 @@ public class Controleur implements Observer {
 
         if(arg == "-12"){
                 v1.close();
-                age = Moins12; //CA C'EST DE LA CRABISTOUILLE DONC FAUDRA CHANGER
+                age = Moins12;
                 v1 = new VueTournois(Préparation2,age);
                 v1.addObserver(this);
                 v1.afficher();
@@ -104,14 +105,34 @@ public class Controleur implements Observer {
             v5.afficher();
         }
         
+        if(arg instanceof GestionVue){
+            if(arg == GestionVue.Tournoi){
+                v1.close();
+                v1 = new VueTournois(Préparation,null);
+                v1.addObserver(this);
+                v1.afficher();
+            }
+            if(arg == GestionVue.Duel){
+                v1.close();
+                v4 = new VueGrille();
+                v4.addObserver(this);
+                v4.afficher();
+            }
+            if(arg == GestionVue.Duel){
+                v1.close();
+
+            }
+        }
         // Contrôle pour la vue +12 ans de VueTournois :
-        
         if(arg instanceof MessageTournois){
             MessageTournois message = (MessageTournois) arg ;
             //Premier joueur à s'inscrire
             if (message.getAction()== Actions.SUIVANT) {
                 maxJoueurs = message.getNbJoueurs();
-                if(maxJoueurs > 1 && maxJoueurs <21){
+                if(maxJoueurs == 0){
+                    v1.erreurType();
+                }
+                else if(maxJoueurs > 1 && maxJoueurs <21){
                     v1.close();
                     v2 = new VueInscription(maxJoueurs,age);
                     v2.afficher();
@@ -239,7 +260,27 @@ public class Controleur implements Observer {
                    v1.close();             
                 }
             }
-            //Gestion de la grille
+            
+             if(arg instanceof MessageDuel){
+                MessageDuel messageduel = (MessageDuel) arg;
+                 if(messageduel.getEtat()== EtatCase.NON_COCHEE){
+                    System.out.println("Case non cochée");
+                    
+                    if(messageduel.getNumJoueur()%2 == 0){
+                        v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.O));
+                        if(v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){
+                            
+                        }
+                    }
+                    else{
+                        v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.X));
+                        if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){
+                            
+                        }
+                    }
+                 }
+             }
+            //Gestion de la grille du tournoi
             if(arg instanceof MessageGrille){
                 MessageGrille messageGrille = (MessageGrille) arg;
                 //si la case est vide
