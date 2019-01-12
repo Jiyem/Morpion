@@ -35,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import utilitaire.Actions;
+import utilitaire.GestionVue;
 import utilitaire.MessageGrille;
 
 /**
@@ -45,6 +46,7 @@ public class VueGrille extends Observable {
 
     private HashMap<Integer, EtatCase> grille = new HashMap<>();
     private final JFrame window;
+    private GestionVue vAge;
     private JLabel joueurCourant;
     private JButton bouton1;
     private JButton bouton2;
@@ -56,206 +58,416 @@ public class VueGrille extends Observable {
     private JButton bouton8;
     private JButton bouton9;
 
-    public VueGrille(int numMatch, Joueur joueur1, Joueur joueur2) {
-        
-        window = new JFrame();
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        // Définit la taille de la fenêtre en pixels
-        window.setSize(800, 300);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
-        window.setTitle("Tournoi de morpion : match numero " + numMatch + " : " + joueur1.getNom() + " contre " + joueur2.getNom());
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        window.add(mainPanel);
+    public VueGrille(int numMatch, Joueur joueur1, Joueur joueur2,GestionVue vAge) {
+        this.vAge = vAge;
+        if(vAge == GestionVue.Plus12){
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+            window.setTitle("Tournoi de morpion : match numero " + numMatch + " : " + joueur1.getNom() + " contre " + joueur2.getNom());
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel);
 
-        JPanel panelHaut = new JPanel(new GridLayout(2, 3));
-        mainPanel.add(panelHaut, BorderLayout.NORTH);
-        panelHaut.setBackground(Color.decode("#FBEEE4"));
-        panelHaut.add(new JLabel(joueur1.getNom(),SwingConstants.CENTER));
-        joueurCourant = new JLabel("C'est au tour de " + joueur1.getNom(),SwingConstants.CENTER);
-        panelHaut.add(joueurCourant);
-        panelHaut.add(new JLabel(joueur2.getNom(),SwingConstants.CENTER));
-        panelHaut.add(new JLabel("Signe: X",SwingConstants.CENTER));
-        panelHaut.add(new JLabel(""));
-        panelHaut.add(new JLabel("Signe: O",SwingConstants.CENTER));
-        
-
-
-        JPanel panelMid = new JPanel(new GridLayout(3, 3));
-        panelMid.setBackground(Color.decode("#FBEEE4"));
-        mainPanel.add(panelMid, BorderLayout.CENTER);
-
-        //Création des boutons du morpion !
-        bouton1 = new JButton("");
-        bouton1.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton1.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton1.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton1);
-        grille.put(1, EtatCase.NON_COCHEE);
-
-        bouton2 = new JButton("");
-        bouton2.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton2.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton2.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton2);
-        grille.put(2, EtatCase.NON_COCHEE);
-
-        bouton3 = new JButton("");
-        bouton3.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton3.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton3.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton3);
-        grille.put(3, EtatCase.NON_COCHEE);
-
-        bouton4 = new JButton("");
-        bouton4.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton4.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton4.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton4);
-        grille.put(4, EtatCase.NON_COCHEE);
-
-        bouton5 = new JButton("");
-        bouton5.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton5.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton5.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton5);
-        grille.put(5, EtatCase.NON_COCHEE);
-
-        bouton6 = new JButton("");
-        bouton6.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton6.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton6.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton6);
-        grille.put(6, EtatCase.NON_COCHEE);
-
-        bouton7 = new JButton("");
-        bouton7.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton7.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton7.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton7);
-        grille.put(7, EtatCase.NON_COCHEE);
-
-        bouton8 = new JButton("");
-        bouton8.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton8.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton8.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton8);
-        grille.put(8, EtatCase.NON_COCHEE);
-
-        bouton9 = new JButton("");
-        bouton9.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
-        bouton9.setFont(new Font("Arial",Font.PLAIN,50));
-        bouton9.setBackground(Color.decode("#FFFFFF"));
-        panelMid.add(bouton9);
-        grille.put(9, EtatCase.NON_COCHEE);
-
-        //Fin de la création des boutons
-        //Events de clic sur les boutons
-        bouton1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(1, grille.get(1)));
-                clearChanged();
-            }
-        });
-
-        bouton2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(2, grille.get(2)));
-                clearChanged();
-            }
-        });
-
-        bouton3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(3, grille.get(3)));
-                clearChanged();
-            }
-        });
-
-        bouton4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(4, grille.get(4)));
-                clearChanged();
-            }
-        });
-
-        bouton5.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(5, grille.get(5)));
-                clearChanged();
-            }
-        });
-
-        bouton6.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(6, grille.get(6)));
-                clearChanged();
-            }
-        });
-
-        bouton7.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(7, grille.get(7)));
-                clearChanged();
-            }
-        });
-
-        bouton8.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(8, grille.get(8)));
-                clearChanged();
-            }
-        });
-
-        bouton9.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(new MessageGrille(9, grille.get(9)));
-                clearChanged();
-            }
-        });
-
-        //Fin des events de clic sur bouton
+            JPanel panelHaut = new JPanel(new GridLayout(2, 3));
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
+            panelHaut.add(new JLabel(joueur1.getNom(),SwingConstants.CENTER));
+            joueurCourant = new JLabel("C'est au tour de " + joueur1.getNom(),SwingConstants.CENTER);
+            panelHaut.add(joueurCourant);
+            panelHaut.add(new JLabel(joueur2.getNom(),SwingConstants.CENTER));
+            panelHaut.add(new JLabel("Signe: X",SwingConstants.CENTER));
+            panelHaut.add(new JLabel(""));
+            panelHaut.add(new JLabel("Signe: O",SwingConstants.CENTER));
 
 
-        JPanel panelSud = new JPanel(new GridLayout(1, 4));
-        mainPanel.add(panelSud, BorderLayout.SOUTH);
-        panelSud.setBackground(Color.decode("#FBEEE4"));
-        
-        JButton btnQuitter = new JButton("Quitter");
-        btnQuitter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setChanged();
-                notifyObservers(Actions.ANNULE);
-                clearChanged();
-            }
-        });
-        btnQuitter.setBackground(Color.decode("#D73535"));
-        btnQuitter.setForeground(Color.decode("#FFFFFF"));
-        
-        panelSud.add(btnQuitter);
-        panelSud.add(new JLabel(""));
-        panelSud.add(new JLabel(""));
-        panelSud.add(new JLabel(""));
-       
+
+            JPanel panelMid = new JPanel(new GridLayout(3, 3));
+            panelMid.setBackground(Color.decode("#FBEEE4"));
+            mainPanel.add(panelMid, BorderLayout.CENTER);
+
+            //Création des boutons du morpion !
+            bouton1 = new JButton("");
+            bouton1.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton1.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton1.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton1);
+            grille.put(1, EtatCase.NON_COCHEE);
+
+            bouton2 = new JButton("");
+            bouton2.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton2.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton2.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton2);
+            grille.put(2, EtatCase.NON_COCHEE);
+
+            bouton3 = new JButton("");
+            bouton3.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton3.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton3.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton3);
+            grille.put(3, EtatCase.NON_COCHEE);
+
+            bouton4 = new JButton("");
+            bouton4.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton4.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton4.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton4);
+            grille.put(4, EtatCase.NON_COCHEE);
+
+            bouton5 = new JButton("");
+            bouton5.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton5.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton5.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton5);
+            grille.put(5, EtatCase.NON_COCHEE);
+
+            bouton6 = new JButton("");
+            bouton6.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton6.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton6.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton6);
+            grille.put(6, EtatCase.NON_COCHEE);
+
+            bouton7 = new JButton("");
+            bouton7.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton7.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton7.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton7);
+            grille.put(7, EtatCase.NON_COCHEE);
+
+            bouton8 = new JButton("");
+            bouton8.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton8.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton8.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton8);
+            grille.put(8, EtatCase.NON_COCHEE);
+
+            bouton9 = new JButton("");
+            bouton9.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton9.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton9.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton9);
+            grille.put(9, EtatCase.NON_COCHEE);
+
+            //Fin de la création des boutons
+            //Events de clic sur les boutons
+            bouton1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(1, grille.get(1)));
+                    clearChanged();
+                }
+            });
+
+            bouton2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(2, grille.get(2)));
+                    clearChanged();
+                }
+            });
+
+            bouton3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(3, grille.get(3)));
+                    clearChanged();
+                }
+            });
+
+            bouton4.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(4, grille.get(4)));
+                    clearChanged();
+                }
+            });
+
+            bouton5.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(5, grille.get(5)));
+                    clearChanged();
+                }
+            });
+
+            bouton6.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(6, grille.get(6)));
+                    clearChanged();
+                }
+            });
+
+            bouton7.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(7, grille.get(7)));
+                    clearChanged();
+                }
+            });
+
+            bouton8.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(8, grille.get(8)));
+                    clearChanged();
+                }
+            });
+
+            bouton9.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(9, grille.get(9)));
+                    clearChanged();
+                }
+            });
+
+            //Fin des events de clic sur bouton
+
+
+            JPanel panelSud = new JPanel(new GridLayout(1, 4));
+            mainPanel.add(panelSud, BorderLayout.SOUTH);
+            panelSud.setBackground(Color.decode("#FBEEE4"));
+
+            JButton btnQuitter = new JButton("Quitter");
+            btnQuitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(Actions.ANNULE);
+                    clearChanged();
+                }
+            });
+            btnQuitter.setBackground(Color.decode("#D73535"));
+            btnQuitter.setForeground(Color.decode("#FFFFFF"));
+
+            panelSud.add(btnQuitter);
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+        }
+        else{ 
+            //Moins de 12 ans
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+            window.setTitle("Tournoi de morpion : match numero " + numMatch + " : " + joueur1.getNom() + " VS " + joueur2.getNom());
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel);
+
+            JPanel panelHaut = new JPanel(new GridLayout(2, 3));
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#98fb98"));
+           
+            JLabel nj1 = new JLabel(joueur1.getNom(),SwingConstants.CENTER);
+            nj1.setForeground(Color.red);
+            panelHaut.add(nj1);
+            joueurCourant = new JLabel("C'est au tour de " + joueur1.getNom(),SwingConstants.CENTER);
+            panelHaut.add(joueurCourant);
+            
+            JLabel nj2 = new JLabel(joueur2.getNom(),SwingConstants.CENTER);
+            nj2.setForeground(Color.blue);
+            panelHaut.add(nj2);
+            JLabel j1v = new JLabel("Signe: X",SwingConstants.CENTER);
+            j1v.setForeground(Color.red);
+            panelHaut.add(j1v);
+            panelHaut.add(new JLabel(""));
+            JLabel j2v = new JLabel("Signe: O",SwingConstants.CENTER);
+            j2v.setForeground(Color.blue);
+            panelHaut.add(j2v);
+
+
+            JPanel panelMid = new JPanel(new GridLayout(3, 3));
+            panelMid.setBackground(Color.decode("#98fb98"));
+            mainPanel.add(panelMid, BorderLayout.CENTER);
+
+            //Création des boutons du morpion !
+            bouton1 = new JButton("");
+            bouton1.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton1.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton1.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton1);
+            grille.put(1, EtatCase.NON_COCHEE);
+
+            bouton2 = new JButton("");
+            bouton2.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton2.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton2.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton2);
+            grille.put(2, EtatCase.NON_COCHEE);
+
+            bouton3 = new JButton("");
+            bouton3.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton3.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton3.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton3);
+            grille.put(3, EtatCase.NON_COCHEE);
+
+            bouton4 = new JButton("");
+            bouton4.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton4.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton4.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton4);
+            grille.put(4, EtatCase.NON_COCHEE);
+
+            bouton5 = new JButton("");
+            bouton5.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton5.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton5.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton5);
+            grille.put(5, EtatCase.NON_COCHEE);
+
+            bouton6 = new JButton("");
+            bouton6.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton6.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton6.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton6);
+            grille.put(6, EtatCase.NON_COCHEE);
+
+            bouton7 = new JButton("");
+            bouton7.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton7.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton7.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton7);
+            grille.put(7, EtatCase.NON_COCHEE);
+
+            bouton8 = new JButton("");
+            bouton8.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton8.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton8.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton8);
+            grille.put(8, EtatCase.NON_COCHEE);
+
+            bouton9 = new JButton("");
+            bouton9.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton9.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton9.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton9);
+            grille.put(9, EtatCase.NON_COCHEE);
+
+            //Fin de la création des boutons
+            //Events de clic sur les boutons
+            bouton1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(1, grille.get(1)));
+                    clearChanged();
+                }
+            });
+
+            bouton2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(2, grille.get(2)));
+                    clearChanged();
+                }
+            });
+
+            bouton3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(3, grille.get(3)));
+                    clearChanged();
+                }
+            });
+
+            bouton4.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(4, grille.get(4)));
+                    clearChanged();
+                }
+            });
+
+            bouton5.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(5, grille.get(5)));
+                    clearChanged();
+                }
+            });
+
+            bouton6.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(6, grille.get(6)));
+                    clearChanged();
+                }
+            });
+
+            bouton7.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(7, grille.get(7)));
+                    clearChanged();
+                }
+            });
+
+            bouton8.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(8, grille.get(8)));
+                    clearChanged();
+                }
+            });
+
+            bouton9.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(new MessageGrille(9, grille.get(9)));
+                    clearChanged();
+                }
+            });
+
+            //Fin des events de clic sur bouton
+
+
+            JPanel panelSud = new JPanel(new GridLayout(1, 4));
+            mainPanel.add(panelSud, BorderLayout.SOUTH);
+            panelSud.setBackground(Color.decode("#98fb98"));
+
+            JButton btnQuitter = new JButton("Quitter");
+            btnQuitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(Actions.ANNULE);
+                    clearChanged();
+                }
+            });
+            btnQuitter.setBackground(Color.decode("#D73535"));
+            btnQuitter.setForeground(Color.decode("#FFFFFF"));
+
+            panelSud.add(btnQuitter);
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+        }
 
     }
 
@@ -273,34 +485,120 @@ public class VueGrille extends Observable {
 
     public void majCase(MessageGrille message) {
         System.out.println(message.getNumGrille());
-        if (message.getNumGrille() == 1) {
-            bouton1.setText(message.NouvEtatCase());
-            grille.put(1, message.getEtat());
-        } else if (message.getNumGrille() == 2) {
-            bouton2.setText(message.NouvEtatCase());
-            grille.put(2, message.getEtat());            
-        } else if (message.getNumGrille() == 3) {
-            bouton3.setText(message.NouvEtatCase());
-            grille.put(3, message.getEtat());
-        } else if (message.getNumGrille() == 4) {
-            bouton4.setText(message.NouvEtatCase());
-            grille.put(4, message.getEtat());
-        } else if (message.getNumGrille() == 5) {
-            bouton5.setText(message.NouvEtatCase());
-            grille.put(5, message.getEtat());
-        } else if (message.getNumGrille() == 6) {
-            bouton6.setText(message.NouvEtatCase());
-            grille.put(6, message.getEtat());
-        } else if (message.getNumGrille() == 7) {
-            bouton7.setText(message.NouvEtatCase());
-            grille.put(7, message.getEtat());
-        } else if (message.getNumGrille() == 8) {
-            bouton8.setText(message.NouvEtatCase());
-            grille.put(8, message.getEtat());
-        } else if (message.getNumGrille() == 9) {
-            bouton9.setText(message.NouvEtatCase());
-            grille.put(9, message.getEtat());
+        if(vAge == GestionVue.Moins12){
+            if (message.getNumGrille() == 1) {
+                bouton1.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton1.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton1.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(1, message.getEtat());
+            } else if (message.getNumGrille() == 2) {
+                bouton2.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton2.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton2.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(2, message.getEtat());            
+            } else if (message.getNumGrille() == 3) {
+                bouton3.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton3.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton3.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(3, message.getEtat());
+            } else if (message.getNumGrille() == 4) {
+                bouton4.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton4.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton4.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(4, message.getEtat());
+            } else if (message.getNumGrille() == 5) {
+                bouton5.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton5.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton5.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(5, message.getEtat());
+            } else if (message.getNumGrille() == 6) {
+                bouton6.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton6.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton6.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(6, message.getEtat());
+            } else if (message.getNumGrille() == 7) {
+                bouton7.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton7.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton7.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(7, message.getEtat());
+            } else if (message.getNumGrille() == 8) {
+                bouton8.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton8.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton8.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(8, message.getEtat());
+            } else if (message.getNumGrille() == 9) {
+                bouton9.setText(message.NouvEtatCase());
+                if(message.getEtat() == EtatCase.O){
+                    bouton9.setBackground(Color.decode("#3399ff"));
+                }
+                else{
+                    bouton9.setBackground(Color.decode("#ff6666"));
+                }
+                grille.put(9, message.getEtat());
+            }
         }
+        else{
+            if (message.getNumGrille() == 1){
+                bouton1.setText(message.NouvEtatCase());
+                grille.put(1, message.getEtat());
+            } else if (message.getNumGrille() == 2) {
+                bouton2.setText(message.NouvEtatCase());
+                grille.put(2, message.getEtat());            
+            } else if (message.getNumGrille() == 3) {
+                bouton3.setText(message.NouvEtatCase());
+                grille.put(3, message.getEtat());
+            } else if (message.getNumGrille() == 4) {
+                bouton4.setText(message.NouvEtatCase());
+                grille.put(4, message.getEtat());
+            } else if (message.getNumGrille() == 5) {
+                bouton5.setText(message.NouvEtatCase());
+                grille.put(5, message.getEtat());
+            } else if (message.getNumGrille() == 6) {
+                bouton6.setText(message.NouvEtatCase());
+                grille.put(6, message.getEtat());
+            } else if (message.getNumGrille() == 7) {
+                bouton7.setText(message.NouvEtatCase());
+                grille.put(7, message.getEtat());
+            } else if (message.getNumGrille() == 8) {
+                bouton8.setText(message.NouvEtatCase());
+                grille.put(8, message.getEtat());
+            } else if (message.getNumGrille() == 9) {
+                bouton9.setText(message.NouvEtatCase());
+                grille.put(9, message.getEtat());
+            }
+        }  
     }
     public EtatMatch verifVictoire(EtatCase etatCase){
             EtatMatch etat = null;
@@ -347,6 +645,5 @@ public class VueGrille extends Observable {
             return etat;
         }
         
-        
-    
+       
 }

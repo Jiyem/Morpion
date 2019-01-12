@@ -113,7 +113,7 @@ public class Controleur implements Observer {
                 maxJoueurs = message.getNbJoueurs();
                 if(maxJoueurs > 1 && maxJoueurs <21){
                     v1.close();
-                    v2 = new VueInscription(maxJoueurs);
+                    v2 = new VueInscription(maxJoueurs,age);
                     v2.afficher();
                     v2.addObserver(this);                   
                 }else{
@@ -218,7 +218,7 @@ public class Controleur implements Observer {
                 }
                 if(age == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
                    v1.close();
-                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2());
+                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
                    v4.addObserver(this);
                    v4.afficher();
                    v1.close();             
@@ -233,7 +233,7 @@ public class Controleur implements Observer {
                 }
                 if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == JouerLeMatch){
                    v1.close();
-                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2());
+                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
                    v4.addObserver(this);
                    v4.afficher();
                    v1.close();             

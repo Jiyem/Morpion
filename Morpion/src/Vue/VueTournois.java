@@ -56,7 +56,7 @@ public class VueTournois extends Observable {
     @SuppressWarnings("Convert2Lambda")
     public VueTournois(GestionVue vEtape,GestionVue vAge) {
         if(vEtape==Préparation){        
-
+        
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
@@ -111,7 +111,7 @@ public class VueTournois extends Observable {
         contentPanel.add(new JLabel(""));
         contentPanel.add(new JLabel(""));
         JButton btnMoins12 = new JButton("Mode enfant");
-        btnMoins12.setBackground(Color.decode("#5DB600"));
+        btnMoins12.setBackground(Color.decode("#98FB98"));
         btnMoins12.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -177,14 +177,14 @@ public class VueTournois extends Observable {
         mainPanel.add(panelHaut, BorderLayout.NORTH);
         
         panelHaut.add(new JLabel("Nombre de joueurs : "));
-        panelHaut.setBackground(Color.decode("#FBEEE4"));    
+        panelHaut.setBackground(Color.decode("#98fb98"));    
         
         JPanel contentPanel = new JPanel (new GridLayout(1, 1));
-        contentPanel.setBackground(Color.decode("#FBEEE4")); 
+        contentPanel.setBackground(Color.decode("#98fb98")); 
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 //        contentPanel.add(new JLabel("ici la barre (à ajouter)"));
         JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 20, 2);
-        slider.setBackground(Color.decode("#FBEEE4"));
+        slider.setBackground(Color.decode("#98fb98"));
         contentPanel.add(slider);
         slider.setMinorTickSpacing(1);
         slider.setMajorTickSpacing(2);
@@ -196,7 +196,7 @@ public class VueTournois extends Observable {
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         
-        bottomPanel.setBackground(Color.decode("#FBEEE4")); 
+        bottomPanel.setBackground(Color.decode("#98fb98")); 
         JButton btnStop = new JButton("Stop");
         btnStop.setBackground(Color.decode("#D73535"));
         btnStop.setForeground(Color.decode("#FFFFFF"));
@@ -330,7 +330,7 @@ public class VueTournois extends Observable {
         }
     }
     
-    public VueTournois(GestionVue vEtape,GestionVue vAge,HashMap<Integer,Match> matchs,int matchCourant) {
+    public VueTournois(GestionVue vEtape,GestionVue vAge,HashMap<Integer,Match> matchs,int matchCourant){
         if(vAge == Plus12 && vEtape == Menu){
             window = new JFrame(); 
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -352,7 +352,78 @@ public class VueTournois extends Observable {
             
            
             panelCentre.add(new JLabel(""));
-            CombatDesJoueurs = new JLabel("Le match prochain opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom());
+            CombatDesJoueurs = new JLabel("Le match prochain opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom(),SwingConstants.CENTER);
+            panelCentre.add(CombatDesJoueurs);
+            panelCentre.add(new JLabel(""));
+            
+            panelCentre.add(new JLabel(""));
+            JButton jouer = new JButton("Jouer le match");
+            panelCentre.add(jouer);
+            jouer.setBackground(Color.decode("#FFFFFF"));
+            
+            jouer.addActionListener((ActionEvent e) -> {
+                setChanged();
+                notifyObservers(new MessageMenu(vAge,GestionVue.JouerLeMatch));
+                clearChanged();
+                    });
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+            if(matchCourant > 1){
+               if(matchs.get(matchCourant-1).getFinmatch() == EtatMatch.Victoire){
+                   panelCentre.add(new JLabel("Ancien match : Victoire de " + matchs.get(matchCourant-1).getGagnant().getNom() + " sur " + matchs.get(matchCourant-1).getPerdant().getNom(),SwingConstants.CENTER));
+               }
+               else{
+                   panelCentre.add(new JLabel("Ancien match : Egalité entre " + matchs.get(matchCourant-1).getJoueur1().getNom()+ " et" + matchs.get(matchCourant-1).getJoueur2().getNom(),SwingConstants.CENTER));
+               }
+            }
+            else {panelCentre.add(new JLabel(""));}
+            panelCentre.add(new JLabel(""));
+            
+            
+            JButton btnQuitter = new JButton("Quitter");
+            panelBas.add(btnQuitter);
+            btnQuitter.addActionListener((ActionEvent e) -> {
+                setChanged();
+                notifyObservers(new MessageMenu(vAge,GestionVue.Quitter));
+                clearChanged();
+                });
+            btnQuitter.setBackground(Color.decode("#D73535"));
+            btnQuitter.setForeground(Color.decode("#FFFFFF"));
+            panelBas.add(new JLabel(""));panelBas.add(new JLabel("")); 
+            JButton btnclassement = new JButton("Classement");
+            panelBas.add(btnclassement);
+            btnclassement.addActionListener((ActionEvent e) -> {
+                    setChanged();
+                    notifyObservers(new MessageMenu(vAge,GestionVue.Classement));
+                    clearChanged();
+                });
+            btnclassement.setBackground(Color.decode("#3232FF"));
+            btnclassement.setForeground(Color.decode("#FFFFFF"));
+        }
+        else if(vAge == Moins12 && vEtape == Menu){
+            //VUE MENU MOINS DE 12 ANS
+            window = new JFrame(); 
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+            window.setTitle("Tournoi de morpion : menu");
+            
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel);
+        
+            JPanel panelCentre = new JPanel(new GridLayout(3,3)) ;
+            JPanel panelBas = new JPanel(new GridLayout(1,4)) ;
+            mainPanel.add(panelCentre, BorderLayout.CENTER);
+            panelCentre.setBackground(Color.decode("#98FB98"));
+            mainPanel.add(panelBas, BorderLayout.SOUTH);
+            panelBas.setBackground(Color.decode("#98FB98"));
+           // mainPanel.setBackground(Color.decode("#5DB600"));
+            
+           
+            panelCentre.add(new JLabel(""));
+            CombatDesJoueurs = new JLabel("Le match prochain opposera "+ matchs.get(matchCourant).getJoueur1().getNom() + " à " + matchs.get(matchCourant).getJoueur2().getNom(),SwingConstants.CENTER);
             panelCentre.add(CombatDesJoueurs);
             panelCentre.add(new JLabel(""));
             
@@ -400,7 +471,7 @@ public class VueTournois extends Observable {
             btnclassement.setBackground(Color.decode("#3232FF"));
             btnclassement.setForeground(Color.decode("#FFFFFF"));
         }
-        else {
+        else{
             window = new JFrame(); 
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
