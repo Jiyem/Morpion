@@ -77,7 +77,7 @@ public class Controleur implements Observer {
         if (arg instanceof Actions) {
             if (((Actions) arg) == Actions.ANNULE) {
             System.out.println("L'utilisateur a abandonné");
-            v1.close();v2.close();
+            v1.close();v2.close();v4.close();
             }
             if (((Actions) arg) == Actions.CLASSEMENT_GENERAL) {
                 //Faut afficher la vue classement avec tous les joueurs
@@ -85,8 +85,8 @@ public class Controleur implements Observer {
 
         if(arg == "-12"){
                 v1.close();
-                age = Plus12; //CA C'EST DE LA CRABISTOUILLE DONC FAUDRA CHANGER
-                v1 = new VueTournois(Préparation2,Moins12);
+                age = Moins12; //CA C'EST DE LA CRABISTOUILLE DONC FAUDRA CHANGER
+                v1 = new VueTournois(Préparation2,age);
                 v1.addObserver(this);
                 v1.afficher();
             }
@@ -231,19 +231,35 @@ public class Controleur implements Observer {
             
             }
             //Gestion du menu
+
             if(arg instanceof MessageMenu){
                 MessageMenu messageMenu = (MessageMenu) arg ;
-                
-                if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Classement){
+                //Plus de 12 ans
+                if(messageMenu.getQueFaire() == Classement){
                    v1.close();
                    this.ClassementEnCours();
                 }
-                if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == Quitter){
+                if(age == Plus12 && messageMenu.getQueFaire() == Quitter){
                     v1.close();
                 }
-                if(messageMenu.getAge() == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
+                if(age == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
                    v1.close();
-                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2());
+                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
+                   v4.addObserver(this);
+                   v4.afficher();
+                   v1.close();             
+                }
+                //Moins de 12 ans
+                if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Classement){
+                   v1.close();
+                   this.ClassementEnCours();
+                }
+                if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Quitter){
+                    v1.close();
+                }
+                if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == JouerLeMatch){
+                   v1.close();
+                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
                    v4.addObserver(this);
                    v4.afficher();
                    v1.close();             
