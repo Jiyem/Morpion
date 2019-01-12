@@ -75,58 +75,25 @@ public class Controleur implements Observer {
     
         @Override
     public void update(Observable o, Object arg) {
+        
+        //Quitter / afficher le classement
         if (arg instanceof Actions) {
-            if (((Actions) arg) == Actions.ANNULE) {
-            System.out.println("L'utilisateur a abandonné");
-            v1.close();v2.close();v4.close();
-            }
-            if (((Actions) arg) == Actions.CLASSEMENT_GENERAL) {
-                //Faut afficher la vue classement avec tous les joueurs
-            }}
-
-        if(arg == "-12"){
-                v1.close();
-                age = Moins12;
-                v1 = new VueTournois(Préparation2,age);
-                v1.addObserver(this);
-                v1.afficher();
-            }
-        if(arg == "+12"){
-                v1.close();
-                age = Plus12;
-                v1 = new VueTournois(Préparation2,age);
-                v1.addObserver(this);
-                v1.afficher();
-            }
-        if(arg == "regles"){
-            v1.close();
-            v5 = new VueRegles();
-            v5.addObserver(this);
-            v5.afficher();
+            this.faireAction((Actions) arg);
         }
         
-        if(arg instanceof GestionVue){
-            if(arg == GestionVue.Tournoi){
-                v1.close();
-                v1 = new VueTournois(Préparation,null);
-                v1.addObserver(this);
-                v1.afficher();
-            }
-            if(arg == GestionVue.Duel){
-                v1.close();
-                v4 = new VueGrille();
-                v4.addObserver(this);
-                v4.afficher();
-            }
-            if(arg == GestionVue.Duel){
-                v1.close();
-
-            }
+        //Choix dans le menu principal du mode tournois.
+        if(arg instanceof String){ 
+            this.choixVueTournois((String) arg);
         }
-        // Contrôle pour la vue +12 ans de VueTournois :
+        
+        //Choix du mode de jeu dans le menu principal
+        if(arg instanceof GestionVue){
+            this.choixModeDeJeu((GestionVue) arg);
+        }
+        // Gestion des inscriptions :
         if(arg instanceof MessageTournois){
             MessageTournois message = (MessageTournois) arg ;
-            //Premier joueur à s'inscrire
+            //Début inscription
             if (message.getAction()== Actions.SUIVANT) {
                 maxJoueurs = message.getNbJoueurs();
                 if(maxJoueurs == 0){
@@ -502,6 +469,54 @@ public class Controleur implements Observer {
         }
        
         
+    }
+    
+    private void choixVueTournois(String string){
+        if(string != "regles"){
+            if(string == "-12"){
+                age = Moins12;
+            }else if(string == "+12"){
+                age = Plus12;
+            }
+            v1.close();
+            v1 = new VueTournois(Préparation2,age);
+            v1.addObserver(this);
+            v1.afficher();            
+        }else{
+            v1.close();
+            v5 = new VueRegles();
+            v5.addObserver(this);
+            v5.afficher();  
+        }
+
+    }
+    
+    private void choixModeDeJeu(GestionVue gv){
+            if(gv == GestionVue.Tournoi){
+                v1.close();
+                v1 = new VueTournois(Préparation,null);
+                v1.addObserver(this);
+                v1.afficher();
+            }
+            if(gv == GestionVue.Duel){
+                v1.close();
+                v4 = new VueGrille();
+                v4.addObserver(this);
+                v4.afficher();
+            }
+            if(gv == GestionVue.Solo){
+                v1.close();
+            }        
+    }
+    
+    private void faireAction(Actions action){
+        if (action == Actions.ANNULE) {
+            System.out.println("L'utilisateur a abandonné");
+            v1.close();v2.close();v4.close();
+        }
+        if (action == Actions.CLASSEMENT_GENERAL) {
+                //Faut afficher la vue classement avec tous les joueurs
+        }
     }
     
     
