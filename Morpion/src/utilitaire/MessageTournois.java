@@ -41,8 +41,12 @@ public class MessageTournois {
     }
     
     public int getNbJoueurs(){
-        int i = Integer.parseInt(nbJoueurs);
-        return i;
+        try{
+            int i = Integer.parseInt(nbJoueurs);
+            return i;
+        }catch(java.lang.NumberFormatException s){
+            return 0;
+        }
     }
     
     public Actions getAction(){

@@ -96,7 +96,7 @@ public class VueInscription extends Observable {
                     }
                 });
                 botPanel.add(btnQuitter);
-                botPanel.add(new JLabel(""));
+                botPanel.add(erreur);
                 botPanel.add(new JLabel(""));
                 botPanel.add(btnSuivant);
             }
@@ -151,7 +151,7 @@ public class VueInscription extends Observable {
                     }
                 });
                 botPanel.add(btnQuitter);
-                botPanel.add(new JLabel(""));
+                botPanel.add(erreur);
                 botPanel.add(new JLabel(""));
                 botPanel.add(btnSuivant);        
             }        
@@ -167,10 +167,12 @@ public class VueInscription extends Observable {
     
     public void erreurIdentique(){
         erreur.setText("Erreur : deux pseudo identique.");
+        erreur.setForeground(Color.red);
     }
     
     public void erreurVide(){
         erreur.setText("Erreur : pseudo vide.");
+        erreur.setForeground(Color.red);
     }
 
 }
