@@ -201,7 +201,7 @@ public class VueClassement extends Observable{
             bottomPanel.add(btnretour= new JButton("Retour"));
             btnretour.addActionListener((ActionEvent e) -> {
             setChanged();
-            notifyObservers(Actions.RETOUR);
+            notifyObservers(new MessageClassement(v1,GestionVue.Menu));
             clearChanged();
             });
             bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));

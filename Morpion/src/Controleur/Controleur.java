@@ -162,7 +162,7 @@ public class Controleur implements Observer {
         v3.afficher();
     }
     
-    private void ClassementEnCours(){
+    private void ClassementEnCours(GestionVue age){
         //Classement du nombre de joueurs
         int maxPoints = 0;
         int indiceMaxPoints = 0;
@@ -192,10 +192,17 @@ public class Controleur implements Observer {
             maxPoints = 0;
             indiceMaxPoints = 0;
         }
-        //On créer la vue tournois avec les joueurs classé
-        v3 = new VueClassement(Plus12,lJoueursClassé,matchs,etatTournoi);
-        v3.afficher();
-        v3.addObserver(this);
+        //On créer la vue classement avec les joueurs classé
+        if(age == Plus12){
+            v3 = new VueClassement(Plus12,lJoueursClassé,matchs,etatTournoi);
+            v3.afficher();
+            v3.addObserver(this);           
+        }else{
+            v3 = new VueClassement(Moins12,lJoueursClassé,matchs,etatTournoi);
+            v3.afficher();
+            v3.addObserver(this); 
+        }
+
     }
     
     private boolean vérifPseudo(){
@@ -400,7 +407,7 @@ public class Controleur implements Observer {
         //Plus de 12 ans
         if(messageMenu.getQueFaire() == Classement){
             v1.close();
-            this.ClassementEnCours();
+            this.ClassementEnCours(messageMenu.getAge());
         }
         if(age == Plus12 && messageMenu.getQueFaire() == Quitter){
             v1.close();
@@ -415,7 +422,7 @@ public class Controleur implements Observer {
         //Moins de 12 ans
         if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Classement){
             v1.close();
-            this.ClassementEnCours();
+            this.ClassementEnCours(messageMenu.getAge());
         }
         if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Quitter){
             v1.close();
