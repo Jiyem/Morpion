@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import utilitaire.GestionVue;
+import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
 import utilitaire.MessageClassement;
 import utilitaire.MessageMenu;
@@ -80,6 +81,7 @@ public class VueClassement extends Observable{
         contentPanel.add(new JLabel("Nom du joueur",SwingConstants.CENTER));
         contentPanel.add(new JLabel("Numero de place",SwingConstants.CENTER));
         contentPanel.add(new JLabel("Nombre de points",SwingConstants.CENTER));
+        
        for(int i = 0;i < listejoueur.size();i++){
             JLabel place =  new JLabel("Place n°" + (i+1),SwingConstants.CENTER);
             JLabel nom = new JLabel(listejoueur.get(i).getNom(),SwingConstants.CENTER);
@@ -87,30 +89,7 @@ public class VueClassement extends Observable{
             contentPanel.add(nom);
             contentPanel.add(place);
             contentPanel.add(nbpoints);
-            if(i == 0){
-                place.setOpaque(true);
-                place.setBackground(Color.decode("#FFD700"));
-                nom.setOpaque(true);
-                nom.setBackground(Color.decode("#FFD700"));
-                nbpoints.setOpaque(true);
-                nbpoints.setBackground(Color.decode("#FFD700"));
-            }
-            else if(i == 1){
-                place.setOpaque(true);
-                place.setBackground(Color.decode("#c0c0c0"));
-                nom.setOpaque(true);
-                nom.setBackground(Color.decode("#c0c0c0"));
-                nbpoints.setOpaque(true);
-                nbpoints.setBackground(Color.decode("#c0c0c0"));
-            }
-            else if(i == 2){
-                place.setOpaque(true);
-                place.setBackground(Color.decode("#cd7f32"));
-                nom.setOpaque(true);
-                nom.setBackground(Color.decode("#cd7f32"));
-                nbpoints.setOpaque(true);
-                nbpoints.setBackground(Color.decode("#cd7f32"));
-            }
+            this.colorTop(place, nom, nbpoints, i);
             
         }
         bottomPanel = new JPanel(new GridLayout(1, 4));
@@ -127,6 +106,8 @@ public class VueClassement extends Observable{
         bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));
         
         }
+        
+        
         else if(v1 == Plus12 && e1 == EtatTournoi.Termine){
         this.window = new JFrame();
         window.setSize(350, 200);
@@ -153,6 +134,97 @@ public class VueClassement extends Observable{
             contentPanel.add(nom);
             contentPanel.add(place);
             contentPanel.add(nbpoints);
+            this.colorTop(place, nom, nbpoints, i);
+
+            }
+        }
+        
+        
+        else if(v1 == Moins12 && e1 == EtatTournoi.Pas_Termine){
+            this.window = new JFrame();
+            window.setSize(350, 200);
+            //le titre = nom du joueur 
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+            window.setTitle("Classement : moins de 12 ans");
+            mainPanel = new JPanel(new BorderLayout());
+            this.window.add(mainPanel);
+
+            contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
+            contentPanel.setBackground(Color.decode("#FBEEE4"));
+            mainPanel.add(contentPanel, BorderLayout.CENTER);
+            contentPanel.add(new JLabel("Nom du joueur",SwingConstants.CENTER));
+            contentPanel.add(new JLabel("Numero de place",SwingConstants.CENTER));
+            contentPanel.add(new JLabel("Nombre de points",SwingConstants.CENTER));
+
+           for(int i = 0;i < listejoueur.size();i++){
+                JLabel place =  new JLabel("Place n°" + (i+1),SwingConstants.CENTER);
+                JLabel nom = new JLabel(listejoueur.get(i).getNom(),SwingConstants.CENTER);
+                JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"",SwingConstants.CENTER);
+                contentPanel.add(nom);
+                contentPanel.add(place);
+                contentPanel.add(nbpoints);
+                this.colorTop(place, nom, nbpoints, i);
+
+            }
+            bottomPanel = new JPanel(new GridLayout(1, 4));
+            bottomPanel.setBackground(Color.decode("#FBEEE4"));
+            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+            bottomPanel.add(btnretour= new JButton("Retour"));
+            btnretour.addActionListener((ActionEvent e) -> {
+                setChanged();
+                notifyObservers(new MessageClassement(v1,GestionVue.Menu));
+                clearChanged();
+            });
+            btnretour.setBackground(Color.decode("#D73535"));
+            btnretour.setForeground(Color.decode("#FFFFFF"));
+            bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));
+        }
+        else{
+            this.window = new JFrame();
+            window.setSize(350, 200);
+            //le titre = nom du joueur 
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
+            window.setTitle("Fin de tournoi moins 12 ans");
+            mainPanel = new JPanel(new BorderLayout());
+            this.window.add(mainPanel);
+
+            contentPanel = new JPanel (new GridLayout(listejoueur.size()+1,3));
+            contentPanel.setBackground(Color.decode("#FBEEE4"));
+            mainPanel.add(contentPanel, BorderLayout.CENTER);
+            contentPanel.add(new JLabel("Nom du joueur",SwingConstants.CENTER));
+            contentPanel.add(new JLabel("Numero de place",SwingConstants.CENTER));
+            contentPanel.add(new JLabel("Nombre de points",SwingConstants.CENTER));       
+            for(int i = 0;i < listejoueur.size();i++){  
+                JLabel place =  new JLabel("Place n°"+(i+1),SwingConstants.CENTER);
+                JLabel nom = new JLabel(listejoueur.get(i).getNom(),SwingConstants.CENTER);
+                JLabel nbpoints = new JLabel(listejoueur.get(i).getNbpoints()+"",SwingConstants.CENTER);
+                contentPanel.add(nom);
+                contentPanel.add(place);
+                contentPanel.add(nbpoints);
+                this.colorTop(place, nom, nbpoints, i);
+
+            }            
+        }
+    }    
+            
+    
+    public void afficher(){
+        this.window.setVisible(true);
+    }
+
+    public void close() {
+        this.window.dispose();
+    }
+    
+    private void colorTop(JLabel place,JLabel nom, JLabel nbpoints,int i){
             if(i == 0){
                 place.setOpaque(true);
                 place.setBackground(Color.decode("#FFD700"));
@@ -176,44 +248,7 @@ public class VueClassement extends Observable{
                 nom.setBackground(Color.decode("#cd7f32"));
                 nbpoints.setOpaque(true);
                 nbpoints.setBackground(Color.decode("#cd7f32"));
-            }  
-        }
-        }
-        else{
-            this.window = new JFrame();
-            window.setSize(350, 200);
-            //le titre = nom du joueur 
-            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-            // Définit la taille de la fenêtre en pixels
-            window.setSize(800, 300);
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-            window.setTitle("Classement : Moins de 12 ans");
-            mainPanel = new JPanel(new BorderLayout());
-            this.window.add(mainPanel);
-
-            contentPanel = new JPanel (new GridLayout(1,1));
-            
-            
-            
-            bottomPanel = new JPanel(new GridLayout(1, 4));
-            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-            bottomPanel.add(btnretour= new JButton("Retour"));
-            btnretour.addActionListener((ActionEvent e) -> {
-            setChanged();
-            notifyObservers(new MessageClassement(v1,GestionVue.Menu));
-            clearChanged();
-            });
-            bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));bottomPanel.add(new JLabel(""));
-            }}
-            
-    
-    public void afficher(){
-        this.window.setVisible(true);
-    }
-
-    public void close() {
-        this.window.dispose();
+            } 
     }
     
 }
