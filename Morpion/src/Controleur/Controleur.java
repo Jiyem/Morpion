@@ -37,6 +37,7 @@ import utilitaire.MessageDuel;
 import utilitaire.MessageGrille;
 import utilitaire.MessageMenu;
 import utilitaire.MessageRegles;
+import utilitaire.MessageSolo;
 import utilitaire.MessageTournois;
 
 
@@ -123,7 +124,10 @@ public class Controleur implements Observer {
         if(arg instanceof MessageRegles){
             this.gestionRegles();
         }
-            
+        if(arg instanceof MessageSolo){
+            MessageSolo messagesolo = (MessageSolo) arg;
+            this.gestionSolo(messagesolo);
+        }      
             
     }
     
@@ -274,6 +278,12 @@ public class Controleur implements Observer {
             }
             if(gv == GestionVue.Solo){
                 v1.close();
+                 if(v4 != null){
+                    v4.close();
+                }
+                v4 = new VueGrille(gv,0);
+                v4.addObserver(this);
+                v4.afficher();
             }
             if(gv == GestionVue.Rejouer){
                 v4.close();
@@ -473,6 +483,57 @@ public class Controleur implements Observer {
             }
         }
     }
+    
+    private void gestionSolo(MessageSolo messagesolo){
+        if(messagesolo.getEtatCase1()== EtatCase.NON_COCHEE){
+            v4.majCase(new MessageGrille(messagesolo.getNumGrille(),EtatCase.X));
+            if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){
+                    v4.close();
+                    v4 = new VueGrille(GestionVue.RejouerSeul,1);
+                    v4.addObserver(this);
+                    v4.afficher();
+            }
+            else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){
+                    v4.close();
+                    v4 = new VueGrille(GestionVue.RejouerSeul,0);
+                    v4.addObserver(this);
+                    v4.afficher();
+            }
+            else{
+                if (messagesolo.getEtatCase2() == EtatCase.NON_COCHEE){
+                v4.majCase(new MessageGrille(messagesolo.getNumGrilleIA(),EtatCase.O));
+                if(v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){
+                        v4.close();
+                        v4 = new VueGrille(GestionVue.RejouerSeul,2);
+                        v4.addObserver(this);
+                        v4.afficher();
+                    }
+                    else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){
+                        v4.close();
+                        v4 = new VueGrille(GestionVue.RejouerSeul,0);
+                        v4.addObserver(this);
+                        v4.afficher();
+                    }
+                }   
+            }
+                
+        }
+        
+//            if(v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){
+//                    v4.close();
+//                    v4 = new VueGrille(GestionVue.Rejouer,2);
+//                    v4.addObserver(this);
+//                    v4.afficher();
+//                }
+//                else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){
+//                    v4.close();
+//                    v4 = new VueGrille(GestionVue.Rejouer,0);
+//                    v4.addObserver(this);
+//                    v4.afficher();
+//                }
+//
+        }
+    
     
     //Coche la case, vérifie si victoire et si match fini affiche le classement.
     private void gestionGrilleTournois(MessageGrille messageGrille){

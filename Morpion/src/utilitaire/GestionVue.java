@@ -24,6 +24,7 @@ public enum GestionVue {
     Solo,
     Tournoi,
     Rejouer,
+    RejouerSeul,
     Jeu,
     JouerLeMatch;
     

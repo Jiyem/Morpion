@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -38,6 +39,7 @@ import utilitaire.Actions;
 import utilitaire.GestionVue;
 import utilitaire.MessageDuel;
 import utilitaire.MessageGrille;
+import utilitaire.MessageSolo;
 
 /**
  *
@@ -59,6 +61,7 @@ public class VueGrille extends Observable {
     private JButton bouton8;
     private JButton bouton9;
     private Integer numJoueur;
+    
 
     public VueGrille(int numMatch, Joueur joueur1, Joueur joueur2,GestionVue vAge) {
         this.vAge = vAge;
@@ -676,7 +679,463 @@ public class VueGrille extends Observable {
             panelSud.add(new JLabel(""));
             panelSud.add(new JLabel(""));
         }
-        else if(jgagant > 0){
+        else if(vue == GestionVue.Solo){
+            Random random = new Random();
+            
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+            window.setTitle("Jeu du morpion : Solo ");
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            window.add(mainPanel);
+
+            JPanel panelHaut = new JPanel(new GridLayout(2, 3));
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
+            panelHaut.add(new JLabel(""));
+            panelHaut.add(new JLabel("Vous êtes le joueur 1",SwingConstants.CENTER));
+            panelHaut.add(new JLabel(""));
+            panelHaut.add(new JLabel(""));
+            joueurCourant = new JLabel("Vous avez le signe X",SwingConstants.CENTER);
+            panelHaut.add(joueurCourant);
+            panelHaut.add(new JLabel(""));
+
+
+
+            JPanel panelMid = new JPanel(new GridLayout(3, 3));
+            panelMid.setBackground(Color.decode("#FBEEE4"));
+            mainPanel.add(panelMid, BorderLayout.CENTER);
+
+            //Création des boutons du morpion !
+            bouton1 = new JButton("");
+            bouton1.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton1.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton1.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton1);
+            grille.put(1, EtatCase.NON_COCHEE);
+
+            bouton2 = new JButton("");
+            bouton2.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton2.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton2.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton2);
+            grille.put(2, EtatCase.NON_COCHEE);
+
+            bouton3 = new JButton("");
+            bouton3.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton3.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton3.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton3);
+            grille.put(3, EtatCase.NON_COCHEE);
+
+            bouton4 = new JButton("");
+            bouton4.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton4.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton4.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton4);
+            grille.put(4, EtatCase.NON_COCHEE);
+
+            bouton5 = new JButton("");
+            bouton5.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton5.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton5.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton5);
+            grille.put(5, EtatCase.NON_COCHEE);
+
+            bouton6 = new JButton("");
+            bouton6.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton6.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton6.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton6);
+            grille.put(6, EtatCase.NON_COCHEE);
+
+            bouton7 = new JButton("");
+            bouton7.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton7.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton7.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton7);
+            grille.put(7, EtatCase.NON_COCHEE);
+
+            bouton8 = new JButton("");
+            bouton8.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton8.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton8.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton8);
+            grille.put(8, EtatCase.NON_COCHEE);
+
+            bouton9 = new JButton("");
+            bouton9.setBorder(BorderFactory.createLineBorder(Color.decode("#000000"), 2));
+            bouton9.setFont(new Font("Arial",Font.PLAIN,50));
+            bouton9.setBackground(Color.decode("#FFFFFF"));
+            panelMid.add(bouton9);
+            grille.put(9, EtatCase.NON_COCHEE);
+
+            //Fin de la création des boutons
+            //Events de clic sur les boutons
+            bouton1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 1 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                        }
+                    }    
+                    notifyObservers(new MessageSolo(grille.get(1),1,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 2 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                        }
+                    }    
+                    notifyObservers(new MessageSolo(grille.get(2),2,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 3 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                        }
+                    }    
+                    notifyObservers(new MessageSolo(grille.get(3),3,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton4.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(9)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 4 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(9)+1;
+                        }
+                    }    
+                    notifyObservers(new MessageSolo(grille.get(4),4,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton5.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 5 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                        }
+                    }    
+                    notifyObservers(new MessageSolo(grille.get(5),5,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton6.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 6 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                        }
+                    }
+                    notifyObservers(new MessageSolo(grille.get(6),6,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton7.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                            
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 7 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                            ;
+                        }
+                    }    
+                    notifyObservers(new MessageSolo(grille.get(7),7,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton8.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 8 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                        }
+                    }
+                    notifyObservers(new MessageSolo(grille.get(8),8,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+
+            bouton9.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    int numGrilleIA = random.nextInt(8)+1;
+                    int nbCasesNonCochees = 0;
+                    for (int i=1;i<10;i++){
+                        if(grille.get(i) == EtatCase.NON_COCHEE){
+                            nbCasesNonCochees = nbCasesNonCochees + 1;
+                        }
+                    }
+                    if(nbCasesNonCochees > 1){
+                        while(numGrilleIA == 8 || grille.get(numGrilleIA) != EtatCase.NON_COCHEE ){
+                            numGrilleIA = random.nextInt(8)+1;
+                        }
+                    }    
+                    notifyObservers(new MessageSolo(grille.get(9),9,grille.get(numGrilleIA),numGrilleIA));
+                    clearChanged();
+                }
+            });
+            //Fin des events de clic sur bouton
+
+
+            JPanel panelSud = new JPanel(new GridLayout(1, 4));
+            mainPanel.add(panelSud, BorderLayout.SOUTH);
+            panelSud.setBackground(Color.decode("#FBEEE4"));
+
+            JButton btnQuitter = new JButton("Quitter");
+            btnQuitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setChanged();
+                    notifyObservers(Actions.ANNULE);
+                    clearChanged();
+                }
+            });
+            btnQuitter.setBackground(Color.decode("#D73535"));
+            btnQuitter.setForeground(Color.decode("#FFFFFF"));
+
+            panelSud.add(btnQuitter);
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+            panelSud.add(new JLabel(""));
+        }
+        else if(vue == GestionVue.RejouerSeul){
+            if(jgagant == 1){
+                JPanel mainPanel = new JPanel(new BorderLayout());
+            window = new JFrame();
+            window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            // Définit la taille de la fenêtre en pixels
+            window.setSize(800, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+            window.setTitle("Jeu du morpion : Solo ");
+            window.add(mainPanel);
+
+            JPanel panelHaut = new JPanel(new GridLayout(1, 3));
+            mainPanel.add(panelHaut, BorderLayout.NORTH);
+            panelHaut.setBackground(Color.decode("#FBEEE4"));
+            panelHaut.add(new JLabel(""));
+            panelHaut.add(new JLabel("Vous avez gagné ! ",SwingConstants.CENTER));
+            panelHaut.add(new JLabel(""));
+            JPanel panelCentre = new JPanel(new GridLayout(2, 3));
+            mainPanel.add(panelCentre,BorderLayout.CENTER);
+            panelCentre.add(new JLabel(""));
+            panelCentre.setBackground(Color.decode("#FBEEE4"));
+            JButton rejouer = new JButton("Rejouer");
+            panelCentre.add(rejouer);
+            rejouer.setBackground(Color.decode("#FFFFFF"));
+            rejouer.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setChanged();
+                        notifyObservers(GestionVue.Solo);
+                        clearChanged();
+                    }
+                });
+            panelCentre.add(new JLabel(""));
+            panelCentre.add(new JLabel(""));
+//            
+            JButton quitter = new JButton("Retour au menu");
+            panelCentre.add(quitter);
+            quitter.setBackground(Color.decode("#FFFFFF"));
+            quitter.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setChanged();
+                        notifyObservers(GestionVue.Jeu);
+                        clearChanged();
+                    }
+                });
+            panelCentre.add(new JLabel(""));
+            }
+            else if(jgagant == 2){
+                JPanel mainPanel = new JPanel(new BorderLayout());
+                window = new JFrame();
+                window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                // Définit la taille de la fenêtre en pixels
+                window.setSize(800, 300);
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+                window.setTitle("Jeu du morpion : Solo ");
+                window.add(mainPanel);
+
+                JPanel panelHaut = new JPanel(new GridLayout(1, 3));
+                mainPanel.add(panelHaut, BorderLayout.NORTH);
+                panelHaut.setBackground(Color.decode("#FBEEE4"));
+                panelHaut.add(new JLabel(""));
+                panelHaut.add(new JLabel("Vous avez perdu ! ",SwingConstants.CENTER));
+                panelHaut.add(new JLabel(""));
+                JPanel panelCentre = new JPanel(new GridLayout(2, 3));
+                mainPanel.add(panelCentre,BorderLayout.CENTER);
+                panelCentre.add(new JLabel(""));
+                panelCentre.setBackground(Color.decode("#FBEEE4"));
+                JButton rejouer = new JButton("Rejouer");
+                panelCentre.add(rejouer);
+                rejouer.setBackground(Color.decode("#FFFFFF"));
+                rejouer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            setChanged();
+                            notifyObservers(GestionVue.Solo);
+                            clearChanged();
+                        }
+                    });
+                panelCentre.add(new JLabel(""));
+                panelCentre.add(new JLabel(""));
+    //            
+                JButton quitter = new JButton("Retour au menu");
+                panelCentre.add(quitter);
+                quitter.setBackground(Color.decode("#FFFFFF"));
+                quitter.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            setChanged();
+                            notifyObservers(GestionVue.Jeu);
+                            clearChanged();
+                        }
+                    });
+                panelCentre.add(new JLabel(""));
+                }
+            else{
+                JPanel mainPanel = new JPanel(new BorderLayout());
+                window = new JFrame();
+                window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                // Définit la taille de la fenêtre en pixels
+                window.setSize(800, 300);
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
+                window.setTitle("Jeu du morpion : Solo ");
+                window.add(mainPanel);
+
+                JPanel panelHaut = new JPanel(new GridLayout(1, 3));
+                mainPanel.add(panelHaut, BorderLayout.NORTH);
+                panelHaut.setBackground(Color.decode("#FBEEE4"));
+                panelHaut.add(new JLabel(""));
+                panelHaut.add(new JLabel("Il a égalité ! ",SwingConstants.CENTER));
+                panelHaut.add(new JLabel(""));
+                JPanel panelCentre = new JPanel(new GridLayout(2, 3));
+                mainPanel.add(panelCentre,BorderLayout.CENTER);
+                panelCentre.add(new JLabel(""));
+                panelCentre.setBackground(Color.decode("#FBEEE4"));
+                JButton rejouer = new JButton("Rejouer");
+                panelCentre.add(rejouer);
+                rejouer.setBackground(Color.decode("#FFFFFF"));
+                rejouer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            setChanged();
+                            notifyObservers(GestionVue.Solo);
+                            clearChanged();
+                        }
+                    });
+                panelCentre.add(new JLabel(""));
+                panelCentre.add(new JLabel(""));
+    //            
+                JButton quitter = new JButton("Retour au menu");
+                panelCentre.add(quitter);
+                quitter.setBackground(Color.decode("#FFFFFF"));
+                quitter.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            setChanged();
+                            notifyObservers(GestionVue.Jeu);
+                            clearChanged();
+                        }
+                    });
+                panelCentre.add(new JLabel(""));
+                }
+        }
+        else if(jgagant > 0){ //Panneau victoire du joueur en mode duel
             JPanel mainPanel = new JPanel(new BorderLayout());
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -724,7 +1183,7 @@ public class VueGrille extends Observable {
                 });
             panelCentre.add(new JLabel(""));
         }   
-        else{
+        else{ //Si jgagant n'est ni 1 ni 2 et on en déduit qu'il y a une egalité 
           JPanel mainPanel = new JPanel(new BorderLayout());
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -908,7 +1367,7 @@ public class VueGrille extends Observable {
             EtatMatch etat = null;
             if(grille.get(1) == etatCase && grille.get(2) == etatCase &&  grille.get(3) == etatCase){
                 etat = Victoire; //Verification pour la première ligne
-                   System.out.print("Victoire 1er ligne");
+                System.out.print("Victoire 1er ligne");
             }
             else if(grille.get(4) == etatCase && grille.get(5) == etatCase && grille.get(6) == etatCase){
                 etat = Victoire;  //Verification pour la deuxième ligne
@@ -962,6 +1421,5 @@ public class VueGrille extends Observable {
     public void setNumJoueur(Integer numJoueur) {
         this.numJoueur = numJoueur;
     }
-        
 
 }
