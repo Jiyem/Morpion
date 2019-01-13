@@ -94,298 +94,35 @@ public class Controleur implements Observer {
         // Gestion des inscriptions :
         if(arg instanceof MessageTournois){
             MessageTournois message = (MessageTournois) arg ;
-            //Début inscription
-            if (message.getAction()== Actions.SUIVANT) {
-                maxJoueurs = message.getNbJoueurs();
-                if(maxJoueurs == 0){
-                    v1.erreurType();
-                }
-                else if(maxJoueurs > 1 && maxJoueurs <21){
-                    v1.close();
-                    v2 = new VueInscription(maxJoueurs,age);
-                    v2.afficher();
-                    v2.addObserver(this);                   
-                }else{
-                    v1.erreurNbJoueurs();
-                }
-
-            }
             // Terminer l'inscription.
-            if(message.getAction() == Actions.JTERMINER){
-                lJoueurs.clear();
-                for(int i = 0;i<message.getPseudos().size();i++){
-                    Joueur j = new Joueur(message.getPseudos().get(i));
-                    lJoueurs.add(j);;
-                }
-                // Vérification sur les pseudos :
-                
-                if(!this.vérifPseudo()){
-                    
-                }else{
-                    //Génération des matchs
-                
-                    // A,B,C,D,E,F,G,H
-                    //A vs B / A vs C  / A vs D / A vs E / A vs F / A vs G / A vs H -> Flag = m -1 / itFlag = 0;
-                    // B vs C / B vs D / B vs E / B vs F / B vs G / B vs H -> Flag = m -2 / itFlag = 1;
-                    // C vs D / C vs E / c vs F / c vs G / c vs H -> Flag = m-3 / itFag = 2;
-                    // D vs E / D vs F / d vs G / d vs H -> Flag = m-4 / itFlag = 3;
-                    // E vs F / E vs g / e vs H -> Flag = m - 5 / itFlag = 4;
-                    // F vs G / f vs H -> Flag = m - 6 / itFlag = 5;
-                    // G vs H -> Flag = m - 7 / itFlag = 6;
-                    // Formule pour 8 joueurs : 7 + 6 + 5 + 4 + 3 + 2 + 1
-                    // fin de boucle quand itFlag = nbJoueurs -2;
-
-    //                nbMatch = 0;
-                    Integer cpt = maxJoueurs -1;
-                    while(cpt > 0){
-                        nbMatch = nbMatch + cpt;
-                        cpt = cpt -1;
-                    }
-                     System.out.println("Nombre de matchs: "+nbMatch);
-
-                    cpt = 1; // 2 // 3 // 4
-                    int flag = maxJoueurs -1; // ex de 4 joueurs, flag = 3 // 2 // 1 // 0 //2
-                    int itFlag = 0; //nombre de reset du flag //1 
-
-                    int joueurAct = 0; // 1
-                    int joueurDef = 1; // 2 // 3 // 2
-                    while(cpt < nbMatch +1){
-                        Match m = new Match(lJoueurs.get(joueurAct),lJoueurs.get(joueurDef));
-                        matchs.put(cpt,m);
-                        cpt = cpt +1;
-                        flag = flag -1;
-                        if(flag > 0){
-                            joueurDef = joueurDef +1;                        
-                        }
-                        if(flag == 0){
-                            itFlag = itFlag +1;
-                            if(itFlag <= maxJoueurs -2){
-                            flag = maxJoueurs -1 -itFlag;
-                            joueurAct = joueurAct +1;
-                            joueurDef = joueurAct +1;
-                            }
-                        }
-
-
-                    }
-                        System.out.println("Fin d'initialisation du tournois");
-                        for(HashMap.Entry<Integer, Match> entry : matchs.entrySet()) {
-                            Integer key = entry.getKey();
-                            Match value = entry.getValue();
-                            System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
-
-                        }
-                    //Match courant c'est la match courant.
-                    matchCourant = 1;
-                    //Le joueur courant est le joueur qui doit jouer son tour de jeu.
-                    joueurCourant = matchs.get(matchCourant).getJoueur1();
-                    //Matchs c'est la liste des matchs (hashmap) avec en clé le n° du match et en valeur le match.
-                    //age = plus12 ou moins12
-                    v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                    v1.addObserver(this);
-                    v1.afficher();
-                }
-            
+            if(this.gestionInscription(message)){
+                this.generationMatchs();
+            }          
+        }   
+        //Gestion du menu
+        if(arg instanceof MessageMenu){
+            MessageMenu messageMenu = (MessageMenu) arg ;
+            this.gestionMenu(messageMenu);
             }
-                }
-                
-                
-                
-                
-                
-            //Gestion du menu
-
-            if(arg instanceof MessageMenu){
-                MessageMenu messageMenu = (MessageMenu) arg ;
-                //Plus de 12 ans
-                if(messageMenu.getQueFaire() == Classement){
-                   v1.close();
-                   this.ClassementEnCours();
-                }
-                if(age == Plus12 && messageMenu.getQueFaire() == Quitter){
-                    v1.close();
-                }
-                if(age == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
-                   v1.close();
-                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
-                   v4.addObserver(this);
-                   v4.afficher();
-                   v1.close();             
-                }
-                //Moins de 12 ans
-                if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Classement){
-                   v1.close();
-                   this.ClassementEnCours();
-                }
-                if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Quitter){
-                    v1.close();
-                }
-                if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == JouerLeMatch){
-                   v1.close();
-                   v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
-                   v4.addObserver(this);
-                   v4.afficher();
-                   v1.close();             
-                }
-            }
-            
-              if(arg instanceof MessageDuel){
-                MessageDuel messageduel = (MessageDuel) arg;
-                 if(messageduel.getEtat()== EtatCase.NON_COCHEE){
-                    System.out.println("Case non cochée");
-                    if(messageduel.getNumJoueur()%2 == 0){
-                        v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.O));
-                        v4.setNumJoueur(v4.getNumJoueur()+1);
-                        if(v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){
-                            v4.close();
-                            v4 = new VueGrille(GestionVue.Rejouer,2);
-                            v4.addObserver(this);
-                            v4.afficher();
-                        }
-                         else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){
-                            v4.close();
-                            v4 = new VueGrille(GestionVue.Rejouer,0);
-                            v4.addObserver(this);
-                            v4.afficher();
-                        }
-                    }
-                    else{
-                        v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.X));
-                        v4.setNumJoueur(v4.getNumJoueur()+1);
-                        if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){
-                            v4.close();
-                            v4 = new VueGrille(GestionVue.Rejouer,1);
-                            v4.addObserver(this);
-                            v4.afficher();
-                        }
-                        else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){
-                            v4.close();
-                            v4 = new VueGrille(GestionVue.Rejouer,0);
-                            v4.addObserver(this);
-                            v4.afficher();
-                        }
-                    }
-                 }
-             }
-            //Gestion de la grille du tournoi
-            if(arg instanceof MessageGrille){
-                MessageGrille messageGrille = (MessageGrille) arg;
-                //si la case est vide
-                if(messageGrille.getEtat()== EtatCase.NON_COCHEE){
-                    System.out.println("Case non cochée");
-                    //si le joueur actuel est le joueur 1 (donc qu'il à le signe X
-                    if(matchs.get(matchCourant).getJoueur1() == joueurCourant){
-                        System.out.println("Cochez avec X");
-                        v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.X));
-                        if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){ //S'il y a une victoire
-                            System.out.print("VOUS AVEZ GAGNE");
-                            matchs.get(matchCourant).getJoueur1().addPoints(3);
-                            v4.close();
-                            matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur1());
-                            matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
-                            matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
-                            if(matchCourant == nbMatch){
-                                this.ClassementFinal();
-                            }
-                            else {
-                                matchCourant = matchCourant+1;
-                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                                v1.addObserver(this);
-                                v1.afficher();
-                            }
-                        }
-                        else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){ //S'il il y a une egalité
-                            System.out.print("Egalité");
-                            matchs.get(matchCourant).getJoueur1().addPoints(1);
-                            matchs.get(matchCourant).getJoueur2().addPoints(1);
-                            v4.close();
-                            matchs.get(matchCourant).setGagnant(null);
-                            matchs.get(matchCourant).setPerdant(null);
-                            matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
-                            if(matchCourant == nbMatch){
-                                this.ClassementFinal();
-                            }
-                            else {
-                                matchCourant = matchCourant+1;
-                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                                v1.addObserver(this);
-                                v1.afficher();
-                            }
-                        }
-                    }    
-                    else{
-                        System.out.println("Cochez avec O");
-                        v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.O));
-                        if (v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){ //S'il y a une victoire
-                            System.out.print("VOUS AVEZ GAGNE");
-                            matchs.get(matchCourant).getJoueur2().addPoints(3);
-                            v4.close();
-                            matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur2());
-                            matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
-                            matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
-                            if(matchCourant == nbMatch){
-                                this.ClassementFinal();
-                            }
-                            else {
-                                matchCourant = matchCourant+1;
-                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                                v1.addObserver(this);
-                                v1.afficher();
-                            }
-                        }
-                        else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){ //S'il il y a une egalité
-                            System.out.print("Egalité");
-                            matchs.get(matchCourant).getJoueur1().addPoints(1);
-                            matchs.get(matchCourant).getJoueur2().addPoints(1);
-                            v4.close();
-                            matchs.get(matchCourant).setGagnant(null);
-                            matchs.get(matchCourant).setPerdant(null);
-                            matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
-                            if(matchCourant == nbMatch){
-                                this.ClassementFinal();
-                            }
-                            else {
-                                matchCourant = matchCourant+1;
-                                v1 = new VueTournois(Menu,age,matchs,matchCourant);
-                                v1.addObserver(this);
-                                v1.afficher();
-                            }
-                               
-                        }
-                    }
-                //Changement de joueur courant
-                if(joueurCourant == matchs.get(matchCourant).getJoueur1()){
-                    joueurCourant = matchs.get(matchCourant).getJoueur2();
-                }else{
-                  joueurCourant = matchs.get(matchCourant).getJoueur1(); 
-                }
-                v4.setJoueurCourant(joueurCourant);
-                }
-                //si la case est cochée
-                else{
-                    System.out.println("La case est déjà sélectionné");
-                }
-                
-            }
-            
-            
-            //Gestion du classement
-            if(arg instanceof MessageClassement){
-             MessageClassement messageClassement = (MessageClassement) arg ;
-                v3.close();
-                v1 = new VueTournois(messageClassement.getQueFaire(),messageClassement.getAge(),matchs,matchCourant);
-                v1.addObserver(this);
-                v1.afficher();
-            }
-            
-            //Gestion Regles
-            if(arg instanceof MessageRegles){
-                MessageRegles messageRegles = (MessageRegles) arg;
-                v5.close();
-                v1 = new VueTournois(GestionVue.Préparation,GestionVue.Moins12);
-                v1.addObserver(this);
-                v1.afficher();
-            }
+        if(arg instanceof MessageDuel){
+            MessageDuel messageduel = (MessageDuel) arg;
+            this.gestionDuel(messageduel);
+        }
+        //Gestion de la grille du tournoi
+        if(arg instanceof MessageGrille){
+            MessageGrille messageGrille = (MessageGrille) arg;
+            // /!\ fonction à optimiser grandement ! 
+            this.gestionGrilleTournois(messageGrille);
+        }
+        //Gestion du classement
+        if(arg instanceof MessageClassement){
+            MessageClassement messageClassement = (MessageClassement) arg ;
+            this.gestionClassement(messageClassement);
+        }    
+        //Gestion Regles
+        if(arg instanceof MessageRegles){
+            this.gestionRegles();
+        }
             
             
     }
@@ -564,5 +301,283 @@ public class Controleur implements Observer {
         }
     }
     
+    //S'occupe de vérifier si les les inscriptions n'ont pas d'erreur et d'enregistrer les joueurs inscrit. Retourne True si l'inscription est terminé.
+    private boolean gestionInscription(MessageTournois message){
+        //Début inscription
+        if (message.getAction()== Actions.SUIVANT) {
+            maxJoueurs = message.getNbJoueurs();
+            if(maxJoueurs == 0){
+                v1.erreurType();
+            }
+            else if(maxJoueurs > 1 && maxJoueurs <21){
+                v1.close();
+                v2 = new VueInscription(maxJoueurs,age);
+                v2.afficher();
+                v2.addObserver(this);                   
+            }else{
+                v1.erreurNbJoueurs();
+            }
+        }
+        if(message.getAction() == Actions.JTERMINER){
+            lJoueurs.clear();
+            for(int i = 0;i<message.getPseudos().size();i++){
+                Joueur j = new Joueur(message.getPseudos().get(i));
+                lJoueurs.add(j);;
+            }
+            // Vérification sur les pseudos :   
+            if(!this.vérifPseudo()){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
     
+    //Termine l'initialisation du tournois avec création des matchs et du match courant.
+    private void generationMatchs(){
+        //Génération des matchs
+                
+        // A,B,C,D,E,F,G,H
+        //A vs B / A vs C  / A vs D / A vs E / A vs F / A vs G / A vs H -> Flag = m -1 / itFlag = 0;
+        // B vs C / B vs D / B vs E / B vs F / B vs G / B vs H -> Flag = m -2 / itFlag = 1;
+        // C vs D / C vs E / c vs F / c vs G / c vs H -> Flag = m-3 / itFag = 2;
+        // D vs E / D vs F / d vs G / d vs H -> Flag = m-4 / itFlag = 3;
+        // E vs F / E vs g / e vs H -> Flag = m - 5 / itFlag = 4;
+        // F vs G / f vs H -> Flag = m - 6 / itFlag = 5;
+        // G vs H -> Flag = m - 7 / itFlag = 6;
+        // Formule pour 8 joueurs : 7 + 6 + 5 + 4 + 3 + 2 + 1
+        // fin de boucle quand itFlag = nbJoueurs -2;
+
+        // nbMatch = 0;
+        Integer cpt = maxJoueurs -1;
+        while(cpt > 0){
+            nbMatch = nbMatch + cpt;
+            cpt = cpt -1;
+        }
+            System.out.println("Nombre de matchs: "+nbMatch);
+            cpt = 1; // 2 // 3 // 4
+            int flag = maxJoueurs -1; // ex de 4 joueurs, flag = 3 // 2 // 1 // 0 //2
+            int itFlag = 0; //nombre de reset du flag //1 
+
+            int joueurAct = 0; // 1
+            int joueurDef = 1; // 2 // 3 // 2
+            while(cpt < nbMatch +1){
+                Match m = new Match(lJoueurs.get(joueurAct),lJoueurs.get(joueurDef));
+                matchs.put(cpt,m);
+                cpt = cpt +1;
+                flag = flag -1;
+                if(flag > 0){
+                    joueurDef = joueurDef +1;                        
+                }
+                if(flag == 0){
+                    itFlag = itFlag +1;
+                    if(itFlag <= maxJoueurs -2){
+                        flag = maxJoueurs -1 -itFlag;
+                        joueurAct = joueurAct +1;
+                        joueurDef = joueurAct +1;
+                    }
+                }
+            }
+            System.out.println("Fin d'initialisation du tournois");
+            for(HashMap.Entry<Integer, Match> entry : matchs.entrySet()) {
+                Integer key = entry.getKey();
+                Match value = entry.getValue();
+                System.out.println("Le matchs "+key+" opposera "+ value.getJoueur1().getNom()+ " à "+ value.getJoueur2().getNom());
+            }
+            //Match courant c'est la match courant.
+            matchCourant = 1;
+            //Le joueur courant est le joueur qui doit jouer son tour de jeu.
+            joueurCourant = matchs.get(matchCourant).getJoueur1();
+            //Matchs c'est la liste des matchs (hashmap) avec en clé le n° du match et en valeur le match.
+            //age = plus12 ou moins12
+            v1 = new VueTournois(Menu,age,matchs,matchCourant);
+            v1.addObserver(this);
+            v1.afficher();
+    }
+    
+    private void gestionMenu(MessageMenu messageMenu){
+        //Plus de 12 ans
+        if(messageMenu.getQueFaire() == Classement){
+            v1.close();
+            this.ClassementEnCours();
+        }
+        if(age == Plus12 && messageMenu.getQueFaire() == Quitter){
+            v1.close();
+        }
+        if(age == Plus12 && messageMenu.getQueFaire() == JouerLeMatch){
+            v1.close();
+            v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
+            v4.addObserver(this);
+            v4.afficher();
+            v1.close();             
+        }
+        //Moins de 12 ans
+        if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Classement){
+            v1.close();
+            this.ClassementEnCours();
+        }
+        if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == Quitter){
+            v1.close();
+        }
+        if(messageMenu.getAge() == Moins12 && messageMenu.getQueFaire() == JouerLeMatch){
+        v1.close();
+        v4 = new VueGrille(matchCourant,matchs.get(matchCourant).getJoueur1(),matchs.get(matchCourant).getJoueur2(),age);
+        v4.addObserver(this);
+        v4.afficher();
+        v1.close();             
+        }
+    }
+    
+    private void gestionDuel(MessageDuel messageduel){
+        if(messageduel.getEtat()== EtatCase.NON_COCHEE){
+            System.out.println("Case non cochée");
+            if(messageduel.getNumJoueur()%2 == 0){
+                v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.O));
+                v4.setNumJoueur(v4.getNumJoueur()+1);
+                if(v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){
+                    v4.close();
+                    v4 = new VueGrille(GestionVue.Rejouer,2);
+                    v4.addObserver(this);
+                    v4.afficher();
+                }
+                else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){
+                    v4.close();
+                    v4 = new VueGrille(GestionVue.Rejouer,0);
+                    v4.addObserver(this);
+                    v4.afficher();
+                }
+            }
+            else{
+                v4.majCase(new MessageGrille(messageduel.getNumGrille(),EtatCase.X));
+                v4.setNumJoueur(v4.getNumJoueur()+1);
+                if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){
+                    v4.close();
+                    v4 = new VueGrille(GestionVue.Rejouer,1);
+                    v4.addObserver(this);
+                    v4.afficher();
+                }
+                else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){
+                    v4.close();
+                    v4 = new VueGrille(GestionVue.Rejouer,0);
+                    v4.addObserver(this);
+                    v4.afficher();
+                }
+            }
+        }
+    }
+    
+    //Coche la case, vérifie si victoire et si match fini affiche le classement.
+    private void gestionGrilleTournois(MessageGrille messageGrille){
+        //si la case est vide
+        if(messageGrille.getEtat()== EtatCase.NON_COCHEE){
+            System.out.println("Case non cochée");
+            //si le joueur actuel est le joueur 1 (donc qu'il à le signe X
+            if(matchs.get(matchCourant).getJoueur1() == joueurCourant){
+                System.out.println("Cochez avec X");
+                v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.X));
+                if(v4.verifVictoire(EtatCase.X) == EtatMatch.Victoire){ //S'il y a une victoire
+                    System.out.print("VOUS AVEZ GAGNE");
+                    matchs.get(matchCourant).getJoueur1().addPoints(3);
+                    v4.close();
+                    matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur1());
+                    matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
+                    matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
+                    if(matchCourant == nbMatch){
+                        this.ClassementFinal();
+                    }
+                    else {
+                        matchCourant = matchCourant+1;
+                        v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                        v1.addObserver(this);
+                        v1.afficher();
+                    }
+                }
+                else if(v4.verifVictoire(EtatCase.X) == EtatMatch.Egalite){ //S'il il y a une egalité
+                    System.out.print("Egalité");
+                    matchs.get(matchCourant).getJoueur1().addPoints(1);
+                    matchs.get(matchCourant).getJoueur2().addPoints(1);
+                    v4.close();
+                    matchs.get(matchCourant).setGagnant(null);
+                    matchs.get(matchCourant).setPerdant(null);
+                    matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
+                    if(matchCourant == nbMatch){
+                        this.ClassementFinal();
+                    }
+                    else {
+                        matchCourant = matchCourant+1;
+                        v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                        v1.addObserver(this);
+                        v1.afficher();
+                    }
+                }
+            }    
+            else{
+                System.out.println("Cochez avec O");
+                v4.majCase(new MessageGrille(messageGrille.getNumGrille(),EtatCase.O));
+                if (v4.verifVictoire(EtatCase.O) == EtatMatch.Victoire){ //S'il y a une victoire
+                    System.out.print("VOUS AVEZ GAGNE");
+                    matchs.get(matchCourant).getJoueur2().addPoints(3);
+                    v4.close();
+                    matchs.get(matchCourant).setGagnant(matchs.get(matchCourant).getJoueur2());
+                    matchs.get(matchCourant).setPerdant(matchs.get(matchCourant).getJoueur1());
+                    matchs.get(matchCourant).setFinmatch(EtatMatch.Victoire);
+                    if(matchCourant == nbMatch){
+                        this.ClassementFinal();
+                    }
+                    else {
+                        matchCourant = matchCourant+1;
+                        v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                        v1.addObserver(this);
+                        v1.afficher();
+                    }
+                }
+                else if(v4.verifVictoire(EtatCase.O) == EtatMatch.Egalite){ //S'il il y a une egalité
+                    System.out.print("Egalité");
+                    matchs.get(matchCourant).getJoueur1().addPoints(1);
+                    matchs.get(matchCourant).getJoueur2().addPoints(1);
+                    v4.close();
+                    matchs.get(matchCourant).setGagnant(null);
+                    matchs.get(matchCourant).setPerdant(null);
+                    matchs.get(matchCourant).setFinmatch(EtatMatch.Egalite);
+                    if(matchCourant == nbMatch){
+                        this.ClassementFinal();
+                    }
+                    else {
+                        matchCourant = matchCourant+1;
+                        v1 = new VueTournois(Menu,age,matchs,matchCourant);
+                        v1.addObserver(this);
+                        v1.afficher();
+                    }
+                               
+                }
+            }
+            //Changement de joueur courant
+            if(joueurCourant == matchs.get(matchCourant).getJoueur1()){
+                joueurCourant = matchs.get(matchCourant).getJoueur2();
+            }else{
+                joueurCourant = matchs.get(matchCourant).getJoueur1(); 
+            }
+            v4.setJoueurCourant(joueurCourant);
+        }
+        //si la case est cochée
+        else{
+            System.out.println("La case est déjà sélectionné");
+        }
+            
+    }
+    
+    private void gestionClassement(MessageClassement messageClassement){
+        v3.close();
+        v1 = new VueTournois(messageClassement.getQueFaire(),messageClassement.getAge(),matchs,matchCourant);
+        v1.addObserver(this);
+        v1.afficher();
+    }
+    
+    private void gestionRegles(){
+        v5.close();
+        v1 = new VueTournois(GestionVue.Préparation,GestionVue.Moins12);
+        v1.addObserver(this);
+        v1.afficher();
+    }
 }
