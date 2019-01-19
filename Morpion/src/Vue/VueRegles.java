@@ -5,6 +5,7 @@
  */
 package Vue;
 
+import image.ImageContainer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,9 +31,11 @@ public class VueRegles extends Observable{
     private JPanel bottomPanel;
     private JPanel panelCentre;
     private JButton btnretour;
+    private ImageContainer imageBackground = new ImageContainer("morpion.png",0,0,0,0);
     
     public VueRegles(){
         window = new JFrame();
+        window.setIconImage(imageBackground.getImage());
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(700, 400);

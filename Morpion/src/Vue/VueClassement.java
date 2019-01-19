@@ -9,6 +9,7 @@ import Modèle.EtatCase;
 import Modèle.EtatTournoi;
 import Modèle.Joueur;
 import Modèle.Match;
+import image.ImageContainer;
 import utilitaire.Actions;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -59,11 +60,14 @@ public class VueClassement extends Observable{
     private JPanel bottomPanel;
     private JTable tableau;
     private  int[] nbPoints;
+    private ImageContainer imageBackground = new ImageContainer("morpion.png",0,0,0,0);
     
     @SuppressWarnings("empty-statement")
     public VueClassement(GestionVue v1,ArrayList<Joueur> listejoueur,HashMap<Integer,Match> matchs,EtatTournoi e1){
         if((v1 == Plus12 ||v1 == Moins12) &&  e1 == EtatTournoi.Pas_Termine){
+
         this.window = new JFrame();
+        window.setIconImage(imageBackground.getImage());
         window.setSize(350, 200);
         //le titre = nom du joueur 
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -189,6 +193,7 @@ public class VueClassement extends Observable{
             window.setSize(350, 200);
             //le titre = nom du joueur 
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            window.setIconImage(imageBackground.getImage());
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

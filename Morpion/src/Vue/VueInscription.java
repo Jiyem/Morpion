@@ -31,6 +31,9 @@ import static utilitaire.GestionVue.Moins12;
 import static utilitaire.GestionVue.Plus12;
 import static utilitaire.GestionVue.PremierInscrit;
 import static utilitaire.GestionVue.Préparation;
+import image.ImageContainer;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import utilitaire.MessageTournois;
 
 /**
@@ -40,6 +43,7 @@ import utilitaire.MessageTournois;
 public class VueInscription extends Observable {
     private final JFrame window ;
     private JLabel erreur = new JLabel("");
+    private ImageContainer imageBackground = new ImageContainer("morpion.png",0,0,0,0);//myWindow.getContentPane().setBackground(Color.YELLOW);
     
     //Vue pour le premier joueur
     public VueInscription(int nbJoueurs,GestionVue vAge){
@@ -50,6 +54,8 @@ public class VueInscription extends Observable {
                 window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
                 // Définit la taille de la fenêtre en pixels
                 window.setSize(800, 300);
+
+                window.setIconImage(imageBackground.getImage());
                 Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
                 window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
                 window.setTitle("Tournoi morpion : Inscription des joueurs");
@@ -102,6 +108,7 @@ public class VueInscription extends Observable {
             }
             else{
                 window = new JFrame();
+                window.setIconImage(imageBackground.getImage());
                 window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
                 // Définit la taille de la fenêtre en pixels
                 window.setSize(800, 300);

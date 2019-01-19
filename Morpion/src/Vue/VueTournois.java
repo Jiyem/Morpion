@@ -7,6 +7,7 @@ package Vue;
 
 import Modèle.EtatMatch;
 import Modèle.Match;
+import image.ImageContainer;
 import utilitaire.Actions;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -51,6 +52,7 @@ public class VueTournois extends Observable {
     private JTextField champNom;
     private JLabel CombatDesJoueurs;
     private JLabel erreur = new JLabel("");
+    private ImageContainer imageBackground = new ImageContainer("morpion.png",0,0,0,0);
     
     
     @SuppressWarnings("Convert2Lambda")
@@ -58,6 +60,7 @@ public class VueTournois extends Observable {
         if(vEtape==Préparation){        
         
         window = new JFrame();
+        window.setIconImage(imageBackground.getImage());
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(700, 400);
@@ -164,6 +167,7 @@ public class VueTournois extends Observable {
         // Interface de moins de 12 ans !
         else if(vAge == Moins12 && vEtape == Préparation2){
         window = new JFrame();
+        window.setIconImage(imageBackground.getImage());
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(800, 300);
@@ -241,6 +245,7 @@ public class VueTournois extends Observable {
         //Interface pour plus de 12 ans !
         else if(vAge == Plus12 && vEtape == Préparation2){
         window = new JFrame();
+        window.setIconImage(imageBackground.getImage());
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(800, 300);
@@ -314,6 +319,7 @@ public class VueTournois extends Observable {
        
         else {
             window = new JFrame(); 
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -333,6 +339,7 @@ public class VueTournois extends Observable {
     public VueTournois(GestionVue vEtape,GestionVue vAge,HashMap<Integer,Match> matchs,int matchCourant){
         if(vAge == Plus12 && vEtape == Menu){
             window = new JFrame(); 
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -403,6 +410,7 @@ public class VueTournois extends Observable {
         else if(vAge == Moins12 && vEtape == Menu){
             //VUE MENU MOINS DE 12 ANS
             window = new JFrame(); 
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -473,6 +481,7 @@ public class VueTournois extends Observable {
         }
         else{
             window = new JFrame(); 
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -491,6 +500,7 @@ public class VueTournois extends Observable {
     
     public VueTournois(GestionVue vEtape){     
         window = new JFrame();
+        window.setIconImage(imageBackground.getImage());
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         // Définit la taille de la fenêtre en pixels
         window.setSize(700, 400);

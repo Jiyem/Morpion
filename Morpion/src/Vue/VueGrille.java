@@ -12,6 +12,7 @@ import static Modèle.EtatMatch.Egalite;
 import static Modèle.EtatMatch.Pas_Termine;
 import static Modèle.EtatMatch.Victoire;
 import Modèle.Joueur;
+import image.ImageContainer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -61,12 +62,13 @@ public class VueGrille extends Observable {
     private JButton bouton8;
     private JButton bouton9;
     private Integer numJoueur;
-    
+    private ImageContainer imageBackground = new ImageContainer("morpion.png",0,0,0,0);
 
     public VueGrille(int numMatch, Joueur joueur1, Joueur joueur2,GestionVue vAge) {
         this.vAge = vAge;
         if(vAge == GestionVue.Plus12){
             window = new JFrame();
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -267,6 +269,7 @@ public class VueGrille extends Observable {
         else{ 
             //Moins de 12 ans
             window = new JFrame();
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -480,6 +483,7 @@ public class VueGrille extends Observable {
         if(vue == GestionVue.Duel){
             numJoueur = 1;
             window = new JFrame();
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -683,6 +687,7 @@ public class VueGrille extends Observable {
             Random random = new Random();
             
             window = new JFrame();
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -993,6 +998,7 @@ public class VueGrille extends Observable {
             if(jgagant == 1){
                 JPanel mainPanel = new JPanel(new BorderLayout());
             window = new JFrame();
+            window.setIconImage(imageBackground.getImage());
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
@@ -1041,6 +1047,7 @@ public class VueGrille extends Observable {
             else if(jgagant == 2){
                 JPanel mainPanel = new JPanel(new BorderLayout());
                 window = new JFrame();
+                window.setIconImage(imageBackground.getImage());
                 window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
                 // Définit la taille de la fenêtre en pixels
                 window.setSize(800, 300);
@@ -1090,6 +1097,7 @@ public class VueGrille extends Observable {
                 JPanel mainPanel = new JPanel(new BorderLayout());
                 window = new JFrame();
                 window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                window.setIconImage(imageBackground.getImage());
                 // Définit la taille de la fenêtre en pixels
                 window.setSize(800, 300);
                 Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1139,6 +1147,7 @@ public class VueGrille extends Observable {
             JPanel mainPanel = new JPanel(new BorderLayout());
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            window.setIconImage(imageBackground.getImage());
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1187,6 +1196,7 @@ public class VueGrille extends Observable {
           JPanel mainPanel = new JPanel(new BorderLayout());
             window = new JFrame();
             window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            window.setIconImage(imageBackground.getImage());
             // Définit la taille de la fenêtre en pixels
             window.setSize(800, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
